@@ -1,0 +1,12 @@
+/* Bootstrap */
+@use 'bootstrap/dist/css/bootstrap.min.css';
+
+/* Utils */
+@use './utils/variables';
+
+/* Base component styles */
+@use './components/button';
+@use './components/checkbox';
+@use './components/table';
+@use './components/pagination';
+@use './components/input';

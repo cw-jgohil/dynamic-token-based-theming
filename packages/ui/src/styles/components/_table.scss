@@ -1,0 +1,129 @@
+$azv-table-border: 1px solid rgba(0, 0, 0, 0.08);
+
+.azv-table-wrapper {
+  overflow: auto;
+  border: 0 solid transparent;
+  border-radius: 0.375rem;
+  outline: none;
+  max-height: 100%;
+  width: 100%;
+
+  &:focus {
+    outline: none;
+  }
+
+  &:focus-visible {
+    box-shadow: none;
+    outline: none;
+  }
+}
+
+.table.azv-table {
+  width: 100%;
+  table-layout: auto;
+  min-width: max-content;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+  caption-side: bottom;
+  outline: none;
+
+  &:focus,
+  &:focus-visible {
+    outline: none;
+  }
+
+  thead,
+  .azv-table-thead {
+    th {
+      background-color: var(--azv-table-bg);
+    }
+  }
+
+  .azv-table-thead {
+    border-bottom: $azv-table-border;
+    outline: none;
+
+    &:focus,
+    &:focus-visible {
+      outline: none;
+    }
+  }
+
+  .azv-table-tbody {
+    outline: none;
+
+    &:focus,
+    &:focus-visible {
+      outline: none;
+    }
+  }
+
+  .azv-table-tfoot {
+    border-top: $azv-table-border;
+    font-weight: 500;
+    outline: none;
+
+    &:focus,
+    &:focus-visible {
+      outline: none;
+    }
+  }
+
+  .azv-table-row {
+    font-size: 0.875rem;
+    outline: none;
+
+    &:focus,
+    &:focus-visible {
+      outline: none;
+    }
+  }
+
+  .azv-table-th {
+    border-bottom: $azv-table-border;
+    padding: 0.5rem 0.75rem;
+    text-align: left;
+    vertical-align: middle;
+    font-weight: 500;
+    outline: none;
+
+    &:focus,
+    &:focus-visible {
+      outline: none;
+    }
+  }
+
+  .azv-table-td {
+    border-top: $azv-table-border;
+    padding: 0.5rem 0.75rem;
+    vertical-align: middle;
+    outline: none;
+
+    &:focus,
+    &:focus-visible {
+      outline: none;
+    }
+  }
+
+  caption,
+  .azv-table-caption {
+    caption-side: top;
+    margin-top: 0.5rem;
+    color: var(--azv-table-caption, #6c757d);
+    font-size: 0.875rem;
+    padding-block: 0.5rem;
+    outline: none;
+
+    &:focus,
+    &:focus-visible {
+      outline: none;
+    }
+  }
+
+  .azv-table-empty {
+    text-align: center;
+    color: var(--azv-table-empty-color, #6c757d);
+    padding: 2rem;
+    font-style: italic;
+  }
+}
