@@ -1,0 +1,6 @@
+.form-check-input {
+    &:checked {
+        background-color: var(--azv-primary);
+        border-color: var(--azv-primary);
+    }
+}
