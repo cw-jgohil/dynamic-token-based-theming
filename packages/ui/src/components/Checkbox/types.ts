@@ -2,6 +2,9 @@ export interface CheckboxProps {
   id: string;
   label?: string;
   checked?: boolean;
-  onChange?: (checked: boolean) => void;
   disabled?: boolean;
+  /**
+   * Additional class applied to both input and label
+   */
+  className?: string;
 }

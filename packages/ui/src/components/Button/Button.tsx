@@ -20,17 +20,15 @@ const Button = ({
     <button
       type={type}
       disabled={disabled}
-      className={`btn btn-${variant} azv-btn-${variant} ${size ? `btn-${size}` : ""} ${versionClass} ${className} ${startIcon || endIcon ? "d-flex align-items-center gap-1" : ""}`}
+      className={`azv-btn btn btn-${variant} azv-btn-${variant} ${size ? `btn-${size}` : ""} ${versionClass} ${className} ${startIcon || endIcon ? "d-flex align-items-center gap-1" : ""}`}
       {...props}
     >
       {startIcon && (
-        <i
-          className={`bi bi-${startIcon} azv-btn__icon azv-btn__icon--start`}
-        ></i>
+        <i className={`bi bi-${startIcon} azv-btn__icon`}></i>
       )}
       {children}
       {endIcon && (
-        <i className={`bi bi-${endIcon} azv-btn__icon azv-btn__icon--end`}></i>
+        <i className={`bi bi-${endIcon} azv-btn__icon`}></i>
       )}
     </button>
   );

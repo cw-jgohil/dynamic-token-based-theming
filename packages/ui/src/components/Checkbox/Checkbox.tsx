@@ -1,28 +1,19 @@
-import type { CheckboxProps } from './types';
-import { useCheckbox } from './useCheckbox';
+import React from "react";
+import { CheckboxProps } from "./types";
 
-export const Checkbox: React.FC<CheckboxProps> = ({
-  id,
-  label,
-  disabled = false,
-}) => {
-  const { isChecked, handleChange } = useCheckbox({ id, label, disabled });
-
+const Checkbox = ({ label, id }: CheckboxProps) => {
   return (
-    <div className="form-check azv-checkbox">
+    <div className="azv-checkbox form-check">
       <input
-        className="form-check-input"
+        className="form-check-input azv-checkbox__input"
         type="checkbox"
         id={id}
-        checked={isChecked}
-        onChange={handleChange}
-        disabled={disabled}
       />
-      {label && (
-        <label className="form-check-label" htmlFor={id}>
-          {label}
-        </label>
-      )}
+      <label className="form-check-label azv-checkbox__label" htmlFor={id}>
+        {label}
+      </label>
     </div>
   );
 };
+
+export default Checkbox;
