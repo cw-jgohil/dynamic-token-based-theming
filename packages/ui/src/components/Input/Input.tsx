@@ -18,7 +18,7 @@ export const Input = ({
   const groupClasses = [
     "input-group",
     size && `input-group-${size}`,
-    "azv-input__group",
+    "azv-input-group",
   ]
     .filter(Boolean)
     .join(" ");
