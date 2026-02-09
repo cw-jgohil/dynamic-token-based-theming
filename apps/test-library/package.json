@@ -10,7 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@azavista/ui": "file:../azv-ui",
+    "@repo/ui": "workspace:*",
     "lodash": "^4.17.23",
     "react": "^19.2.0",
     "react-dom": "^19.2.0"

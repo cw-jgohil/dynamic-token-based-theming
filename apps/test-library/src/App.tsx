@@ -1,9 +1,11 @@
 import './App.css'
-import { List, Button } from "@azavista/ui";
+
 import ConfigSidebar from './ConfigSidebar';
 import { useEffect, useState } from 'react';
 import { useComponentProperties } from './utils/useComponentProperties';
 import { ThemeTokens } from './utils/useCssConversion';
+import { Button } from '@repo/ui';
+
 
 const json: ThemeTokens = {
   "table": {

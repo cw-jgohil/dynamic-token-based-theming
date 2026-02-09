@@ -6,12 +6,7 @@
     "jsx": "react-jsx",
     "esModuleInterop": true,
     "strict": true,
-    "baseUrl": ".",
-    "paths": {
-      "@azavista/ui": [
-        "../azv-ui/dist"
-      ]
-    }
+    "baseUrl": "."
   },
   "include": [
     "src"

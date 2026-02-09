@@ -1,13 +1,13 @@
 :root {
-    --azv-primary: #144d8b;
-    --azv-primary-dark: #0d305c;
+  --azv-primary: #144d8b;
+  --azv-primary-dark: #0d305c;
 
-    --azv-white: #ffffff;
-    --azv-black: #000000;
+  --azv-white: #ffffff;
+  --azv-black: #000000;
 
-    --azv-table-bg: #f5f5f5;
+  --azv-table-bg: #f5f5f5;
 
-    --azv-secondary: #6c757d;
+  --azv-secondary: #6c757d;
   --azv-secondary-dark: #5c636a;
 
   --azv-success: #198754;
@@ -38,7 +38,6 @@
   --azv-font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
   --azv-font-size-base: 1rem;
 
-
   /* ---------- Spacing ---------- */
   --azv-spacing-x: 1rem;
   --azv-spacing-y: 0.5rem;
@@ -58,5 +57,4 @@
 
   --azv-radius-sm: 0.25rem;
   --azv-radius-md: 0.375rem;
-  }
-  
+}
