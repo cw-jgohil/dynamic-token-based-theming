@@ -3,4 +3,8 @@ export interface CheckboxProps {
   label?: string;
   checked?: boolean;
   disabled?: boolean;
+  /**
+   * Additional class applied to both input and label
+   */
+  className?: string;
 }

@@ -1,15 +1,19 @@
-import React from 'react'
-import { CheckboxProps } from './types'
+import React from "react";
+import { CheckboxProps } from "./types";
 
 const Checkbox = ({ label, id }: CheckboxProps) => {
   return (
-    <div className="form-check azv-checkbox">
-      <input className="form-check-input" type="checkbox" value="" id={id} />
-      <label className="form-check-label" htmlFor={id}>
+    <div className="azv-checkbox form-check">
+      <input
+        className="form-check-input azv-checkbox__input"
+        type="checkbox"
+        id={id}
+      />
+      <label className="form-check-label azv-checkbox__label" htmlFor={id}>
         {label}
       </label>
     </div>
-  )
-}
+  );
+};
 
-export default Checkbox
+export default Checkbox;
