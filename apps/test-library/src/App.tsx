@@ -537,15 +537,13 @@ const json: ThemeTokens = {
 
 function App() {
   const dispatch = useAppDispatch();
-  const { selectedVersion, selectedVariant } = useAppSelector(
-    (state) => state.componwents,
-  );
+  const { selectedVersion, selectedVariant, selectedComponents } =
+    useAppSelector((state) => state.componwents);
   const [themeJson, setThemeJson] = useState<ThemeTokens>(json);
-  const [selectedComponent, setSelectedComponent] = useState("btn");
 
   const componentData = useComponentProperties(
     themeJson,
-    selectedComponent,
+    selectedComponents?.["component-key"] as string,
     selectedVersion,
     selectedVariant,
   );
@@ -564,14 +562,17 @@ function App() {
     ) {
       dispatch(setSelectedVariant(componentData.variants[0]));
     }
-  }, [selectedComponent, componentData.versions, componentData.variants]);
+  }, [
+    selectedComponents?.["component-key"] as string,
+    componentData.versions,
+    componentData.variants,
+  ]);
 
   return (
     <div style={{ display: "flex", justifyContent: "space-between" }}>
       <ComponentSidebar />
       <CssBuilderPage />
       <ConfigSidebar
-        selectedComponent={selectedComponent}
         componentData={componentData}
         setThemeJson={setThemeJson}
       />

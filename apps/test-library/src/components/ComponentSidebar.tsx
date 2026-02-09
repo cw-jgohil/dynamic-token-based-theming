@@ -1,11 +1,12 @@
 import "./ComponentSidebar.css";
 import { useComponents } from "../api/components";
-import { useAppDispatch } from "../redux/store";
+import { useAppDispatch, useAppSelector } from "../redux/store";
 import { setSelectedComponents } from "../redux/slices/componentSlice";
 
 const ComponentSidebar = () => {
   const { data, isLoading, error } = useComponents();
   const dispatch = useAppDispatch();
+  const { selectedComponents } = useAppSelector((state) => state.componwents);
 
   return (
     <div className="component-sidebar">
@@ -19,7 +20,9 @@ const ComponentSidebar = () => {
             {data?.map((component) => {
               return (
                 <li
-                  className="list-group-item cursor-pointer"
+                  className={`list-group-item cursor-pointer ${
+                    selectedComponents?.id === component.id ? "active" : ""
+                  }`}
                   key={component.id}
                   onClick={() => dispatch(setSelectedComponents(component))}
                 >

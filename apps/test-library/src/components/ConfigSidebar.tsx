@@ -17,7 +17,6 @@ import { allowOnlyNumberAndDot } from "../utils/common-functions";
 
 type ConfigSidebarProps = {
   setThemeJson: React.Dispatch<React.SetStateAction<ThemeTokens>>;
-  selectedComponent: string;
   componentData: ComponentPropertiesResult;
 };
 
@@ -70,13 +69,11 @@ function composeValue(number: string, unit: StyleUnit | null) {
 
 const ConfigSidebar: React.FC<ConfigSidebarProps> = ({
   setThemeJson,
-  selectedComponent,
   componentData,
 }) => {
   const dispatch = useAppDispatch();
-  const { selectedVersion, selectedVariant } = useAppSelector(
-    (state) => state.componwents,
-  );
+  const { selectedVersion, selectedVariant, selectedComponents } =
+    useAppSelector((state) => state.componwents);
   const { convertAndInject } = useCssConversion();
   const [isThemeChanged, setIsThemeChanged] = useState<boolean>(false);
   const [themePatch, setThemePatch] = useState<ThemePatch>({});
@@ -132,7 +129,7 @@ const ConfigSidebar: React.FC<ConfigSidebarProps> = ({
 
     setThemeJson((prev) => {
       const next = structuredClone(prev);
-      const component = next[selectedComponent];
+      const component = next[selectedComponents?.["component-key"] as string];
       if (!component) return prev;
 
       let updatedToken: TokenValue | undefined;
@@ -190,7 +187,7 @@ const ConfigSidebar: React.FC<ConfigSidebarProps> = ({
           writePatch(
             nextPatch,
             {
-              component: selectedComponent,
+              component: selectedComponents?.["component-key"] as string,
               version: selectedVersion,
               variant: selectedVariant,
               property: propertyName,
@@ -308,18 +305,17 @@ const ConfigSidebar: React.FC<ConfigSidebarProps> = ({
 
   return (
     <div className="config-sidebar">
-      {/* Header */}
-      <div className="sidebar-header">
-        <h5 className="mb-0">Component Configuration</h5>
-      </div>
+      <div className="sidebar-top">
+        {/* Header */}
+        <div className="sidebar-header">
+          <h5 className="mb-0">Component Configuration</h5>
+        </div>
 
-      {/* Component Name Badge */}
-      <div className="p-3 border-bottom bg-light d-flex justify-content-between">
-        <p className="mb-0">{selectedComponent}</p>
-      </div>
+        {/* Component Name */}
+        <div className="p-3 border-bottom bg-light d-flex justify-content-between">
+          <p className="mb-0">{selectedComponents?.name as string}</p>
+        </div>
 
-      {/* Scrollable Content */}
-      <div className="sidebar-content">
         {/* Version Selection */}
         {componentData.hasVersions && (
           <div className="config-section">
@@ -355,8 +351,9 @@ const ConfigSidebar: React.FC<ConfigSidebarProps> = ({
             </select>
           </div>
         )}
+      </div>
 
-        {/* Properties Section */}
+      <div className="sidebar-scroll">
         <div className="config-section">
           <div className="d-flex align-items-center justify-content-between mb-3">
             <h6 className="mb-0 fw-bold">Properties</h6>
@@ -365,11 +362,8 @@ const ConfigSidebar: React.FC<ConfigSidebarProps> = ({
             </span>
           </div>
 
-          {/* Properties List */}
           {componentData.properties.length === 0 ? (
-            <div className="alert alert-info" role="alert">
-              No properties available
-            </div>
+            <div className="alert alert-info">No properties available</div>
           ) : (
             <div className="properties-list">
               {componentData.properties.map((property) => (
@@ -388,15 +382,14 @@ const ConfigSidebar: React.FC<ConfigSidebarProps> = ({
             </div>
           )}
         </div>
+      </div>
 
-        {/* Action Buttons */}
-        <div className="config-section border-top pt-3">
-          <div className="d-grid gap-2">
-            <button className="btn btn-primary">Save Changes</button>
-            <button className="btn btn-outline-secondary">
-              Reset to Default
-            </button>
-          </div>
+      <div className="sidebar-footer">
+        <div className="d-grid gap-2">
+          <button className="btn btn-primary">Save Changes</button>
+          <button className="btn btn-outline-secondary">
+            Reset to Default
+          </button>
         </div>
       </div>
     </div>
