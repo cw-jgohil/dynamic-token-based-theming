@@ -48,4 +48,5 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   disableRipple?: boolean;
   tabIndex?: number;
   children?: React.ReactNode;
+  version?: string
 }

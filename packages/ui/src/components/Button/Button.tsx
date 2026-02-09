@@ -1,6 +1,6 @@
 
 import type { ButtonProps } from "./types";
- 
+
 const Button = ({
   children,
   variant = "primary", // Bootstrap variant
@@ -10,14 +10,17 @@ const Button = ({
   className = "",
   type = "button",
   disabled = false,
+  version,
   ...props
 }: ButtonProps) => {
- 
+
+  const versionClass = version ? `azv-btn${variant ? `-${variant}` : ""}${version ? `-${version}` : ""}` : ""
+
   return (
     <button
       type={type}
       disabled={disabled}
-      className={`btn btn-${variant} azv-btn-${variant} ${size ? `btn-${size}` : ""} ${className} ${startIcon || endIcon ? "d-flex align-items-center gap-1" : ""}`}
+      className={`btn btn-${variant} azv-btn-${variant} ${size ? `btn-${size}` : ""} ${versionClass} ${className} ${startIcon || endIcon ? "d-flex align-items-center gap-1" : ""}`}
       {...props}
     >
       {startIcon && <i className={`bi bi-${startIcon} azv-btn-icon`}></i>}
@@ -26,5 +29,5 @@ const Button = ({
     </button>
   );
 };
- 
+
 export default Button;
