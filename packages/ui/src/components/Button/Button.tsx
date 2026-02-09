@@ -1,10 +1,9 @@
-
 import type { ButtonProps } from "./types";
 
 const Button = ({
   children,
-  variant = "primary", // Bootstrap variant
-  size,               // sm | lg
+  variant = "primary",
+  size,
   startIcon,
   endIcon,
   className = "",
@@ -13,8 +12,9 @@ const Button = ({
   version,
   ...props
 }: ButtonProps) => {
-
-  const versionClass = version ? `azv-btn${variant ? `-${variant}` : ""}${version ? `-${version}` : ""}` : ""
+  const versionClass = version
+    ? `azv-btn${variant ? `-${variant}` : ""}${version ? `-${version}` : ""}`
+    : "";
 
   return (
     <button
@@ -23,9 +23,15 @@ const Button = ({
       className={`btn btn-${variant} azv-btn-${variant} ${size ? `btn-${size}` : ""} ${versionClass} ${className} ${startIcon || endIcon ? "d-flex align-items-center gap-1" : ""}`}
       {...props}
     >
-      {startIcon && <i className={`bi bi-${startIcon} azv-btn-icon`}></i>}
+      {startIcon && (
+        <i
+          className={`bi bi-${startIcon} azv-btn__icon azv-btn__icon--start`}
+        ></i>
+      )}
       {children}
-      {endIcon && <i className={`bi bi-${endIcon} azv-btn-icon`}></i>}
+      {endIcon && (
+        <i className={`bi bi-${endIcon} azv-btn__icon azv-btn__icon--end`}></i>
+      )}
     </button>
   );
 };
