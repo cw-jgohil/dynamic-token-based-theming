@@ -1,34 +1,73 @@
-import type { InputProps } from './types';
+import type { InputProps } from "./types";
 
 export const Input = ({
   startIcon,
   endIcon,
   size,
-  className = '',
+  error,
+  className = "",
   ...inputProps
 }: InputProps) => {
-  const hasAddons = startIcon != null || endIcon != null;
-  const sizeClass = size ? `input-group-${size}` : '';
+  const hasAddons = Boolean(startIcon || endIcon);
+  const hasError = Boolean(error);
 
-  const inputEl = (
-    <input
-      className={`form-control azv-input`.trim()}
-      {...inputProps}
-    />
-  );
+  const rootClasses = ["azv-input", hasError && "azv-input--error", className]
+    .filter(Boolean)
+    .join(" ");
 
-  if (!hasAddons) {
-    return inputEl;
-  }
+  const groupClasses = [
+    "input-group",
+    size && `input-group-${size}`,
+    "azv-input__group",
+  ]
+    .filter(Boolean)
+    .join(" ");
+
+  const inputClasses = [
+    "form-control",
+    "azv-input__control",
+    hasError && "is-invalid",
+  ]
+    .filter(Boolean)
+    .join(" ");
 
   return (
-    <div className={`input-group azv-input-group ${sizeClass} ${className}`.trim()}>
-      {startIcon != null && (
-        <span className="input-group-text">{startIcon}</span>
+    <div className={rootClasses}>
+      {hasAddons ? (
+        <div className={groupClasses}>
+          {startIcon && (
+            <span className="input-group-text azv-input__addon">
+              {startIcon}
+            </span>
+          )}
+
+          <input
+            className={inputClasses}
+            aria-invalid={hasError}
+            aria-describedby={hasError ? `${inputProps.id}-error` : undefined}
+            {...inputProps}
+          />
+
+          {endIcon && (
+            <span className="input-group-text azv-input__addon">{endIcon}</span>
+          )}
+        </div>
+      ) : (
+        <input
+          className={inputClasses}
+          aria-invalid={hasError}
+          aria-describedby={hasError ? `${inputProps.id}-error` : undefined}
+          {...inputProps}
+        />
       )}
-      {inputEl}
-      {endIcon != null && (
-        <span className="input-group-text">{endIcon}</span>
+
+      {hasError && (
+        <div
+          id={`${inputProps.id}-error`}
+          className="invalid-feedback azv-input__error"
+        >
+          {error}
+        </div>
       )}
     </div>
   );
