@@ -4,8 +4,8 @@
 
 /* ---------- Base Button ---------- */
 .btn {
-  --bs-btn-padding-x: var(--azv-btn-padding-x, var(--azv-spacing-x));
-  --bs-btn-padding-y: var(--azv-btn-padding-y, var(--azv-spacing-y));
+  --bs-btn-padding-x: var(--azv-btn-padding-x, var(--azv-padding-x));
+  --bs-btn-padding-y: var(--azv-btn-padding-y, var(--azv-padding-y));
   --bs-btn-font-size: var(--azv-btn-font-size, var(--azv-font-size-base));
   --bs-btn-font-weight: var(--azv-btn-font-weight, var(--azv-font-weight));
   --bs-btn-border-radius: var(--azv-btn-radius, var(--azv-radius-md));
@@ -319,15 +319,15 @@
 }
 /* ---------- SIZE ---------- */
 .btn-sm {
-  --bs-btn-padding-x: var(--azv-btn-padding-x-sm, var(--azv-spacing-x-sm));
-  --bs-btn-padding-y: var(--azv-btn-padding-y-sm, var(--azv-spacing-y-sm));
+  --bs-btn-padding-x: var(--azv-btn-padding-x-sm, var(--azv-padding-x-sm));
+  --bs-btn-padding-y: var(--azv-btn-padding-y-sm, var(--azv-padding-y-sm));
   --bs-btn-font-size: var(--azv-btn-font-size-sm, var(--azv-font-size-sm));
   --bs-btn-border-radius: var(--azv-btn-radius-sm, var(--azv-radius-sm));
 }
 
 .btn-lg {
-  --bs-btn-padding-x: var(--azv-btn-padding-x-lg, var(--azv-spacing-x-lg));
-  --bs-btn-padding-y: var(--azv-btn-padding-y-lg, var(--azv-spacing-y-lg));
+  --bs-btn-padding-x: var(--azv-btn-padding-x-lg, var(--azv-padding-x-lg));
+  --bs-btn-padding-y: var(--azv-btn-padding-y-lg, var(--azv-padding-y-lg));
   --bs-btn-font-size: var(--azv-btn-font-size-lg, var(--azv-font-size-lg));
   --bs-btn-border-radius: var(--azv-btn-radius-lg, var(--azv-radius-lg));
 }
