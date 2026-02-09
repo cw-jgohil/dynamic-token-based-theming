@@ -1,14 +1,15 @@
-export { Button } from './Button'
-export { Checkbox } from './Checkbox'
-export { Input } from './Input'
+export { Button } from "./Button";
+export { Checkbox } from "./Checkbox";
+export { DataGrid } from "./DataGrid";
+export type { DataGridProps } from "./DataGrid";
+export { Input } from "./Input";
 export {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableFooter,
   TableHead,
   TableHeader,
   TableRow,
 } from "./Table";
-export { Pagination } from './Pagination'
+export { Pagination } from "./Pagination";

@@ -1,7 +1,6 @@
 export {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableFooter,
   TableHead,
@@ -10,7 +9,6 @@ export {
 } from "./Table";
 export type {
   TableBodyProps,
-  TableCaptionProps,
   TableCellProps,
   TableFooterProps,
   TableHeadProps,
