@@ -17,7 +17,8 @@ import {
   allowOnlyNumberAndDot,
   getSelectOptions,
 } from "../utils/common-functions";
-import { json } from "../utils/json/cssJson";
+import { useThemeContext } from "../context/ThemeContext";
+import { useUpdateTheme } from "../api/themes";
 
 type ConfigSidebarProps = {
   setThemeJson: React.Dispatch<React.SetStateAction<ThemeTokens>>;
@@ -82,6 +83,8 @@ const ConfigSidebar: React.FC<ConfigSidebarProps> = ({
   const [isThemeChanged, setIsThemeChanged] = useState<boolean>(false);
   const [themePatch, setThemePatch] = useState<ThemePatch>({});
   const debounce = useDebounce();
+  const { currentTheme, themeJson } = useThemeContext();
+  const updateThemeMutation = useUpdateTheme();
 
   function writePatch(
     patch: ThemePatch,
@@ -216,9 +219,34 @@ const ConfigSidebar: React.FC<ConfigSidebarProps> = ({
   }, [isThemeChanged, themePatch]);
 
   const handleResetToDefault = () => {
-    setThemeJson(json);
-    setThemePatch({});
-    resetToDefault();
+    if (currentTheme && currentTheme["theme-json"]) {
+      setThemeJson(currentTheme["theme-json"]);
+      setThemePatch({});
+      resetToDefault();
+      setIsThemeChanged(false);
+    }
+  };
+
+  const handleSaveTheme = async () => {
+    if (!currentTheme) {
+      alert("No theme selected");
+      return;
+    }
+
+    try {
+      await updateThemeMutation.mutateAsync({
+        id: currentTheme.id,
+        data: {
+          "theme-json": themeJson,
+        },
+      });
+      alert("Theme saved successfully!");
+      setIsThemeChanged(false);
+      setThemePatch({});
+    } catch (error) {
+      console.error("Failed to save theme:", error);
+      alert("Failed to save theme. Please try again.");
+    }
   };
 
   const renderInput = (property: any) => {
@@ -391,7 +419,13 @@ const ConfigSidebar: React.FC<ConfigSidebarProps> = ({
 
       <div className="sidebar-footer">
         <div className="d-grid gap-2">
-          <button className="btn btn-primary">Save Changes</button>
+          <button
+            className="btn btn-primary"
+            onClick={handleSaveTheme}
+            disabled={!isThemeChanged || updateThemeMutation.isPending}
+          >
+            {updateThemeMutation.isPending ? "Saving..." : "Save Theme"}
+          </button>
           <button
             className="btn btn-outline-secondary"
             onClick={handleResetToDefault}

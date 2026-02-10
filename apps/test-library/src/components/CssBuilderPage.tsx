@@ -2,19 +2,16 @@ import { useAppSelector } from "../redux/store";
 import "./CssBuilderPage.css";
 import {
   ComponentKey,
-  getComponentByKey,
+  componentRegistry,
 } from "../utils/json/componentsMapping";
-import { useMemo } from "react";
 
 const CssBuilderPage = () => {
   const { selectedComponents, selectedVariant, selectedVersion } =
     useAppSelector((state) => state.components);
 
-  const selectedCompData = useMemo(() => {
-    return selectedComponents
-      ? getComponentByKey(selectedComponents["component-key"] as ComponentKey)
-      : null;
-  }, [selectedComponents, selectedVariant, selectedVersion]);
+  const selectedCompData = selectedComponents
+    ? componentRegistry[selectedComponents["component-key"] as ComponentKey]
+    : null;
 
   return (
     <div className="css-builder-container">
@@ -24,11 +21,30 @@ const CssBuilderPage = () => {
       <div className="css-builder-content">
         {selectedCompData ? (
           <div className="css-builder-content-item m-2">
-            <selectedCompData.component
-              {...(selectedCompData.props ? selectedCompData.props : {})}
-            >
-              {selectedCompData.label}
-            </selectedCompData.component>
+            {selectedComponents?.["component-key"] === "table" ? (
+              <selectedCompData.component
+                variant={selectedVariant}
+                version={selectedVersion}
+                rows={[
+                  ["Action", "Name", "Email", "Role"],
+                  ["Action", "Name", "Email", "Role"],
+                  ["Action", "Name", "Email", "Role"],
+                ]}
+                headers={["Action", "Name", "Email", "Role"]}
+                enableSearch={true}
+                searchPlaceholder="Search..."
+                enablePagination={true}
+                pageSize={5}
+                enableCheckbox={true}
+              />
+            ) : (
+              <selectedCompData.component
+                variant={selectedVariant}
+                version={selectedVersion}
+              >
+                {selectedCompData.label}
+              </selectedCompData.component>
+            )}
           </div>
         ) : null}
       </div>

@@ -1,18 +1,15 @@
 /* ConfigSidebar.css */
 
 .config-sidebar {
-  position: fixed;
-  right: 0;
-  top: 0;
-  width: 380px;
+  position: relative;
+  width: 350px;
+  min-width: 350px;
   height: 100vh;
   background: #ffffff;
   border-left: 1px solid #dee2e6;
   display: flex;
   flex-direction: column;
-  box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
-  z-index: 1000;
-  animation: slideInRight 0.3s ease-out;
+  box-shadow: -2px 0 10px rgba(0, 0, 0, 0.05);
 }
 
 .sidebar-header {

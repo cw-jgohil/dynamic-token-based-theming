@@ -1,16 +1,15 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
-import ConfigSidebar from "./components/ConfigSidebar";
+import { BrowserRouter } from "react-router-dom";
+import Sidebar from "./components/Sidebar";
+import { MENU_ITEMS } from "./components/Sidebar/Sidebar.constants";
+import { AppRoutes } from "./routes";
+import { ThemeProvider } from "./context/ThemeContext";
+import { useAppDispatch, useAppSelector } from "./redux/store";
 import { useEffect, useState } from "react";
 import { useComponentProperties } from "./utils/hooks/useComponentProperties";
+import { setSelectedVariant, setSelectedVersion } from "./redux/slices/componentSlice";
 import { ThemeTokens } from "./utils/hooks/useCssConversion";
-import ComponentSidebar from "./components/ComponentSidebar";
-import CssBuilderPage from "./components/CssBuilderPage";
-import { useAppDispatch, useAppSelector } from "./redux/store";
-import {
-  setSelectedVariant,
-  setSelectedVersion,
-} from "./redux/slices/componentSlice";
 import { json } from "./utils/json/cssJson";
 
 function App() {
@@ -47,14 +46,16 @@ function App() {
   ]);
 
   return (
-    <div style={{ display: "flex", justifyContent: "space-between" }}>
-      <ComponentSidebar />
-      <CssBuilderPage />
-      <ConfigSidebar
-        componentData={componentData}
-        setThemeJson={setThemeJson}
-      />
-    </div>
+    <ThemeProvider>
+      <BrowserRouter>
+        <div style={{ display: "flex", height: "100vh", overflow: "hidden" }}>
+          <Sidebar menuItems={MENU_ITEMS} />
+          <div style={{ flex: 1, overflow: "auto" }}>
+            <AppRoutes />
+          </div>
+        </div>
+      </BrowserRouter>
+    </ThemeProvider>
   );
 }
 

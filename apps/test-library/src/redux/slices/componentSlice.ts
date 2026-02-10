@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import { store } from "../store";
 
 interface Component {
   name: string;
@@ -55,8 +54,3 @@ export const {
 } = componentSlice.actions;
 
 export default componentSlice.reducer;
-
-export function getComponentState() {
-  const state = store.getState();
-  return state.components;
-}

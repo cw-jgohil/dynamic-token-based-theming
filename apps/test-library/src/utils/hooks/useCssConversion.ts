@@ -169,16 +169,19 @@ type VariantConfig = {
 type VersionConfig = {
   tokens?: TokenMap;
   variants?: Record<string, VariantConfig>;
+  varients?: Record<string, VariantConfig>; // backward/typo safe
 };
 
 type ComponentWithVersions = {
-  versions: Record<string, VersionConfig>;
+  versions: Record<string, VersionConfig>; 
 };
 
 type ComponentWithoutVersions = {
   tokens?: TokenMap;
   variants?: Record<string, VariantConfig>;
   varients?: Record<string, VariantConfig>; // backward/typo safe
+  
+
 };
 
 type ComponentConfig = ComponentWithVersions | ComponentWithoutVersions;
@@ -193,47 +196,52 @@ export const useCssConversion = () => {
 
   const generateCss = useCallback((theme: ThemeTokens): string => {
     const rootVars: string[] = [];
-    const classBlocks: string[] = [];
+
+    // Safety check for theme
+    if (!theme || typeof theme !== 'object') {
+      console.warn('Invalid theme object provided to generateCss');
+      return '';
+    }
+
+    console.log('Generating CSS for theme with components:', Object.keys(theme));
 
     for (const [componentName, component] of Object.entries(theme)) {
+      // Skip if component is null or undefined
+      if (!component || typeof component !== 'object') {
+        console.warn(`Skipping invalid component: ${componentName}`);
+        continue;
+      }
+
       /* ---------- COMPONENT WITH VERSIONS ---------- */
-      if ("versions" in component) {
-        for (const [versionName, version] of Object.entries(
-          component.versions,
-        )) {
-          const lines: string[] = [];
+      if ("versions" in component && component.versions) {
+        for (const [versionName, version] of Object.entries(component.versions)) {
+          if (!version || typeof version !== 'object') {
+            console.warn(`Skipping invalid version: ${versionName} in ${componentName}`);
+            continue;
+          }
 
-          // Tokens without variants
-          if (version.tokens) {
+          // Tokens without variants (e.g., table)
+          if (version.tokens && typeof version.tokens === 'object') {
             for (const [prop, token] of Object.entries(version.tokens)) {
-              lines.push(`  --azv-${componentName}-${prop}: ${token.value};`);
-            }
-          }
-
-          // Tokens with variants
-          if (version.variants) {
-            for (const [variantName, variant] of Object.entries(
-              version.variants,
-            )) {
-              for (const [prop, token] of Object.entries(variant.tokens)) {
-                lines.push(
-                  `  --azv-${componentName}-${variantName}-${prop}: ${token.value};`,
-                );
+              if (token && token.value !== undefined) {
+                rootVars.push(`  --azv-${componentName}-${prop}: ${token.value};`);
               }
             }
           }
 
-          if (lines.length) {
-            if (version.variants) {
-              for (const [variantName] of Object.entries(version.variants)) {
-                classBlocks.push(
-                  `.azv-${componentName}-${variantName}-${versionName} {\n${lines.join("\n")}\n}`,
-                );
+          // Tokens with variants (e.g., btn)
+          if (version.variants && typeof version.variants === 'object') {
+            for (const [variantName, variant] of Object.entries(version.variants)) {
+              if (variant && variant.tokens && typeof variant.tokens === 'object') {
+                for (const [prop, token] of Object.entries(variant.tokens)) {
+                  if (token && token.value !== undefined) {
+                    // Generate CSS variable: --azv-btn-primary-color
+                    rootVars.push(
+                      `  --azv-${componentName}-${variantName}-${prop}: ${token.value};`,
+                    );
+                  }
+                }
               }
-            } else {
-              classBlocks.push(
-                `.azv-${componentName}-${versionName} {\n${lines.join("\n")}\n}`,
-              );
             }
           }
         }
@@ -242,20 +250,27 @@ export const useCssConversion = () => {
 
       /* ---------- COMPONENT WITHOUT VERSIONS ---------- */
       // Plain tokens → :root
-      if (component.tokens) {
+      if (component.tokens && typeof component.tokens === 'object') {
         for (const [prop, token] of Object.entries(component.tokens)) {
-          rootVars.push(`  --azv-${componentName}-${prop}: ${token.value};`);
+          if (token && token.value !== undefined) {
+            rootVars.push(`  --azv-${componentName}-${prop}: ${token.value};`);
+          }
         }
       }
 
-      // Variants → :root
+      // Variants → :root (e.g., listview, input)
       const variants = component.variants || component.varients;
-      if (variants) {
+      if (variants && typeof variants === 'object') {
         for (const [variantName, variant] of Object.entries(variants)) {
-          for (const [prop, token] of Object.entries(variant.tokens)) {
-            rootVars.push(
-              `  --azv-${componentName}-${variantName}-${prop}: ${token.value};`,
-            );
+          if (variant && variant.tokens && typeof variant.tokens === 'object') {
+            for (const [prop, token] of Object.entries(variant.tokens)) {
+              if (token && token.value !== undefined) {
+                // Generate CSS variable: --azv-listview-default-bg
+                rootVars.push(
+                  `  --azv-${componentName}-${variantName}-${prop}: ${token.value};`,
+                );
+              }
+            }
           }
         }
       }
@@ -263,9 +278,11 @@ export const useCssConversion = () => {
 
     let css = "";
     if (rootVars.length) {
-      css += `:root {\n${rootVars.join("\n")}\n}\n\n`;
+      css = `:root {\n${rootVars.join("\n")}\n}`;
+      console.log(`Generated ${rootVars.length} CSS variables`);
+    } else {
+      console.warn('No CSS variables generated!');
     }
-    css += classBlocks.join("\n\n");
 
     return css.trim();
   }, []);
