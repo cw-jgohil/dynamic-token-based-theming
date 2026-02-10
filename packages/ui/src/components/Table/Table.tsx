@@ -1,4 +1,5 @@
 import * as React from "react";
+import { DEFAULT_TABLE_ARIA_LABEL } from "./consts";
 import type {
   TableBodyProps,
   TableCellProps,
@@ -29,7 +30,7 @@ const Table = React.forwardRef<HTMLTableElement, TableProps>(
       className={`azv-table-wrapper${className ? ` ${className}` : ""}`}
       tabIndex={tabIndex ?? -1}
       role="region"
-      aria-label={ariaLabel ?? "Data table"}
+      aria-label={ariaLabel ?? DEFAULT_TABLE_ARIA_LABEL}
     >
       <table
         ref={ref}

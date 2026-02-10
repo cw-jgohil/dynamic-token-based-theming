@@ -6,13 +6,14 @@ import {
   TableHeader,
   TableRow,
 } from "../Table";
+import { DATA_GRID_EMPTY_MESSAGE } from "./consts";
 import type { DataGridProps } from "./types";
 
 const DataGrid = ({ rows, headers, renderActions }: DataGridProps) => {
   const hasActions = typeof renderActions === "function";
 
   return (
-    <div>
+    <div className="azv-datagrid">
       <Table
         aria-label="Data table"
         aria-rowcount={rows.length}
@@ -35,7 +36,7 @@ const DataGrid = ({ rows, headers, renderActions }: DataGridProps) => {
                 colSpan={headers.length + (hasActions ? 1 : 0)}
                 className="azv-table-empty"
               >
-                No data available
+                {DATA_GRID_EMPTY_MESSAGE}
               </TableCell>
             </TableRow>
           ) : (

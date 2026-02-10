@@ -1,0 +1,16 @@
+/* ==========================================================
+   AZV DATAGRID — Root-scoped; table styles live in _table.scss
+   ========================================================== */
+
+.azv-datagrid {
+  width: 100%;
+}
+
+/* Wrapper used by DataGridWrapper (e.g. in shared-lib) for layout and pagination spacing */
+.azv-datagrid-wrapper {
+  width: 100%;
+
+  .azv-pagination {
+    margin-top: 1rem;
+  }
+}
