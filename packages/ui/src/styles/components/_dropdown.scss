@@ -1,0 +1,19 @@
+.azv-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.azv-dropdown-menu {
+  min-width: var(--azv-dropdown-menu-min-width, 10rem);
+  padding: var(--azv-dropdown-menu-padding, 0.5rem 0);
+  border-radius: var(
+    --azv-dropdown-menu-border-radius,
+    var(--azv-radius-md, 0.375rem)
+  );
+  box-shadow: var(--azv-dropdown-menu-shadow, var(--azv-shadow-md));
+  background-color: var(--azv-dropdown-menu-bg, var(--azv-white));
+  border: var(
+    --azv-dropdown-menu-border,
+    var(--azv-border-width) solid var(--azv-border-color)
+  );
+}
