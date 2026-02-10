@@ -12,6 +12,7 @@ import { Pagination } from "../Pagination";
 import { DATA_GRID_EMPTY_MESSAGE } from "./consts";
 import type { DataGridProps } from "./types";
 import { useDataGrid } from "./useDataGrid";
+import { Checkbox } from "../Checkbox";
 
 const DataGrid = (props: DataGridProps) => {
   const {
@@ -60,11 +61,8 @@ const DataGrid = (props: DataGridProps) => {
           <TableRow>
             {checkbox.visible && (
               <TableHead scope="col" className="azv-datagrid-checkbox-cell">
-                <input
+                <Checkbox
                   ref={selectAllRef}
-                  type="checkbox"
-                  className="form-check-input azv-checkbox__input"
-                  aria-label="Select all rows"
                   checked={checkbox.selectAllChecked}
                   onChange={checkbox.onSelectAllToggle}
                 />
@@ -82,10 +80,7 @@ const DataGrid = (props: DataGridProps) => {
         <TableBody>
           {rows.length === 0 ? (
             <TableRow>
-              <TableCell
-                colSpan={colCount}
-                className="azv-table-empty"
-              >
+              <TableCell colSpan={colCount} className="azv-table-empty">
                 {DATA_GRID_EMPTY_MESSAGE}
               </TableCell>
             </TableRow>
@@ -93,8 +88,7 @@ const DataGrid = (props: DataGridProps) => {
             rows.map((row, rowIndex) => {
               const originalIndex = rowOriginalIndices[rowIndex] ?? rowIndex;
               const isSelected =
-                checkbox.visible &&
-                checkbox.selectedSet.has(originalIndex);
+                checkbox.visible && checkbox.selectedSet.has(originalIndex);
               return (
                 <TableRow
                   key={originalIndex}
@@ -108,9 +102,7 @@ const DataGrid = (props: DataGridProps) => {
                         className="form-check-input azv-checkbox__input"
                         aria-label={`Select row ${rowIndex + 1}`}
                         checked={isSelected}
-                        onChange={() =>
-                          checkbox.onRowToggle(originalIndex)
-                        }
+                        onChange={() => checkbox.onRowToggle(originalIndex)}
                       />
                     </TableCell>
                   )}
