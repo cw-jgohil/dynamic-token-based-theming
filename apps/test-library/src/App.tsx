@@ -48,10 +48,7 @@ function App() {
     componentData.variants,
   ]);
 
-  useEffect(() => {
-    dispatch(resetSelectedVersion());
-    dispatch(resetSelectedVariant());
-  }, [selectedComponents?.["component-key"]]);
+  // useEffect(() => {"]]);
 
   return (
     <div style={{ display: "flex", justifyContent: "space-between" }}>
