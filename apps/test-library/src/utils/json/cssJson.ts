@@ -5,68 +5,80 @@ export const json: ThemeTokens = {
     versions: {
       version1: {
         tokens: {
-          bg: {
-            value: "#f5f5f5",
-            type: "color",
-            allow: true,
-          },
-          "text-color": {
-            value: "#333333",
-            type: "color",
+          // Typography
+          "font-size": {
+            value: "0.875rem",
+            type: "input",
             allow: true,
           },
           "border-color": {
-            value: "#cccccc",
+            value: "#ff0000",
             type: "color",
             allow: true,
           },
-          "font-size": {
-            value: "16px",
+          "border-width": {
+            value: "1px",
             type: "input",
             allow: true,
           },
-          "font-weight": {
-            value: "bold",
+
+          // Wrapper/Container
+          radius: {
+            value: "0.375rem",
+            type: "input",
+            allow: true,
+          },
+
+          // Table Header (head)
+          "head-bg": {
+            value: "#a9aaa8",
+            type: "color",
+            allow: true,
+          },
+          "head-color": {
+            value: "#212529",
+            type: "color",
+            allow: true,
+          },
+          "head-font-weight": {
+            value: "normal",
             type: "select",
             allow: true,
           },
-          "font-family": {
-            value: "Arial, sans-serif",
-            type: "input",
-            allow: true,
-          },
-        },
-      },
-      version2: {
-        tokens: {
-          bg: {
-            value: "#f5f5f5",
-            type: "color",
-            allow: true,
-          },
-          "text-color": {
-            value: "#333333",
-            type: "color",
-            allow: true,
-          },
-          "border-color": {
-            value: "#cccccc",
-            type: "color",
-            allow: true,
-          },
-          "font-size": {
-            value: "16px",
-            type: "input",
-            allow: true,
-          },
-          "font-weight": {
-            value: "bold",
+          "head-text-align": {
+            value: "left",
             type: "select",
             allow: true,
           },
-          "font-family": {
-            value: "Arial, sans-serif",
+
+          // Table Header Cell (th)
+          "cell-padding-x": {
+            value: "0.75rem",
             type: "input",
+            allow: true,
+          },
+          "cell-padding-y": {
+            value: "0.5rem",
+            type: "input",
+            allow: true,
+          },
+
+          // Table Body (body)
+          "body-bg": {
+            value: "#ffffff",
+            type: "color",
+            allow: true,
+          },
+          "body-color": {
+            value: "#212529",
+            type: "color",
+            allow: true,
+          },
+
+          // Empty State
+          "empty-color": {
+            value: "#6c757d",
+            type: "color",
             allow: true,
           },
         },
@@ -82,7 +94,7 @@ export const json: ThemeTokens = {
               "padding-x": { value: "1rem", type: "input", allow: true },
               "padding-y": { value: "0.5rem", type: "input", allow: true },
               "font-size": { value: "1rem", type: "input", allow: true },
-              "font-weight": { value: "400", type: "input", allow: true },
+              "font-weight": { value: "400", type: "select", allow: true },
               "border-radius": {
                 value: "0.375rem",
                 type: "input",
@@ -99,14 +111,6 @@ export const json: ThemeTokens = {
               "hover-color": { value: "#ffffff", type: "color", allow: true },
               "hover-bg": { value: "#0d305c", type: "color", allow: true },
               "hover-border-color": {
-                value: "#0d305c",
-                type: "color",
-                allow: true,
-              },
-
-              "active-color": { value: "#ffffff", type: "color", allow: true },
-              "active-bg": { value: "#0d305c", type: "color", allow: true },
-              "active-border-color": {
                 value: "#0d305c",
                 type: "color",
                 allow: true,
@@ -131,7 +135,7 @@ export const json: ThemeTokens = {
               "padding-x": { value: "1rem", type: "input", allow: true },
               "padding-y": { value: "0.5rem", type: "input", allow: true },
               "font-size": { value: "1rem", type: "input", allow: true },
-              "font-weight": { value: "400", type: "input", allow: true },
+              "font-weight": { value: "400", type: "select", allow: true },
               "border-radius": {
                 value: "0.375rem",
                 type: "input",
@@ -148,14 +152,6 @@ export const json: ThemeTokens = {
               "hover-color": { value: "#ffffff", type: "color", allow: true },
               "hover-bg": { value: "#5c636a", type: "color", allow: true },
               "hover-border-color": {
-                value: "#5c636a",
-                type: "color",
-                allow: true,
-              },
-
-              "active-color": { value: "#ffffff", type: "color", allow: true },
-              "active-bg": { value: "#5c636a", type: "color", allow: true },
-              "active-border-color": {
                 value: "#5c636a",
                 type: "color",
                 allow: true,

@@ -6,7 +6,7 @@ import { setSelectedComponents } from "../redux/slices/componentSlice";
 const ComponentSidebar = () => {
   const { data, isLoading, error } = useComponents();
   const dispatch = useAppDispatch();
-  const { selectedComponents } = useAppSelector((state) => state.componwents);
+  const { selectedComponents } = useAppSelector((state) => state.components);
 
   return (
     <div className="component-sidebar">

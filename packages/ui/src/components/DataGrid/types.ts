@@ -35,10 +35,12 @@ export interface DataGridCheckboxConfig {
 }
 
 export interface DataGridProps
-  extends DataGridSearchConfig,
+  extends
+    DataGridSearchConfig,
     DataGridPaginationConfig,
     DataGridCheckboxConfig {
   rows: ReactNode[][];
   headers: string[];
   renderActions?: (row: ReactNode[]) => ReactNode;
+  version?: string;
 }

@@ -14,3 +14,37 @@ export const allowOnlyNumberAndDot = (
 
   e.preventDefault();
 };
+
+export const getSelectOptions = (name: string) => {
+  if (name.includes("border-style")) {
+    return [
+      "solid",
+      "dashed",
+      "dotted",
+      "double",
+      "groove",
+      "ridge",
+      "inset",
+      "outset",
+    ];
+  } else if (name.includes("text-align")) {
+    return ["left", "center", "right"];
+  } else if (name.includes("font-weight")) {
+    return [
+      "normal",
+      "bold",
+      "bolder",
+      "lighter",
+      "100",
+      "200",
+      "300",
+      "400",
+      "500",
+      "600",
+      "700",
+      "800",
+      "900",
+    ];
+  }
+  return [];
+};

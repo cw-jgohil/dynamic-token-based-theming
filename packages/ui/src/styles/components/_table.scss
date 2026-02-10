@@ -40,6 +40,9 @@
 
   /* ---------- TBODY ---------- */
   .azv-table-tbody {
+    --bs-table-bg: var(--azv-table-body-bg, var(--azv-white));
+    --bs-table-color: var(--azv-table-body-color, var(--azv-black));
+
     outline: none;
   }
 
@@ -47,7 +50,7 @@
   .azv-table-tfoot {
     border-top: var(--azv-table-border-width) solid
       var(--azv-table-border-color);
-    font-weight: 500;
+    font-weight: var(--azv-table-head-font-weight);
   }
 
   /* ---------- ROW ---------- */
@@ -58,12 +61,13 @@
   /* ---------- HEADER CELL ---------- */
   .azv-table-th {
     padding: var(--azv-table-cell-padding-y) var(--azv-table-cell-padding-x);
-    text-align: left;
+    text-align: var(--azv-table-head-text-align);
     vertical-align: middle;
-    font-weight: 500;
+    font-weight: var(--azv-table-head-font-weight);
     background-color: var(--azv-table-head-bg);
     border-bottom: var(--azv-table-border-width) solid
       var(--azv-table-border-color);
+    color: var(--azv-table-head-color);
   }
 
   /* ---------- BODY CELL ---------- */

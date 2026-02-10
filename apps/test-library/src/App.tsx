@@ -16,7 +16,7 @@ import { json } from "./utils/json/cssJson";
 function App() {
   const dispatch = useAppDispatch();
   const { selectedVersion, selectedVariant, selectedComponents } =
-    useAppSelector((state) => state.componwents);
+    useAppSelector((state) => state.components);
   const [themeJson, setThemeJson] = useState<ThemeTokens>(json);
 
   const componentData = useComponentProperties(

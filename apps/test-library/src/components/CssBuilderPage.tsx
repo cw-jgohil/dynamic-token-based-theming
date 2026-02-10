@@ -2,16 +2,19 @@ import { useAppSelector } from "../redux/store";
 import "./CssBuilderPage.css";
 import {
   ComponentKey,
-  componentRegistry,
+  getComponentByKey,
 } from "../utils/json/componentsMapping";
+import { useMemo } from "react";
 
 const CssBuilderPage = () => {
   const { selectedComponents, selectedVariant, selectedVersion } =
-    useAppSelector((state) => state.componwents);
+    useAppSelector((state) => state.components);
 
-  const selectedCompData = selectedComponents
-    ? componentRegistry[selectedComponents["component-key"] as ComponentKey]
-    : null;
+  const selectedCompData = useMemo(() => {
+    return selectedComponents
+      ? getComponentByKey(selectedComponents["component-key"] as ComponentKey)
+      : null;
+  }, [selectedComponents, selectedVariant, selectedVersion]);
 
   return (
     <div className="css-builder-container">
@@ -22,8 +25,7 @@ const CssBuilderPage = () => {
         {selectedCompData ? (
           <div className="css-builder-content-item m-2">
             <selectedCompData.component
-              variant={selectedVariant}
-              version={selectedVersion}
+              {...(selectedCompData.props ? selectedCompData.props : {})}
             >
               {selectedCompData.label}
             </selectedCompData.component>

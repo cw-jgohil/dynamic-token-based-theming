@@ -56,11 +56,16 @@ const DataGrid = (props: DataGridProps) => {
         aria-label="Data table"
         aria-rowcount={rows.length}
         aria-colcount={colCount}
+        version={props.version}
       >
-        <TableHeader>
-          <TableRow>
+        <TableHeader version={props.version}>
+          <TableRow version={props.version}>
             {checkbox.visible && (
-              <TableHead scope="col" className="azv-datagrid-checkbox-cell">
+              <TableHead
+                scope="col"
+                className="azv-datagrid-checkbox-cell"
+                version={props.version}
+              >
                 <Checkbox
                   ref={selectAllRef}
                   checked={checkbox.selectAllChecked}
@@ -68,19 +73,23 @@ const DataGrid = (props: DataGridProps) => {
                 />
               </TableHead>
             )}
-            {hasActions && <TableHead scope="col" />}
+            {hasActions && <TableHead scope="col" version={props.version} />}
             {headers.map((header) => (
-              <TableHead key={header} scope="col">
+              <TableHead key={header} scope="col" version={props.version}>
                 {header}
               </TableHead>
             ))}
           </TableRow>
         </TableHeader>
 
-        <TableBody>
+        <TableBody version={props.version}>
           {rows.length === 0 ? (
-            <TableRow>
-              <TableCell colSpan={colCount} className="azv-table-empty">
+            <TableRow version={props.version}>
+              <TableCell
+                colSpan={colCount}
+                className="azv-table-empty"
+                version={props.version}
+              >
                 {DATA_GRID_EMPTY_MESSAGE}
               </TableCell>
             </TableRow>
@@ -94,9 +103,13 @@ const DataGrid = (props: DataGridProps) => {
                   key={originalIndex}
                   aria-rowindex={rowIndex + 1}
                   aria-selected={checkbox.visible ? isSelected : undefined}
+                  version={props.version}
                 >
                   {checkbox.visible && (
-                    <TableCell className="azv-datagrid-checkbox-cell">
+                    <TableCell
+                      className="azv-datagrid-checkbox-cell"
+                      version={props.version}
+                    >
                       <input
                         type="checkbox"
                         className="form-check-input azv-checkbox__input"
@@ -107,7 +120,7 @@ const DataGrid = (props: DataGridProps) => {
                     </TableCell>
                   )}
                   {hasActions && renderActions && (
-                    <TableCell className="text-center">
+                    <TableCell className="text-center" version={props.version}>
                       {renderActions(row)}
                     </TableCell>
                   )}
@@ -120,6 +133,7 @@ const DataGrid = (props: DataGridProps) => {
                         cellIndex +
                         1
                       }
+                      version={props.version}
                     >
                       {cell}
                     </TableCell>

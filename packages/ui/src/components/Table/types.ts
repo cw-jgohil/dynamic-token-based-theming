@@ -10,6 +10,7 @@ export interface TableProps extends React.HTMLAttributes<HTMLTableElement> {
   "aria-rowcount"?: number;
   "aria-colcount"?: number;
   className?: string;
+  version?: string;
 }
 
 export interface TableHeaderProps extends React.HTMLAttributes<HTMLTableSectionElement> {
@@ -18,6 +19,7 @@ export interface TableHeaderProps extends React.HTMLAttributes<HTMLTableSectionE
   "aria-labelledby"?: string;
   id?: string;
   role?: string;
+  version?: string;
 }
 
 export interface TableBodyProps extends React.HTMLAttributes<HTMLTableSectionElement> {
@@ -26,6 +28,7 @@ export interface TableBodyProps extends React.HTMLAttributes<HTMLTableSectionEle
   "aria-labelledby"?: string;
   id?: string;
   role?: string;
+  version?: string;
 }
 
 export interface TableFooterProps extends React.HTMLAttributes<HTMLTableSectionElement> {
@@ -34,6 +37,7 @@ export interface TableFooterProps extends React.HTMLAttributes<HTMLTableSectionE
   "aria-labelledby"?: string;
   id?: string;
   role?: string;
+  version?: string;
 }
 
 export interface TableRowProps extends React.HTMLAttributes<HTMLTableRowElement> {
@@ -45,6 +49,7 @@ export interface TableRowProps extends React.HTMLAttributes<HTMLTableRowElement>
   "aria-rowindex"?: number;
   "aria-selected"?: boolean;
   className?: string;
+  version?: string;
 }
 
 export interface TableHeadProps extends React.ThHTMLAttributes<HTMLTableCellElement> {
@@ -56,6 +61,7 @@ export interface TableHeadProps extends React.ThHTMLAttributes<HTMLTableCellElem
   role?: string;
   "aria-sort"?: "ascending" | "descending" | "none" | "other";
   "aria-colindex"?: number;
+  version?: string;
 }
 
 export interface TableCellProps extends React.TdHTMLAttributes<HTMLTableCellElement> {
@@ -67,4 +73,5 @@ export interface TableCellProps extends React.TdHTMLAttributes<HTMLTableCellElem
   role?: string;
   "aria-colindex"?: number;
   "aria-rowindex"?: number;
+  version?: string;
 }

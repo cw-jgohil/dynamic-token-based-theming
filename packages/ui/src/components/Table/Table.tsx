@@ -22,30 +22,37 @@ const Table = React.forwardRef<HTMLTableElement, TableProps>(
       "aria-rowcount": ariaRowCount,
       "aria-colcount": ariaColCount,
       tabIndex,
+      version,
       ...props
     },
     ref,
-  ) => (
-    <div
-      className={`azv-table-wrapper${className ? ` ${className}` : ""}`}
-      tabIndex={tabIndex ?? -1}
-      role="region"
-      aria-label={ariaLabel ?? DEFAULT_TABLE_ARIA_LABEL}
-    >
-      <table
-        ref={ref}
-        className={`table azv-table`}
-        aria-label={ariaLabel}
-        aria-labelledby={ariaLabelledBy}
-        aria-describedby={ariaDescribedBy}
-        id={id}
-        role={role}
-        aria-rowcount={ariaRowCount}
-        aria-colcount={ariaColCount}
-        {...props}
-      />
-    </div>
-  ),
+  ) => {
+    const versionClass = version
+      ? `azv-table${version ? `-${version}` : ""}`
+      : "";
+      
+    return (
+      <div
+        className={`azv-table-wrapper ${versionClass}${className ? ` ${className}` : ""}`}
+        tabIndex={tabIndex ?? -1}
+        role="region"
+        aria-label={ariaLabel ?? DEFAULT_TABLE_ARIA_LABEL}
+      >
+        <table
+          ref={ref}
+          className={`table azv-table`}
+          aria-label={ariaLabel}
+          aria-labelledby={ariaLabelledBy}
+          aria-describedby={ariaDescribedBy}
+          id={id}
+          role={role}
+          aria-rowcount={ariaRowCount}
+          aria-colcount={ariaColCount}
+          {...props}
+        />
+      </div>
+    );
+  },
 );
 Table.displayName = "Table";
 
@@ -57,20 +64,27 @@ const TableHeader = React.forwardRef<HTMLTableSectionElement, TableHeaderProps>(
       "aria-labelledby": ariaLabelledBy,
       id,
       role,
+      version,
       ...props
     },
     ref,
-  ) => (
-    <thead
-      ref={ref}
-      className={`azv-table-thead${className ? ` ${className}` : ""}`}
-      aria-label={ariaLabel}
-      aria-labelledby={ariaLabelledBy}
-      id={id}
-      role={role}
-      {...props}
-    />
-  ),
+  ) => {
+    const versionClass = version
+      ? `azv-table${version ? `-${version}` : ""}`
+      : "";
+
+    return (
+      <thead
+        ref={ref}
+        className={`azv-table-thead ${versionClass}${className ? ` ${className}` : ""}`}
+        aria-label={ariaLabel}
+        aria-labelledby={ariaLabelledBy}
+        id={id}
+        role={role}
+        {...props}
+      />
+    );
+  },
 );
 TableHeader.displayName = "TableHeader";
 
@@ -82,20 +96,26 @@ const TableBody = React.forwardRef<HTMLTableSectionElement, TableBodyProps>(
       "aria-labelledby": ariaLabelledBy,
       id,
       role,
+      version,
       ...props
     },
     ref,
-  ) => (
-    <tbody
-      ref={ref}
-      className={`azv-table-tbody${className ? ` ${className}` : ""}`}
-      aria-label={ariaLabel}
-      aria-labelledby={ariaLabelledBy}
-      id={id}
-      role={role}
-      {...props}
-    />
-  ),
+  ) => {
+    const versionClass = version
+      ? `azv-table${version ? `-${version}` : ""}`
+      : "";
+    return (
+      <tbody
+        ref={ref}
+        className={`azv-table-tbody ${versionClass}${className ? ` ${className}` : ""}`}
+        aria-label={ariaLabel}
+        aria-labelledby={ariaLabelledBy}
+        id={id}
+        role={role}
+        {...props}
+      />
+    );
+  },
 );
 TableBody.displayName = "TableBody";
 
@@ -107,20 +127,26 @@ const TableFooter = React.forwardRef<HTMLTableSectionElement, TableFooterProps>(
       "aria-labelledby": ariaLabelledBy,
       id,
       role,
+      version,
       ...props
     },
     ref,
-  ) => (
-    <tfoot
-      ref={ref}
-      className={`azv-table-tfoot${className ? ` ${className}` : ""}`}
-      aria-label={ariaLabel}
-      aria-labelledby={ariaLabelledBy}
-      id={id}
-      role={role}
-      {...props}
-    />
-  ),
+  ) => {
+    const versionClass = version
+      ? `azv-table${version ? `-${version}` : ""}`
+      : "";
+    return (
+      <tfoot
+        ref={ref}
+        className={`azv-table-tfoot ${versionClass}${className ? ` ${className}` : ""}`}
+        aria-label={ariaLabel}
+        aria-labelledby={ariaLabelledBy}
+        id={id}
+        role={role}
+        {...props}
+      />
+    );
+  },
 );
 TableFooter.displayName = "TableFooter";
 
@@ -135,23 +161,29 @@ const TableRow = React.forwardRef<HTMLTableRowElement, TableRowProps>(
       role,
       "aria-rowindex": ariaRowIndex,
       "aria-selected": ariaSelected,
+      version,
       ...props
     },
     ref,
-  ) => (
-    <tr
-      ref={ref}
-      className={`azv-table-row${className ? ` ${className}` : ""}`}
-      aria-label={ariaLabel}
-      aria-labelledby={ariaLabelledBy}
-      aria-describedby={ariaDescribedBy}
-      id={id}
-      role={role}
-      aria-rowindex={ariaRowIndex}
-      aria-selected={ariaSelected}
-      {...props}
-    />
-  ),
+  ) => {
+    const versionClass = version
+      ? `azv-table${version ? `-${version}` : ""}`
+      : "";
+    return (
+      <tr
+        ref={ref}
+        className={`azv-table-row ${versionClass}${className ? ` ${className}` : ""}`}
+        aria-label={ariaLabel}
+        aria-labelledby={ariaLabelledBy}
+        aria-describedby={ariaDescribedBy}
+        id={id}
+        role={role}
+        aria-rowindex={ariaRowIndex}
+        aria-selected={ariaSelected}
+        {...props}
+      />
+    );
+  },
 );
 TableRow.displayName = "TableRow";
 
@@ -167,24 +199,30 @@ const TableHead = React.forwardRef<HTMLTableCellElement, TableHeadProps>(
       "aria-sort": ariaSort,
       "aria-colindex": ariaColIndex,
       scope = "col",
+      version,
       ...props
     },
     ref,
-  ) => (
-    <th
-      ref={ref}
-      className={`azv-table-th${className ? ` ${className}` : ""}`}
-      scope={scope}
-      aria-label={ariaLabel}
-      aria-labelledby={ariaLabelledBy}
-      aria-describedby={ariaDescribedBy}
-      id={id}
-      role={role}
-      aria-sort={ariaSort}
-      aria-colindex={ariaColIndex}
-      {...props}
-    />
-  ),
+  ) => {
+    const versionClass = version
+      ? `azv-table${version ? `-${version}` : ""}`
+      : "";
+    return (
+      <th
+        ref={ref}
+        className={`azv-table-th ${versionClass}${className ? ` ${className}` : ""}`}
+        scope={scope}
+        aria-label={ariaLabel}
+        aria-labelledby={ariaLabelledBy}
+        aria-describedby={ariaDescribedBy}
+        id={id}
+        role={role}
+        aria-sort={ariaSort}
+        aria-colindex={ariaColIndex}
+        {...props}
+      />
+    );
+  },
 );
 TableHead.displayName = "TableHead";
 
@@ -199,23 +237,29 @@ const TableCell = React.forwardRef<HTMLTableCellElement, TableCellProps>(
       role,
       "aria-colindex": ariaColIndex,
       "aria-rowindex": ariaRowIndex,
+      version,
       ...props
     },
     ref,
-  ) => (
-    <td
-      ref={ref}
-      className={`azv-table-td${className ? ` ${className}` : ""}`}
-      aria-label={ariaLabel}
-      aria-labelledby={ariaLabelledBy}
-      aria-describedby={ariaDescribedBy}
-      id={id}
-      role={role}
-      aria-colindex={ariaColIndex}
-      aria-rowindex={ariaRowIndex}
-      {...props}
-    />
-  ),
+  ) => {
+    const versionClass = version
+      ? `azv-table${version ? `-${version}` : ""}`
+      : "";
+    return (
+      <td
+        ref={ref}
+        className={`azv-table-td ${versionClass}${className ? ` ${className}` : ""}`}
+        aria-label={ariaLabel}
+        aria-labelledby={ariaLabelledBy}
+        aria-describedby={ariaDescribedBy}
+        id={id}
+        role={role}
+        aria-colindex={ariaColIndex}
+        aria-rowindex={ariaRowIndex}
+        {...props}
+      />
+    );
+  },
 );
 TableCell.displayName = "TableCell";
 

@@ -13,7 +13,10 @@ import {
   setSelectedVariant,
   setSelectedVersion,
 } from "../redux/slices/componentSlice";
-import { allowOnlyNumberAndDot } from "../utils/common-functions";
+import {
+  allowOnlyNumberAndDot,
+  getSelectOptions,
+} from "../utils/common-functions";
 import { json } from "../utils/json/cssJson";
 
 type ConfigSidebarProps = {
@@ -74,7 +77,7 @@ const ConfigSidebar: React.FC<ConfigSidebarProps> = ({
 }) => {
   const dispatch = useAppDispatch();
   const { selectedVersion, selectedVariant, selectedComponents } =
-    useAppSelector((state) => state.componwents);
+    useAppSelector((state) => state.components);
   const { convertAndInject, resetToDefault } = useCssConversion();
   const [isThemeChanged, setIsThemeChanged] = useState<boolean>(false);
   const [themePatch, setThemePatch] = useState<ThemePatch>({});
@@ -207,7 +210,8 @@ const ConfigSidebar: React.FC<ConfigSidebarProps> = ({
   useEffect(() => {
     if (isThemeChanged)
       debounce(() => {
-        convertAndInject(themePatch);
+        const css = convertAndInject(themePatch);
+        console.log("css", css);
       }, 500);
   }, [isThemeChanged, themePatch]);
 
@@ -244,6 +248,7 @@ const ConfigSidebar: React.FC<ConfigSidebarProps> = ({
         );
 
       case "select":
+        const oprions = getSelectOptions(property.name);
         return (
           <select
             className="form-select"
@@ -252,19 +257,12 @@ const ConfigSidebar: React.FC<ConfigSidebarProps> = ({
               handlePropertyChange(property.name, e.target.value)
             }
           >
-            <option value="normal">Normal</option>
-            <option value="bold">Bold</option>
-            <option value="bolder">Bolder</option>
-            <option value="lighter">Lighter</option>
-            <option value="100">100</option>
-            <option value="200">200</option>
-            <option value="300">300</option>
-            <option value="400">400</option>
-            <option value="500">500</option>
-            <option value="600">600</option>
-            <option value="700">700</option>
-            <option value="800">800</option>
-            <option value="900">900</option>
+            {oprions.map((option) => (
+              <option key={option} value={option}>
+                {option.replaceAll("-", " ").charAt(0).toUpperCase() +
+                  option.slice(1)}
+              </option>
+            ))}
           </select>
         );
 
