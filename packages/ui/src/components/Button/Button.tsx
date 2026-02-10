@@ -23,13 +23,9 @@ const Button = ({
       className={`azv-btn btn btn-${variant} azv-btn-${variant} ${size ? `btn-${size}` : ""} ${versionClass} ${className} ${startIcon || endIcon ? "d-flex align-items-center gap-1" : ""}`}
       {...props}
     >
-      {startIcon && (
-        <i className={`bi bi-${startIcon} azv-btn__icon`}></i>
-      )}
+      {startIcon && <i className={`bi bi-${startIcon} azv-btn-icon`}></i>}
       {children}
-      {endIcon && (
-        <i className={`bi bi-${endIcon} azv-btn__icon`}></i>
-      )}
+      {endIcon && <i className={`bi bi-${endIcon} azv-btn-icon`}></i>}
     </button>
   );
 };

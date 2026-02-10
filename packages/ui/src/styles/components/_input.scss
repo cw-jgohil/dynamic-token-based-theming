@@ -2,6 +2,28 @@
   max-width: 400px;
 }
 
+.azv-input-group {
+  display: flex;
+  align-items: center;
+
+  .azv-input-icon {
+    font-size: var(--azv-input-icon-size, var(--azv-font-size-base));
+    color: var(--azv-input-icon-color, var(--azv-primary));
+    flex-shrink: 0;
+    padding: 0 var(--azv-input-icon-gap, 0.5rem);
+    pointer-events: none;
+  }
+
+  .azv-input-icon-start {
+    padding-right: var(--azv-input-icon-gap, 0.5rem);
+  }
+
+  .form-control {
+    flex: 1;
+    min-width: 0;
+  }
+}
+
 .azv-form-control {
   padding: var(--azv-input-padding);
   font-size: var(--azv-input-font-size, var(--azv-font-size-base));

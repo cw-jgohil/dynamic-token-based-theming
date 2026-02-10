@@ -35,11 +35,7 @@ export const Input = ({
     <div className={rootClasses}>
       {hasAddons ? (
         <div className={groupClasses}>
-          {startIcon && (
-            <span className="input-group-text azv-input-addon">
-              {startIcon}
-            </span>
-          )}
+          {startIcon && <i className={`bi bi-${startIcon} azv-input-icon`}></i>}
 
           <input
             className={inputClasses}
@@ -48,9 +44,7 @@ export const Input = ({
             {...inputProps}
           />
 
-          {endIcon && (
-            <span className="input-group-text azv-input-addon">{endIcon}</span>
-          )}
+          {endIcon && <i className={`bi bi-${endIcon} azv-input-icon`}></i>}
         </div>
       ) : (
         <input
