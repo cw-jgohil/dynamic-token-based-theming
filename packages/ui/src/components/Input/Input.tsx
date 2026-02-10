@@ -11,7 +11,7 @@ export const Input = ({
   const hasAddons = Boolean(startIcon || endIcon);
   const hasError = Boolean(error);
 
-  const rootClasses = ["azv-input", hasError && "azv-input--error", className]
+  const rootClasses = ["azv-input", hasError && "azv-input-error", className]
     .filter(Boolean)
     .join(" ");
 
@@ -25,7 +25,7 @@ export const Input = ({
 
   const inputClasses = [
     "form-control",
-    "azv-input__control",
+    "azv-form-control",
     hasError && "is-invalid",
   ]
     .filter(Boolean)
@@ -36,7 +36,7 @@ export const Input = ({
       {hasAddons ? (
         <div className={groupClasses}>
           {startIcon && (
-            <span className="input-group-text azv-input__addon">
+            <span className="input-group-text azv-input-addon">
               {startIcon}
             </span>
           )}
@@ -49,7 +49,7 @@ export const Input = ({
           />
 
           {endIcon && (
-            <span className="input-group-text azv-input__addon">{endIcon}</span>
+            <span className="input-group-text azv-input-addon">{endIcon}</span>
           )}
         </div>
       ) : (
@@ -64,7 +64,7 @@ export const Input = ({
       {hasError && (
         <div
           id={`${inputProps.id}-error`}
-          className="invalid-feedback azv-input__error"
+          className="invalid-feedback azv-input-error"
         >
           {error}
         </div>

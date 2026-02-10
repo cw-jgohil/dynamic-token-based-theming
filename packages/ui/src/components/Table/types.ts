@@ -9,26 +9,27 @@ export interface TableProps extends React.HTMLAttributes<HTMLTableElement> {
   role?: string;
   "aria-rowcount"?: number;
   "aria-colcount"?: number;
+  className?: string;
 }
 
-export interface TableHeaderProps
-  extends React.HTMLAttributes<HTMLTableSectionElement> {
+export interface TableHeaderProps extends React.HTMLAttributes<HTMLTableSectionElement> {
+  className?: string;
   "aria-label"?: string;
   "aria-labelledby"?: string;
   id?: string;
   role?: string;
 }
 
-export interface TableBodyProps
-  extends React.HTMLAttributes<HTMLTableSectionElement> {
+export interface TableBodyProps extends React.HTMLAttributes<HTMLTableSectionElement> {
+  className?: string;
   "aria-label"?: string;
   "aria-labelledby"?: string;
   id?: string;
   role?: string;
 }
 
-export interface TableFooterProps
-  extends React.HTMLAttributes<HTMLTableSectionElement> {
+export interface TableFooterProps extends React.HTMLAttributes<HTMLTableSectionElement> {
+  className?: string;
   "aria-label"?: string;
   "aria-labelledby"?: string;
   id?: string;
@@ -43,10 +44,11 @@ export interface TableRowProps extends React.HTMLAttributes<HTMLTableRowElement>
   role?: string;
   "aria-rowindex"?: number;
   "aria-selected"?: boolean;
+  className?: string;
 }
 
-export interface TableHeadProps
-  extends React.ThHTMLAttributes<HTMLTableCellElement> {
+export interface TableHeadProps extends React.ThHTMLAttributes<HTMLTableCellElement> {
+  className?: string;
   "aria-label"?: string;
   "aria-labelledby"?: string;
   "aria-describedby"?: string;
@@ -56,8 +58,8 @@ export interface TableHeadProps
   "aria-colindex"?: number;
 }
 
-export interface TableCellProps
-  extends React.TdHTMLAttributes<HTMLTableCellElement> {
+export interface TableCellProps extends React.TdHTMLAttributes<HTMLTableCellElement> {
+  className?: string;
   "aria-label"?: string;
   "aria-labelledby"?: string;
   "aria-describedby"?: string;
@@ -65,10 +67,4 @@ export interface TableCellProps
   role?: string;
   "aria-colindex"?: number;
   "aria-rowindex"?: number;
-}
-
-export interface TableCaptionProps
-  extends React.HTMLAttributes<HTMLTableCaptionElement> {
-  "aria-label"?: string;
-  id?: string;
 }

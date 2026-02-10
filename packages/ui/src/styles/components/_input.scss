@@ -2,8 +2,8 @@
   max-width: 400px;
 }
 
-.form-control {
-  padding: var(--azv-padding-x) var(--azv-padding-x);
+.azv-form-control {
+  padding: var(--azv-input-padding);
   font-size: var(--azv-input-font-size, var(--azv-font-size-base));
   color: var(--azv-input-color, var(--azv-primary-dark));
   background-color: var(--azv-input-bg, var(--azv-white));
@@ -12,6 +12,6 @@
     var(--azv-border-width) solid var(--azv-primary)
   );
 }
-.azv-input__error {
+.azv-input-error {
   color: var(--azv-input-error-color, var(--azv-danger));
 }

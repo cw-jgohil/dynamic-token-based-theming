@@ -1,7 +1,7 @@
 import * as React from "react";
+import { DEFAULT_TABLE_ARIA_LABEL } from "./consts";
 import type {
   TableBodyProps,
-  TableCaptionProps,
   TableCellProps,
   TableFooterProps,
   TableHeadProps,
@@ -24,13 +24,13 @@ const Table = React.forwardRef<HTMLTableElement, TableProps>(
       tabIndex,
       ...props
     },
-    ref
+    ref,
   ) => (
     <div
-      className={`azv-table-wrapper ${className}`}
+      className={`azv-table-wrapper${className ? ` ${className}` : ""}`}
       tabIndex={tabIndex ?? -1}
       role="region"
-      aria-label={ariaLabel ?? "Data table"}
+      aria-label={ariaLabel ?? DEFAULT_TABLE_ARIA_LABEL}
     >
       <table
         ref={ref}
@@ -45,14 +45,11 @@ const Table = React.forwardRef<HTMLTableElement, TableProps>(
         {...props}
       />
     </div>
-  )
+  ),
 );
 Table.displayName = "Table";
 
-const TableHeader = React.forwardRef<
-  HTMLTableSectionElement,
-  TableHeaderProps
->(
+const TableHeader = React.forwardRef<HTMLTableSectionElement, TableHeaderProps>(
   (
     {
       className,
@@ -62,18 +59,18 @@ const TableHeader = React.forwardRef<
       role,
       ...props
     },
-    ref
+    ref,
   ) => (
     <thead
       ref={ref}
-      className={`azv-table-thead ${className}`}
+      className={`azv-table-thead${className ? ` ${className}` : ""}`}
       aria-label={ariaLabel}
       aria-labelledby={ariaLabelledBy}
       id={id}
       role={role}
       {...props}
     />
-  )
+  ),
 );
 TableHeader.displayName = "TableHeader";
 
@@ -87,25 +84,22 @@ const TableBody = React.forwardRef<HTMLTableSectionElement, TableBodyProps>(
       role,
       ...props
     },
-    ref
+    ref,
   ) => (
     <tbody
       ref={ref}
-      className={`azv-table-tbody ${className}`}
+      className={`azv-table-tbody${className ? ` ${className}` : ""}`}
       aria-label={ariaLabel}
       aria-labelledby={ariaLabelledBy}
       id={id}
       role={role}
       {...props}
     />
-  )
+  ),
 );
 TableBody.displayName = "TableBody";
 
-const TableFooter = React.forwardRef<
-  HTMLTableSectionElement,
-  TableFooterProps
->(
+const TableFooter = React.forwardRef<HTMLTableSectionElement, TableFooterProps>(
   (
     {
       className,
@@ -115,18 +109,18 @@ const TableFooter = React.forwardRef<
       role,
       ...props
     },
-    ref
+    ref,
   ) => (
     <tfoot
       ref={ref}
-      className={`azv-table-tfoot ${className}`}
+      className={`azv-table-tfoot${className ? ` ${className}` : ""}`}
       aria-label={ariaLabel}
       aria-labelledby={ariaLabelledBy}
       id={id}
       role={role}
       {...props}
     />
-  )
+  ),
 );
 TableFooter.displayName = "TableFooter";
 
@@ -143,11 +137,11 @@ const TableRow = React.forwardRef<HTMLTableRowElement, TableRowProps>(
       "aria-selected": ariaSelected,
       ...props
     },
-    ref
+    ref,
   ) => (
     <tr
       ref={ref}
-      className={`azv-table-row ${className}`}
+      className={`azv-table-row${className ? ` ${className}` : ""}`}
       aria-label={ariaLabel}
       aria-labelledby={ariaLabelledBy}
       aria-describedby={ariaDescribedBy}
@@ -157,7 +151,7 @@ const TableRow = React.forwardRef<HTMLTableRowElement, TableRowProps>(
       aria-selected={ariaSelected}
       {...props}
     />
-  )
+  ),
 );
 TableRow.displayName = "TableRow";
 
@@ -175,11 +169,11 @@ const TableHead = React.forwardRef<HTMLTableCellElement, TableHeadProps>(
       scope = "col",
       ...props
     },
-    ref
+    ref,
   ) => (
     <th
       ref={ref}
-      className={`azv-table-th ${className}`}
+      className={`azv-table-th${className ? ` ${className}` : ""}`}
       scope={scope}
       aria-label={ariaLabel}
       aria-labelledby={ariaLabelledBy}
@@ -190,7 +184,7 @@ const TableHead = React.forwardRef<HTMLTableCellElement, TableHeadProps>(
       aria-colindex={ariaColIndex}
       {...props}
     />
-  )
+  ),
 );
 TableHead.displayName = "TableHead";
 
@@ -207,11 +201,11 @@ const TableCell = React.forwardRef<HTMLTableCellElement, TableCellProps>(
       "aria-rowindex": ariaRowIndex,
       ...props
     },
-    ref
+    ref,
   ) => (
     <td
       ref={ref}
-      className={`azv-table-td ${className}`}
+      className={`azv-table-td${className ? ` ${className}` : ""}`}
       aria-label={ariaLabel}
       aria-labelledby={ariaLabelledBy}
       aria-describedby={ariaDescribedBy}
@@ -221,28 +215,13 @@ const TableCell = React.forwardRef<HTMLTableCellElement, TableCellProps>(
       aria-rowindex={ariaRowIndex}
       {...props}
     />
-  )
+  ),
 );
 TableCell.displayName = "TableCell";
-
-const TableCaption = React.forwardRef<
-  HTMLTableCaptionElement,
-  TableCaptionProps
->(({ className, "aria-label": ariaLabel, id, ...props }, ref) => (
-  <caption
-    ref={ref}
-      className={`azv-table-caption ${className}`}
-    aria-label={ariaLabel}
-    id={id}
-    {...props}
-  />
-));
-TableCaption.displayName = "TableCaption";
 
 export {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableFooter,
   TableHead,
@@ -251,7 +230,6 @@ export {
 };
 export type {
   TableBodyProps,
-  TableCaptionProps,
   TableCellProps,
   TableFooterProps,
   TableHeadProps,
