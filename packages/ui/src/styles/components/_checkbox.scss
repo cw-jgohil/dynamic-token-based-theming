@@ -1,6 +1,21 @@
 .form-check-input {
-    &:checked {
-        background-color: var(--azv-primary);
-        border-color: var(--azv-primary);
-    }
+  &:checked {
+    background-color: var(--azv-checkbox-checked-bg, var(--azv-primary));
+    border-color: var(--azv-checkbox-checked-border-color, var(--azv-primary));
+  }
+  &:focus {
+    border-color: var(--azv-checkbox-focus-border-color, var(--azv-primary));
+    box-shadow: var(--azv-checkbox-focus-box-shadow, var(--azv-primary-shadow));
+  }
+}
+
+.form-check-input {
+  width: var(--azv-checkbox-width, var(--azv-font-size-base));
+  height: var(--azv-checkbox-height, var(--azv-font-size-base));
+  background-color: var(--azv-checkbox-bg, var(--azv-primary));
+  border: var(--azv-checkbox-border, var(--azv-primary));
+}
+
+.form-check-label {
+  color: var(--azv-checkbox-label-color, var(--azv-primary-dark));
 }

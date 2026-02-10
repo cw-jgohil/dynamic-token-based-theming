@@ -1,3 +1,17 @@
 .azv-input-search {
   max-width: 400px;
 }
+
+.form-control {
+  padding: var(--azv-padding-x) var(--azv-padding-x);
+  font-size: var(--azv-input-font-size, var(--azv-font-size-base));
+  color: var(--azv-input-color, var(--azv-primary-dark));
+  background-color: var(--azv-input-bg, var(--azv-white));
+  border: var(
+    --azv-input-border,
+    var(--azv-border-width) solid var(--azv-primary)
+  );
+}
+.azv-input__error {
+  color: var(--azv-input-error-color, var(--azv-danger));
+}

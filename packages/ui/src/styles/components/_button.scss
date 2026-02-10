@@ -3,19 +3,46 @@
    ========================================================== */
 
 /* ---------- Base Button ---------- */
-.btn {
-  --bs-btn-padding-x: var(--azv-btn-padding-x, var(--azv-spacing-x));
-  --bs-btn-padding-y: var(--azv-btn-padding-y, var(--azv-spacing-y));
-  --bs-btn-font-size: var(--azv-btn-font-size, var(--azv-font-size-base));
-  --bs-btn-font-weight: var(--azv-btn-font-weight, var(--azv-font-weight));
-  --bs-btn-border-radius: var(--azv-btn-radius, var(--azv-radius-md));
-  --bs-btn-line-height: var(--azv-btn-line-height, var(--azv-line-height-base));
-  --bs-btn-border-width: var(--azv-btn-border-width, var(--azv-border-width));
-  letter-spacing: var(--azv-btn-letter-spacing, var(--azv-letter-spacing-base));
-}
+// .btn {
+//   --bs-btn-padding-x: var(--azv-btn-padding-x, var(--azv-padding-x));
+//   --bs-btn-padding-y: var(--azv-btn-padding-y, var(--azv-padding-y));
+//   --bs-btn-font-size: var(--azv-btn-font-size, var(--azv-font-size-base));
+//   --bs-btn-font-weight: var(--azv-btn-font-weight, var(--azv-font-weight));
+//   --bs-btn-border-radius: var(--azv-btn-radius, var(--azv-radius-md));
+//   --bs-btn-line-height: var(--azv-btn-line-height, var(--azv-line-height-base));
+//   --bs-btn-border-width: var(--azv-btn-border-width, var(--azv-border-width));
+//   letter-spacing: var(--azv-btn-letter-spacing, var(--azv-letter-spacing-base));
+// }
 
 /* ---------- PRIMARY ---------- */
-.btn-primary {
+.azv-btn-primary {
+  --bs-btn-padding-x: var(--azv-btn-primary-padding-x, var(--azv-padding-x));
+  --bs-btn-padding-y: var(--azv-btn-primary-padding-y, var(--azv-padding-y));
+  --bs-btn-font-size: var(
+    --azv-btn-primary-font-size,
+    var(--azv-font-size-base)
+  );
+  --bs-btn-font-weight: var(
+    --azv-btn-primary-font-weight,
+    var(--azv-font-weight)
+  );
+  --bs-btn-border-radius: var(
+    --azv-btn-primary-border-radius,
+    var(--azv-radius-md)
+  );
+  --bs-btn-line-height: var(
+    --azv-btn-primary-line-height,
+    var(--azv-line-height-base)
+  );
+  --bs-btn-border-width: var(
+    --azv-btn-primary-border-width,
+    var(--azv-border-width)
+  );
+  letter-spacing: var(
+    --azv-btn-primary-letter-spacing,
+    var(--azv-letter-spacing-base)
+  );
+
   --bs-btn-color: var(--azv-btn-primary-color, var(--azv-white));
   --bs-btn-bg: var(--azv-btn-primary-bg, var(--azv-primary));
   --bs-btn-border-color: var(
@@ -49,7 +76,34 @@
 }
 
 /* ---------- SECONDARY ---------- */
-.btn-secondary {
+.azv-btn-secondary {
+  --bs-btn-padding-x: var(--azv-btn-secondary-padding-x, var(--azv-padding-x));
+  --bs-btn-padding-y: var(--azv-btn-secondary-padding-y, var(--azv-padding-y));
+  --bs-btn-font-size: var(
+    --azv-btn-secondary-font-size,
+    var(--azv-font-size-base)
+  );
+  --bs-btn-font-weight: var(
+    --azv-btn-secondary-font-weight,
+    var(--azv-font-weight)
+  );
+  --bs-btn-border-radius: var(
+    --azv-btn-secondary-border-radius,
+    var(--azv-radius-md)
+  );
+  --bs-btn-line-height: var(
+    --azv-btn-secondary-line-height,
+    var(--azv-line-height-base)
+  );
+  --bs-btn-border-width: var(
+    --azv-btn-secondary-border-width,
+    var(--azv-border-width)
+  );
+  letter-spacing: var(
+    --azv-btn-secondary-letter-spacing,
+    var(--azv-letter-spacing-base)
+  );
+
   --bs-btn-color: var(--azv-btn-secondary-color, var(--azv-white));
   --bs-btn-bg: var(--azv-btn-secondary-bg, var(--azv-secondary));
   --bs-btn-border-color: var(
@@ -95,7 +149,34 @@
 }
 
 /* ---------- SUCCESS ---------- */
-.btn-success {
+.azv-btn-success {
+  --bs-btn-padding-x: var(--azv-btn-success-padding-x, var(--azv-padding-x));
+  --bs-btn-padding-y: var(--azv-btn-success-padding-y, var(--azv-padding-y));
+  --bs-btn-font-size: var(
+    --azv-btn-success-font-size,
+    var(--azv-font-size-base)
+  );
+  --bs-btn-font-weight: var(
+    --azv-btn-success-font-weight,
+    var(--azv-font-weight)
+  );
+  --bs-btn-border-radius: var(
+    --azv-btn-success-border-radius,
+    var(--azv-radius-md)
+  );
+  --bs-btn-line-height: var(
+    --azv-btn-success-line-height,
+    var(--azv-line-height-base)
+  );
+  --bs-btn-border-width: var(
+    --azv-btn-success-border-width,
+    var(--azv-border-width)
+  );
+  letter-spacing: var(
+    --azv-btn-success-letter-spacing,
+    var(--azv-letter-spacing-base)
+  );
+
   --bs-btn-color: var(--azv-btn-success-color, var(--azv-white));
   --bs-btn-bg: var(--azv-btn-success-bg, var(--azv-success));
   --bs-btn-border-color: var(
@@ -129,7 +210,34 @@
 }
 
 /* ---------- DANGER ---------- */
-.btn-danger {
+.azv-btn-danger {
+  --bs-btn-padding-x: var(--azv-btn-danger-padding-x, var(--azv-padding-x));
+  --bs-btn-padding-y: var(--azv-btn-danger-padding-y, var(--azv-padding-y));
+  --bs-btn-font-size: var(
+    --azv-btn-danger-font-size,
+    var(--azv-font-size-base)
+  );
+  --bs-btn-font-weight: var(
+    --azv-btn-danger-font-weight,
+    var(--azv-font-weight)
+  );
+  --bs-btn-border-radius: var(
+    --azv-btn-danger-border-radius,
+    var(--azv-radius-md)
+  );
+  --bs-btn-line-height: var(
+    --azv-btn-danger-line-height,
+    var(--azv-line-height-base)
+  );
+  --bs-btn-border-width: var(
+    --azv-btn-danger-border-width,
+    var(--azv-border-width)
+  );
+  letter-spacing: var(
+    --azv-btn-danger-letter-spacing,
+    var(--azv-letter-spacing-base)
+  );
+
   --bs-btn-color: var(--azv-btn-danger-color, var(--azv-white));
   --bs-btn-bg: var(--azv-btn-danger-bg, var(--azv-danger));
   --bs-btn-border-color: var(--azv-btn-danger-border-color, var(--azv-danger));
@@ -160,7 +268,34 @@
 }
 
 /* ---------- WARNING ---------- */
-.btn-warning {
+.azv-btn-warning {
+  --bs-btn-padding-x: var(--azv-btn-warning-padding-x, var(--azv-padding-x));
+  --bs-btn-padding-y: var(--azv-btn-warning-padding-y, var(--azv-padding-y));
+  --bs-btn-font-size: var(
+    --azv-btn-warning-font-size,
+    var(--azv-font-size-base)
+  );
+  --bs-btn-font-weight: var(
+    --azv-btn-warning-font-weight,
+    var(--azv-font-weight)
+  );
+  --bs-btn-border-radius: var(
+    --azv-btn-warning-border-radius,
+    var(--azv-radius-md)
+  );
+  --bs-btn-line-height: var(
+    --azv-btn-warning-line-height,
+    var(--azv-line-height-base)
+  );
+  --bs-btn-border-width: var(
+    --azv-btn-warning-border-width,
+    var(--azv-border-width)
+  );
+  letter-spacing: var(
+    --azv-btn-warning-letter-spacing,
+    var(--azv-letter-spacing-base)
+  );
+
   --bs-btn-color: var(--azv-btn-warning-color, var(--azv-white));
   --bs-btn-bg: var(--azv-btn-warning-bg, var(--azv-warning));
   --bs-btn-border-color: var(
@@ -194,7 +329,28 @@
 }
 
 /* ---------- INFO ---------- */
-.btn-info {
+.azv-btn-info {
+  --bs-btn-padding-x: var(--azv-btn-info-padding-x, var(--azv-padding-x));
+  --bs-btn-padding-y: var(--azv-btn-info-padding-y, var(--azv-padding-y));
+  --bs-btn-font-size: var(--azv-btn-info-font-size, var(--azv-font-size-base));
+  --bs-btn-font-weight: var(--azv-btn-info-font-weight, var(--azv-font-weight));
+  --bs-btn-border-radius: var(
+    --azv-btn-info-border-radius,
+    var(--azv-radius-md)
+  );
+  --bs-btn-line-height: var(
+    --azv-btn-info-line-height,
+    var(--azv-line-height-base)
+  );
+  --bs-btn-border-width: var(
+    --azv-btn-info-border-width,
+    var(--azv-border-width)
+  );
+  letter-spacing: var(
+    --azv-btn-info-letter-spacing,
+    var(--azv-letter-spacing-base)
+  );
+
   --bs-btn-color: var(--azv-btn-info-color, var(--azv-white));
   --bs-btn-bg: var(--azv-btn-info-bg, var(--azv-info));
   --bs-btn-border-color: var(--azv-btn-info-border-color, var(--azv-info));
@@ -222,112 +378,310 @@
 }
 
 /* ---------- OUTLINE VARIANTS ---------- */
-.btn-outline-primary {
-  --bs-btn-color: var(--azv-btn-primary-outline-color, var(--azv-primary));
+.azv-btn-outline-primary {
+  --bs-btn-padding-x: var(
+    --azv-btn-outline-primary-padding-x,
+    var(--azv-padding-x)
+  );
+  --bs-btn-padding-y: var(
+    --azv-btn-outline-primary-padding-y,
+    var(--azv-padding-y)
+  );
+  --bs-btn-font-size: var(
+    --azv-btn-outline-primary-font-size,
+    var(--azv-font-size-base)
+  );
+  --bs-btn-font-weight: var(
+    --azv-btn-outline-primary-font-weight,
+    var(--azv-font-weight)
+  );
+  --bs-btn-border-radius: var(
+    --azv-btn-outline-primary-border-radius,
+    var(--azv-radius-md)
+  );
+  --bs-btn-line-height: var(
+    --azv-btn-outline-primary-line-height,
+    var(--azv-line-height-base)
+  );
+  --bs-btn-border-width: var(
+    --azv-btn-outline-primary-border-width,
+    var(--azv-border-width)
+  );
+  letter-spacing: var(
+    --azv-btn-outline-primary-letter-spacing,
+    var(--azv-letter-spacing-base)
+  );
+
+  --bs-btn-color: var(--azv-btn-outline-primary-color, var(--azv-primary));
   --bs-btn-border-color: var(
-    --azv-btn-primary-outline-border-color,
+    --azv-btn-outline-primary-border-color,
     var(--azv-primary)
   );
 
   --bs-btn-hover-bg: var(
-    --azv-btn-primary-outline-hover-bg,
+    --azv-btn-outline-primary-hover-bg,
     var(--azv-primary)
   );
   --bs-btn-hover-color: var(
-    --azv-btn-primary-outline-hover-color,
+    --azv-btn-outline-primary-hover-color,
     var(--azv-white)
   );
 }
 
-.btn-outline-secondary {
-  --bs-btn-color: var(--azv-btn-secondary-outline-color, var(--azv-secondary));
+.azv-btn-outline-secondary {
+  --bs-btn-padding-x: var(
+    --azv-btn-outline-secondary-padding-x,
+    var(--azv-padding-x)
+  );
+  --bs-btn-padding-y: var(
+    --azv-btn-outline-secondary-padding-y,
+    var(--azv-padding-y)
+  );
+  --bs-btn-font-size: var(
+    --azv-btn-outline-secondary-font-size,
+    var(--azv-font-size-base)
+  );
+  --bs-btn-font-weight: var(
+    --azv-btn-outline-secondary-font-weight,
+    var(--azv-font-weight)
+  );
+  --bs-btn-border-radius: var(
+    --azv-btn-outline-secondary-border-radius,
+    var(--azv-radius-md)
+  );
+  --bs-btn-line-height: var(
+    --azv-btn-outline-secondary-line-height,
+    var(--azv-line-height-base)
+  );
+  --bs-btn-border-width: var(
+    --azv-btn-outline-secondary-border-width,
+    var(--azv-border-width)
+  );
+  letter-spacing: var(
+    --azv-btn-outline-secondary-letter-spacing,
+    var(--azv-letter-spacing-base)
+  );
+
+  --bs-btn-color: var(--azv-btn-outline-secondary-color, var(--azv-secondary));
   --bs-btn-border-color: var(
-    --azv-btn-secondary-outline-border-color,
+    --azv-btn-outline-secondary-border-color,
     var(--azv-secondary)
   );
 
   --bs-btn-hover-bg: var(
-    --azv-btn-secondary-outline-hover-bg,
+    --azv-btn-outline-secondary-hover-bg,
     var(--azv-secondary)
   );
   --bs-btn-hover-color: var(
-    --azv-btn-secondary-outline-hover-color,
+    --azv-btn-outline-secondary-hover-color,
     var(--azv-white)
   );
 }
 
-.btn-outline-success {
-  --bs-btn-color: var(--azv-btn-success-outline-color, var(--azv-success));
+.azv-btn-outline-success {
+  --bs-btn-padding-x: var(
+    --azv-btn-outline-success-padding-x,
+    var(--azv-padding-x)
+  );
+  --bs-btn-padding-y: var(
+    --azv-btn-outline-success-padding-y,
+    var(--azv-padding-y)
+  );
+  --bs-btn-font-size: var(
+    --azv-btn-outline-success-font-size,
+    var(--azv-font-size-base)
+  );
+  --bs-btn-font-weight: var(
+    --azv-btn-outline-success-font-weight,
+    var(--azv-font-weight)
+  );
+  --bs-btn-border-radius: var(
+    --azv-btn-outline-success-border-radius,
+    var(--azv-radius-md)
+  );
+  --bs-btn-line-height: var(
+    --azv-btn-outline-success-line-height,
+    var(--azv-line-height-base)
+  );
+  --bs-btn-border-width: var(
+    --azv-btn-outline-success-border-width,
+    var(--azv-border-width)
+  );
+  letter-spacing: var(
+    --azv-btn-outline-success-letter-spacing,
+    var(--azv-letter-spacing-base)
+  );
+
+  --bs-btn-color: var(--azv-btn-outline-success-color, var(--azv-success));
   --bs-btn-border-color: var(
-    --azv-btn-success-outline-border-color,
+    --azv-btn-outline-success-border-color,
     var(--azv-success)
   );
 
   --bs-btn-hover-bg: var(
-    --azv-btn-success-outline-hover-bg,
+    --azv-btn-outline-success-hover-bg,
     var(--azv-success)
   );
   --bs-btn-hover-color: var(
-    --azv-btn-success-outline-hover-color,
+    --azv-btn-outline-success-hover-color,
     var(--azv-white)
   );
 }
 
-.btn-outline-danger {
-  --bs-btn-color: var(--azv-btn-danger-outline-color, var(--azv-danger));
+.azv-btn-outline-danger {
+  --bs-btn-padding-x: var(
+    --azv-btn-outline-danger-padding-x,
+    var(--azv-padding-x)
+  );
+  --bs-btn-padding-y: var(
+    --azv-btn-outline-danger-padding-y,
+    var(--azv-padding-y)
+  );
+  --bs-btn-font-size: var(
+    --azv-btn-outline-danger-font-size,
+    var(--azv-font-size-base)
+  );
+  --bs-btn-font-weight: var(
+    --azv-btn-outline-danger-font-weight,
+    var(--azv-font-weight)
+  );
+  --bs-btn-border-radius: var(
+    --azv-btn-outline-danger-border-radius,
+    var(--azv-radius-md)
+  );
+  --bs-btn-line-height: var(
+    --azv-btn-outline-danger-line-height,
+    var(--azv-line-height-base)
+  );
+  --bs-btn-border-width: var(
+    --azv-btn-outline-danger-border-width,
+    var(--azv-border-width)
+  );
+  letter-spacing: var(
+    --azv-btn-outline-danger-letter-spacing,
+    var(--azv-letter-spacing-base)
+  );
+
+  --bs-btn-color: var(--azv-btn-outline-danger-color, var(--azv-danger));
   --bs-btn-border-color: var(
-    --azv-btn-danger-outline-border-color,
+    --azv-btn-outline-danger-border-color,
     var(--azv-danger)
   );
 
-  --bs-btn-hover-bg: var(--azv-btn-danger-outline-hover-bg, var(--azv-danger));
+  --bs-btn-hover-bg: var(--azv-btn-outline-danger-hover-bg, var(--azv-danger));
   --bs-btn-hover-color: var(
-    --azv-btn-danger-outline-hover-color,
+    --azv-btn-outline-danger-hover-color,
     var(--azv-white)
   );
 }
 
-.btn-outline-warning {
-  --bs-btn-color: var(--azv-btn-warning-outline-color, var(--azv-warning));
+.azv-btn-outline-warning {
+  --bs-btn-padding-x: var(
+    --azv-btn-outline-warning-padding-x,
+    var(--azv-padding-x)
+  );
+  --bs-btn-padding-y: var(
+    --azv-btn-outline-warning-padding-y,
+    var(--azv-padding-y)
+  );
+  --bs-btn-font-size: var(
+    --azv-btn-outline-warning-font-size,
+    var(--azv-font-size-base)
+  );
+  --bs-btn-font-weight: var(
+    --azv-btn-outline-warning-font-weight,
+    var(--azv-font-weight)
+  );
+  --bs-btn-border-radius: var(
+    --azv-btn-outline-warning-border-radius,
+    var(--azv-radius-md)
+  );
+  --bs-btn-line-height: var(
+    --azv-btn-outline-warning-line-height,
+    var(--azv-line-height-base)
+  );
+  --bs-btn-border-width: var(
+    --azv-btn-outline-warning-border-width,
+    var(--azv-border-width)
+  );
+  letter-spacing: var(
+    --azv-btn-outline-warning-letter-spacing,
+    var(--azv-letter-spacing-base)
+  );
+
+  --bs-btn-color: var(--azv-btn-outline-warning-color, var(--azv-warning));
   --bs-btn-border-color: var(
-    --azv-btn-warning-outline-border-color,
+    --azv-btn-outline-warning-border-color,
     var(--azv-warning)
   );
 
   --bs-btn-hover-bg: var(
-    --azv-btn-warning-outline-hover-bg,
+    --azv-btn-outline-warning-hover-bg,
     var(--azv-warning)
   );
   --bs-btn-hover-color: var(
-    --azv-btn-warning-outline-hover-color,
+    --azv-btn-outline-warning-hover-color,
     var(--azv-white)
   );
 }
 
-.btn-outline-info {
-  --bs-btn-color: var(--azv-btn-info-outline-color, var(--azv-info));
+.azv-btn-outline-info {
+  --bs-btn-padding-x: var(
+    --azv-btn-outline-info-padding-x,
+    var(--azv-padding-x)
+  );
+  --bs-btn-padding-y: var(
+    --azv-btn-outline-info-padding-y,
+    var(--azv-padding-y)
+  );
+  --bs-btn-font-size: var(
+    --azv-btn-outline-info-font-size,
+    var(--azv-font-size-base)
+  );
+  --bs-btn-font-weight: var(
+    --azv-btn-outline-info-font-weight,
+    var(--azv-font-weight)
+  );
+  --bs-btn-border-radius: var(
+    --azv-btn-outline-info-border-radius,
+    var(--azv-radius-md)
+  );
+  --bs-btn-line-height: var(
+    --azv-btn-outline-info-line-height,
+    var(--azv-line-height-base)
+  );
+  --bs-btn-border-width: var(
+    --azv-btn-outline-info-border-width,
+    var(--azv-border-width)
+  );
+  letter-spacing: var(
+    --azv-btn-outline-info-letter-spacing,
+    var(--azv-letter-spacing-base)
+  );
+
+  --bs-btn-color: var(--azv-btn-outline-info-color, var(--azv-info));
   --bs-btn-border-color: var(
-    --azv-btn-info-outline-border-color,
+    --azv-btn-outline-info-border-color,
     var(--azv-info)
   );
 
-  --bs-btn-hover-bg: var(--azv-btn-info-outline-hover-bg, var(--azv-info));
+  --bs-btn-hover-bg: var(--azv-btn-outline-info-hover-bg, var(--azv-info));
   --bs-btn-hover-color: var(
-    --azv-btn-info-outline-hover-color,
+    --azv-btn-outline-info-hover-color,
     var(--azv-white)
   );
 }
 /* ---------- SIZE ---------- */
-.btn-sm {
-  --bs-btn-padding-x: var(--azv-btn-padding-x-sm, var(--azv-spacing-x-sm));
-  --bs-btn-padding-y: var(--azv-btn-padding-y-sm, var(--azv-spacing-y-sm));
+.azv-btn-sm {
+  --bs-btn-padding-x: var(--azv-btn-padding-x-sm, var(--azv-padding-x-sm));
+  --bs-btn-padding-y: var(--azv-btn-padding-y-sm, var(--azv-padding-y-sm));
   --bs-btn-font-size: var(--azv-btn-font-size-sm, var(--azv-font-size-sm));
   --bs-btn-border-radius: var(--azv-btn-radius-sm, var(--azv-radius-sm));
 }
 
-.btn-lg {
-  --bs-btn-padding-x: var(--azv-btn-padding-x-lg, var(--azv-spacing-x-lg));
-  --bs-btn-padding-y: var(--azv-btn-padding-y-lg, var(--azv-spacing-y-lg));
+.azv-btn-lg {
+  --bs-btn-padding-x: var(--azv-btn-padding-x-lg, var(--azv-padding-x-lg));
+  --bs-btn-padding-y: var(--azv-btn-padding-y-lg, var(--azv-padding-y-lg));
   --bs-btn-font-size: var(--azv-btn-font-size-lg, var(--azv-font-size-lg));
   --bs-btn-border-radius: var(--azv-btn-radius-lg, var(--azv-radius-lg));
 }
