@@ -9,13 +9,16 @@
   }
 }
 
-.form-check-input {
+.azv-checkbox-input {
   width: var(--azv-checkbox-width, var(--azv-font-size-base));
   height: var(--azv-checkbox-height, var(--azv-font-size-base));
-  background-color: var(--azv-checkbox-bg, var(--azv-primary));
-  border: var(--azv-checkbox-border, var(--azv-primary));
+  background-color: var(--azv-checkbox-bg, var(--azv-white));
+  border: var(
+    --azv-checkbox-border,
+    var(--azv-border-width) solid var(--azv-primary)
+  );
 }
 
-.form-check-label {
+.azv-checkbox-label {
   color: var(--azv-checkbox-label-color, var(--azv-primary-dark));
 }

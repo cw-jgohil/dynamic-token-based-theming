@@ -7,12 +7,12 @@ const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
       <div className="azv-checkbox form-check">
         <input
           ref={ref}
-          className="form-check-input azv-checkbox__input"
+          className="form-check-input azv-checkbox-input"
           type="checkbox"
           id={id}
           {...props}
         />
-        <label className="form-check-label azv-checkbox__label" htmlFor={id}>
+        <label className="form-check-label azv-checkbox-label" htmlFor={id}>
           {label}
         </label>
       </div>
