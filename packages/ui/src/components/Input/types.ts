@@ -8,4 +8,5 @@ export interface InputProps extends Omit<
   endIcon?: ReactNode;
   size?: "sm" | "lg";
   error?: string;
+  version?: string;
 }

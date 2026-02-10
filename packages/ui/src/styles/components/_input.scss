@@ -16,6 +16,8 @@
 
   .azv-input-icon-start {
     padding-right: var(--azv-input-icon-gap, 0.5rem);
+    position: absolute;
+    z-index: 1;
   }
 
   .form-control {
@@ -34,6 +36,11 @@
     var(--azv-border-width) solid var(--azv-primary)
   );
 }
+
+.azv-form-control-with-start-icon {
+  padding-left: 36px;
+}
+
 .azv-input-error {
   color: var(--azv-input-error-color, var(--azv-danger));
 }

@@ -1,5 +1,4 @@
 import { useAppSelector } from "../redux/store";
-import { useComponents } from "../api/components";
 import "./CssBuilderPage.css";
 import {
   ComponentKey,
@@ -7,7 +6,6 @@ import {
 } from "../utils/json/componentsMapping";
 
 const CssBuilderPage = () => {
-  const { data: componentList } = useComponents();
   const { selectedComponents, selectedVariant, selectedVersion } =
     useAppSelector((state) => state.componwents);
 
