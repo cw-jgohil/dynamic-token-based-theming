@@ -6,8 +6,10 @@
 
 /* Base component styles */
 @use './components/button';
+@use './components/badge';
 @use './components/checkbox';
 @use './components/table';
 @use './components/datagrid';
 @use './components/pagination';
 @use './components/input';
+@use './components/select';

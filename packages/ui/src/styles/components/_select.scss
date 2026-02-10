@@ -1,0 +1,53 @@
+.azv-select {
+  width: 100%;
+}
+
+.azv-form-select {
+  padding: var(--azv-select-padding, var(--azv-input-padding));
+  font-size: var(
+    --azv-select-font-size,
+    var(--azv-input-font-size, var(--azv-font-size-base))
+  );
+  color: var(
+    --azv-select-color,
+    var(--azv-input-color, var(--azv-primary-dark))
+  );
+  background-color: var(
+    --azv-select-bg,
+    var(--azv-input-bg, var(--azv-white))
+  );
+  border: var(
+    --azv-select-border,
+    var(
+      --azv-input-border,
+      var(--azv-border-width) solid var(--azv-primary)
+    )
+  );
+}
+
+.form-select-sm {
+  padding: var(
+    --azv-select-padding-sm,
+    var(--azv-input-padding-sm, var(--azv-select-padding, var(--azv-input-padding)))
+  );
+  font-size: var(
+    --azv-select-font-size-sm,
+    var(--azv-input-font-size-sm, var(--azv-select-font-size, var(--azv-font-size-sm)))
+  );
+}
+
+.form-select-lg {
+  padding: var(
+    --azv-select-padding-lg,
+    var(--azv-input-padding-lg, var(--azv-select-padding, var(--azv-input-padding)))
+  );
+  font-size: var(
+    --azv-select-font-size-lg,
+    var(--azv-input-font-size-lg, var(--azv-select-font-size, var(--azv-font-size-lg)))
+  );
+}
+
+.azv-select-error {
+  color: var(--azv-select-error-color, var(--azv-input-error-color, var(--azv-danger)));
+}
+
