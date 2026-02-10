@@ -1,0 +1,220 @@
+/* ==========================================================
+   AZV BADGE TOKENS — BOOTSTRAP OVERRIDE LAYER
+   ========================================================== */
+
+/* ---------- PRIMARY ---------- */
+.azv-badge-primary {
+  --bs-badge-padding-x: var(
+    --azv-badge-primary-padding-x,
+    var(--azv-padding-x-sm)
+  );
+  --bs-badge-padding-y: var(
+    --azv-badge-primary-padding-y,
+    var(--azv-padding-y-xs, 0.25rem)
+  );
+  --bs-badge-font-size: var(
+    --azv-badge-primary-font-size,
+    var(--azv-font-size-sm)
+  );
+  --bs-badge-font-weight: var(
+    --azv-badge-primary-font-weight,
+    var(--azv-font-weight, 500)
+  );
+  --bs-badge-border-radius: var(
+    --azv-badge-primary-border-radius,
+    var(--azv-radius-pill, 10rem)
+  );
+
+  --bs-badge-color: var(--azv-badge-primary-color, var(--azv-white));
+  --bs-badge-bg: var(--azv-badge-primary-bg, var(--azv-primary));
+}
+
+/* ---------- SECONDARY ---------- */
+.azv-badge-secondary {
+  --bs-badge-padding-x: var(
+    --azv-badge-secondary-padding-x,
+    var(--azv-padding-x-sm)
+  );
+  --bs-badge-padding-y: var(
+    --azv-badge-secondary-padding-y,
+    var(--azv-padding-y-xs, 0.25rem)
+  );
+  --bs-badge-font-size: var(
+    --azv-badge-secondary-font-size,
+    var(--azv-font-size-sm)
+  );
+  --bs-badge-font-weight: var(
+    --azv-badge-secondary-font-weight,
+    var(--azv-font-weight, 500)
+  );
+  --bs-badge-border-radius: var(
+    --azv-badge-secondary-border-radius,
+    var(--azv-radius-pill, 10rem)
+  );
+
+  --bs-badge-color: var(--azv-badge-secondary-color, var(--azv-white));
+  --bs-badge-bg: var(--azv-badge-secondary-bg, var(--azv-secondary));
+}
+
+/* ---------- SUCCESS ---------- */
+.azv-badge-success {
+  --bs-badge-padding-x: var(
+    --azv-badge-success-padding-x,
+    var(--azv-padding-x-sm)
+  );
+  --bs-badge-padding-y: var(
+    --azv-badge-success-padding-y,
+    var(--azv-padding-y-xs, 0.25rem)
+  );
+  --bs-badge-font-size: var(
+    --azv-badge-success-font-size,
+    var(--azv-font-size-sm)
+  );
+  --bs-badge-font-weight: var(
+    --azv-badge-success-font-weight,
+    var(--azv-font-weight, 500)
+  );
+  --bs-badge-border-radius: var(
+    --azv-badge-success-border-radius,
+    var(--azv-radius-pill, 10rem)
+  );
+
+  --bs-badge-color: var(--azv-badge-success-color, var(--azv-white));
+  --bs-badge-bg: var(--azv-badge-success-bg, var(--azv-success));
+}
+
+/* ---------- DANGER ---------- */
+.azv-badge-danger {
+  --bs-badge-padding-x: var(
+    --azv-badge-danger-padding-x,
+    var(--azv-padding-x-sm)
+  );
+  --bs-badge-padding-y: var(
+    --azv-badge-danger-padding-y,
+    var(--azv-padding-y-xs, 0.25rem)
+  );
+  --bs-badge-font-size: var(
+    --azv-badge-danger-font-size,
+    var(--azv-font-size-sm)
+  );
+  --bs-badge-font-weight: var(
+    --azv-badge-danger-font-weight,
+    var(--azv-font-weight, 500)
+  );
+  --bs-badge-border-radius: var(
+    --azv-badge-danger-border-radius,
+    var(--azv-radius-pill, 10rem)
+  );
+
+  --bs-badge-color: var(--azv-badge-danger-color, var(--azv-white));
+  --bs-badge-bg: var(--azv-badge-danger-bg, var(--azv-danger));
+}
+
+/* ---------- WARNING ---------- */
+.azv-badge-warning {
+  --bs-badge-padding-x: var(
+    --azv-badge-warning-padding-x,
+    var(--azv-padding-x-sm)
+  );
+  --bs-badge-padding-y: var(
+    --azv-badge-warning-padding-y,
+    var(--azv-padding-y-xs, 0.25rem)
+  );
+  --bs-badge-font-size: var(
+    --azv-badge-warning-font-size,
+    var(--azv-font-size-sm)
+  );
+  --bs-badge-font-weight: var(
+    --azv-badge-warning-font-weight,
+    var(--azv-font-weight, 500)
+  );
+  --bs-badge-border-radius: var(
+    --azv-badge-warning-border-radius,
+    var(--azv-radius-pill, 10rem)
+  );
+
+  --bs-badge-color: var(--azv-badge-warning-color, var(--azv-dark));
+  --bs-badge-bg: var(--azv-badge-warning-bg, var(--azv-warning));
+}
+
+/* ---------- INFO ---------- */
+.azv-badge-info {
+  --bs-badge-padding-x: var(
+    --azv-badge-info-padding-x,
+    var(--azv-padding-x-sm)
+  );
+  --bs-badge-padding-y: var(
+    --azv-badge-info-padding-y,
+    var(--azv-padding-y-xs, 0.25rem)
+  );
+  --bs-badge-font-size: var(
+    --azv-badge-info-font-size,
+    var(--azv-font-size-sm)
+  );
+  --bs-badge-font-weight: var(
+    --azv-badge-info-font-weight,
+    var(--azv-font-weight, 500)
+  );
+  --bs-badge-border-radius: var(
+    --azv-badge-info-border-radius,
+    var(--azv-radius-pill, 10rem)
+  );
+
+  --bs-badge-color: var(--azv-badge-info-color, var(--azv-white));
+  --bs-badge-bg: var(--azv-badge-info-bg, var(--azv-info));
+}
+
+/* ---------- LIGHT ---------- */
+.azv-badge-light {
+  --bs-badge-padding-x: var(
+    --azv-badge-light-padding-x,
+    var(--azv-padding-x-sm)
+  );
+  --bs-badge-padding-y: var(
+    --azv-badge-light-padding-y,
+    var(--azv-padding-y-xs, 0.25rem)
+  );
+  --bs-badge-font-size: var(
+    --azv-badge-light-font-size,
+    var(--azv-font-size-sm)
+  );
+  --bs-badge-font-weight: var(
+    --azv-badge-light-font-weight,
+    var(--azv-font-weight, 500)
+  );
+  --bs-badge-border-radius: var(
+    --azv-badge-light-border-radius,
+    var(--azv-radius-pill, 10rem)
+  );
+
+  --bs-badge-color: var(--azv-badge-light-color, var(--azv-dark));
+  --bs-badge-bg: var(--azv-badge-light-bg, var(--azv-light));
+}
+
+/* ---------- DARK ---------- */
+.azv-badge-dark {
+  --bs-badge-padding-x: var(
+    --azv-badge-dark-padding-x,
+    var(--azv-padding-x-sm)
+  );
+  --bs-badge-padding-y: var(
+    --azv-badge-dark-padding-y,
+    var(--azv-padding-y-xs, 0.25rem)
+  );
+  --bs-badge-font-size: var(
+    --azv-badge-dark-font-size,
+    var(--azv-font-size-sm)
+  );
+  --bs-badge-font-weight: var(
+    --azv-badge-dark-font-weight,
+    var(--azv-font-weight, 500)
+  );
+  --bs-badge-border-radius: var(
+    --azv-badge-dark-border-radius,
+    var(--azv-radius-pill, 10rem)
+  );
+
+  --bs-badge-color: var(--azv-badge-dark-color, var(--azv-white));
+  --bs-badge-bg: var(--azv-badge-dark-bg, var(--azv-dark));
+}
+
