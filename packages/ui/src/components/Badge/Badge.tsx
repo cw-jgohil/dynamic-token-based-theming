@@ -10,7 +10,7 @@ const Badge = ({
   const versionClass = version ? `azv-badge-${version}` : "";
 
   const classes = [
-    "badge",
+    "badge azv-badge",
     `bg-${variant}`,
     `azv-badge-${variant}`,
     versionClass,

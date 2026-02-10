@@ -32,13 +32,13 @@ const Dropdown = ({
     .filter(Boolean)
     .join(" ");
 
-  const menuAlignClass = align === "end" ? "dropdown-menu-end" : "dropdown-menu-start";
+  const menuAlignClass =
+    align === "end" ? "dropdown-menu-end" : "dropdown-menu-start";
 
   const menuClasses = [
-    "dropdown-menu",
+    "dropdown-menu azv-dropdown-menu",
     menuAlignClass,
     open && "show",
-    "azv-dropdown-menu",
     menuClassName,
   ]
     .filter(Boolean)
@@ -71,4 +71,3 @@ const Dropdown = ({
 };
 
 export default Dropdown;
-

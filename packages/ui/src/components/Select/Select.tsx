@@ -54,4 +54,3 @@ export const Select = ({
 };
 
 export default Select;
-
