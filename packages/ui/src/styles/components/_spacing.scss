@@ -1,0 +1,105 @@
+.azv-spacing-control {
+  .azv-spacing-control-header {
+    font-weight: var(--azv-font-weight, 500);
+    margin-bottom: 0.5rem;
+  }
+
+  .azv-spacing-control-box {
+    position: relative;
+    width: var(--azv-spacing-control-size, 270px);
+    height: var(--azv-spacing-control-size, 270px);
+    margin: 0 auto;
+    border: 1px dashed var(--azv-border-color, #ccc);
+    border-radius: var(--azv-radius-md, 4px);
+  }
+
+  .azv-spacing-control-margin-box {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+
+  .azv-spacing-control-padding-box {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 60%;
+    height: 60%;
+    transform: translate(-50%, -50%);
+    border: 1px dashed var(--azv-border-color, #ccc);
+  }
+
+  .azv-spacing-control-label {
+    position: absolute;
+    font-size: 0.75rem;
+    color: var(--azv-muted-color, #666);
+  }
+
+  .azv-spacing-control-label-margin {
+    top: 0.25rem;
+    left: 0.5rem;
+  }
+
+  .azv-spacing-control-label-padding {
+    top: 0.25rem;
+    left: 0.5rem;
+  }
+
+  .azv-spacing-input {
+    position: absolute;
+    width: 2rem;
+    padding: 0.15rem 0.25rem;
+    font-size: 0.75rem;
+    text-align: center;
+  }
+
+  /* Margin inputs (outer box) */
+  .azv-spacing-input-margin-top {
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .azv-spacing-input-margin-bottom {
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .azv-spacing-input-margin-left {
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  .azv-spacing-input-margin-right {
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  /* Padding inputs (inner box) */
+  .azv-spacing-input-padding-top {
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .azv-spacing-input-padding-bottom {
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .azv-spacing-input-padding-left {
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  .azv-spacing-input-padding-right {
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+}
