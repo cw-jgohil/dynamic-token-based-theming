@@ -149,172 +149,197 @@
 //     };
 // }
 
-
 // useCssConversion.ts
-import { useState, useCallback } from 'react';
+import { useState, useCallback } from "react";
 
 type TokenValue = {
-    value: string;
-    type: "color" | "input" | "select";
-    allow: boolean;
+  value: string;
+  type: "color" | "input" | "select";
+  allow: boolean;
 };
 
 type TokenMap = {
-    [propertyName: string]: TokenValue;
+  [propertyName: string]: TokenValue;
 };
 
 type VariantConfig = {
-    tokens: TokenMap;
+  tokens: TokenMap;
 };
 
 type VersionConfig = {
-    tokens?: TokenMap;
-    variants?: Record<string, VariantConfig>;
+  tokens?: TokenMap;
+  variants?: Record<string, VariantConfig>;
 };
 
 type ComponentWithVersions = {
-    versions: Record<string, VersionConfig>;
+  versions: Record<string, VersionConfig>;
 };
 
 type ComponentWithoutVersions = {
-    tokens?: TokenMap;
-    variants?: Record<string, VariantConfig>;
-    varients?: Record<string, VariantConfig>; // backward/typo safe
+  tokens?: TokenMap;
+  variants?: Record<string, VariantConfig>;
+  varients?: Record<string, VariantConfig>; // backward/typo safe
 };
 
 type ComponentConfig = ComponentWithVersions | ComponentWithoutVersions;
 
 type ThemeTokens = {
-    [componentName: string]: ComponentConfig;
+  [componentName: string]: ComponentConfig;
 };
 
 export const useCssConversion = () => {
-    const [generatedCss, setGeneratedCss] = useState<string>('');
-    const [isGenerating, setIsGenerating] = useState<boolean>(false);
+  const [generatedCss, setGeneratedCss] = useState<string>("");
+  const [isGenerating, setIsGenerating] = useState<boolean>(false);
 
-    const generateCss = useCallback((theme: ThemeTokens): string => {
-        const rootVars: string[] = [];
-        const classBlocks: string[] = [];
+  const generateCss = useCallback((theme: ThemeTokens): string => {
+    const rootVars: string[] = [];
+    const classBlocks: string[] = [];
 
-        for (const [componentName, component] of Object.entries(theme)) {
-            /* ---------- COMPONENT WITH VERSIONS ---------- */
-            if ("versions" in component) {
-                for (const [versionName, version] of Object.entries(component.versions)) {
-                    const lines: string[] = [];
+    for (const [componentName, component] of Object.entries(theme)) {
+      /* ---------- COMPONENT WITH VERSIONS ---------- */
+      if ("versions" in component) {
+        for (const [versionName, version] of Object.entries(
+          component.versions,
+        )) {
+          const lines: string[] = [];
 
-                    // Tokens without variants
-                    if (version.tokens) {
-                        for (const [prop, token] of Object.entries(version.tokens)) {
-                            lines.push(
-                                `  --azv-${componentName}-${prop}: ${token.value};`
-                            );
-                        }
-                    }
-
-                    // Tokens with variants
-                    if (version.variants) {
-                        for (const [variantName, variant] of Object.entries(version.variants)) {
-                            for (const [prop, token] of Object.entries(variant.tokens)) {
-                                lines.push(
-                                    `  --azv-${componentName}-${variantName}-${prop}: ${token.value};`
-                                );
-                            }
-                        }
-                    }
-
-                    if (lines.length) {
-                        classBlocks.push(
-                            `.azv-${componentName}-${versionName} {\n${lines.join("\n")}\n}`
-                        );
-                    }
-                }
-                continue;
+          // Tokens without variants
+          if (version.tokens) {
+            for (const [prop, token] of Object.entries(version.tokens)) {
+              lines.push(`  --azv-${componentName}-${prop}: ${token.value};`);
             }
+          }
 
-            /* ---------- COMPONENT WITHOUT VERSIONS ---------- */
-            // Plain tokens → :root
-            if (component.tokens) {
-                for (const [prop, token] of Object.entries(component.tokens)) {
-                    rootVars.push(
-                        `  --azv-${componentName}-${prop}: ${token.value};`
-                    );
-                }
+          // Tokens with variants
+          if (version.variants) {
+            for (const [variantName, variant] of Object.entries(
+              version.variants,
+            )) {
+              for (const [prop, token] of Object.entries(variant.tokens)) {
+                lines.push(
+                  `  --azv-${componentName}-${variantName}-${prop}: ${token.value};`,
+                );
+              }
             }
+          }
 
-            // Variants → :root
-            const variants = component.variants || component.varients;
-            if (variants) {
-                for (const [variantName, variant] of Object.entries(variants)) {
-                    for (const [prop, token] of Object.entries(variant.tokens)) {
-                        rootVars.push(
-                            `  --azv-${componentName}-${variantName}-${prop}: ${token.value};`
-                        );
-                    }
-                }
+          if (lines.length) {
+            if (version.variants) {
+              for (const [variantName] of Object.entries(version.variants)) {
+                classBlocks.push(
+                  `.azv-${componentName}-${variantName}-${versionName} {\n${lines.join("\n")}\n}`,
+                );
+              }
+            } else {
+              classBlocks.push(
+                `.azv-${componentName}-${versionName} {\n${lines.join("\n")}\n}`,
+              );
             }
+          }
         }
+        continue;
+      }
 
-        let css = "";
-        if (rootVars.length) {
-            css += `:root {\n${rootVars.join("\n")}\n}\n\n`;
+      /* ---------- COMPONENT WITHOUT VERSIONS ---------- */
+      // Plain tokens → :root
+      if (component.tokens) {
+        for (const [prop, token] of Object.entries(component.tokens)) {
+          rootVars.push(`  --azv-${componentName}-${prop}: ${token.value};`);
         }
-        css += classBlocks.join("\n\n");
+      }
 
-        return css.trim();
-    }, []);
-
-    const convertAndSet = useCallback((theme: ThemeTokens) => {
-        setIsGenerating(true);
-        try {
-            const css = generateCss(theme);
-            setGeneratedCss(css);
-            return css;
-        } catch (error) {
-            console.error('Error generating CSS:', error);
-            throw error;
-        } finally {
-            setIsGenerating(false);
+      // Variants → :root
+      const variants = component.variants || component.varients;
+      if (variants) {
+        for (const [variantName, variant] of Object.entries(variants)) {
+          for (const [prop, token] of Object.entries(variant.tokens)) {
+            rootVars.push(
+              `  --azv-${componentName}-${variantName}-${prop}: ${token.value};`,
+            );
+          }
         }
-    }, [generateCss]);
+      }
+    }
 
-    const injectCss = useCallback((css: string, styleId: string = 'azv-theme') => {
-        // Remove existing style tag if present
-        const existingStyle = document.getElementById(styleId);
-        if (existingStyle) {
-            existingStyle.remove();
-        }
+    let css = "";
+    if (rootVars.length) {
+      css += `:root {\n${rootVars.join("\n")}\n}\n\n`;
+    }
+    css += classBlocks.join("\n\n");
 
-        // Create and inject new style tag
-        const styleTag = document.createElement('style');
-        styleTag.id = styleId;
-        styleTag.textContent = css;
-        document.head.appendChild(styleTag);
-    }, []);
+    return css.trim();
+  }, []);
 
-    const convertAndInject = useCallback((theme: ThemeTokens, styleId?: string) => {
-        const css = convertAndSet(theme);
-        injectCss(css, styleId);
+  const convertAndSet = useCallback(
+    (theme: ThemeTokens) => {
+      setIsGenerating(true);
+      try {
+        const css = generateCss(theme);
+        setGeneratedCss(css);
         return css;
-    }, [convertAndSet, injectCss]);
+      } catch (error) {
+        console.error("Error generating CSS:", error);
+        throw error;
+      } finally {
+        setIsGenerating(false);
+      }
+    },
+    [generateCss],
+  );
 
-    return {
-        generateCss,
-        convertAndSet,
-        injectCss,
-        convertAndInject,
-        generatedCss,
-        isGenerating,
-    };
+  const injectCss = useCallback(
+    (css: string, styleId: string = "azv-theme") => {
+      // Remove existing style tag if present
+      const existingStyle = document.getElementById(styleId);
+      if (existingStyle) {
+        existingStyle.remove();
+      }
+
+      // Create and inject new style tag
+      const styleTag = document.createElement("style");
+      styleTag.id = styleId;
+      styleTag.textContent = css;
+      document.head.appendChild(styleTag);
+    },
+    [],
+  );
+
+  const convertAndInject = useCallback(
+    (theme: ThemeTokens, styleId?: string) => {
+      const css = convertAndSet(theme);
+      injectCss(css, styleId);
+      return css;
+    },
+    [convertAndSet, injectCss],
+  );
+
+  const resetToDefault = useCallback(() => {
+    setGeneratedCss("");
+    const styleTag = document.getElementById("azv-theme");
+    if (styleTag) {
+      styleTag.remove();
+    }
+  }, []);
+
+  return {
+    resetToDefault,
+    generateCss,
+    convertAndSet,
+    injectCss,
+    convertAndInject,
+    generatedCss,
+    isGenerating,
+  };
 };
 
 // Export types for use in other files
 export type {
-    TokenValue,
-    TokenMap,
-    VariantConfig,
-    VersionConfig,
-    ComponentWithVersions,
-    ComponentWithoutVersions,
-    ComponentConfig,
-    ThemeTokens,
+  TokenValue,
+  TokenMap,
+  VariantConfig,
+  VersionConfig,
+  ComponentWithVersions,
+  ComponentWithoutVersions,
+  ComponentConfig,
+  ThemeTokens,
 };

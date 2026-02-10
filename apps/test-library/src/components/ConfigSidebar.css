@@ -58,13 +58,13 @@
 
 .sidebar-footer {
   flex-shrink: 0;
-  padding: 1rem 1.5rem;
+  padding: 0.5rem 1.5rem;
   border-top: 1px solid #e9ecef;
   background: #ffffff;
 }
 
 .config-section {
-  padding: 1.25rem 1.5rem;
+  padding: 0.5rem 1.5rem;
   border-bottom: 1px solid #e9ecef;
 }
 

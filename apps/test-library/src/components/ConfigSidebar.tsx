@@ -14,6 +14,7 @@ import {
   setSelectedVersion,
 } from "../redux/slices/componentSlice";
 import { allowOnlyNumberAndDot } from "../utils/common-functions";
+import { json } from "../utils/json/cssJson";
 
 type ConfigSidebarProps = {
   setThemeJson: React.Dispatch<React.SetStateAction<ThemeTokens>>;
@@ -74,7 +75,7 @@ const ConfigSidebar: React.FC<ConfigSidebarProps> = ({
   const dispatch = useAppDispatch();
   const { selectedVersion, selectedVariant, selectedComponents } =
     useAppSelector((state) => state.componwents);
-  const { convertAndInject } = useCssConversion();
+  const { convertAndInject, resetToDefault } = useCssConversion();
   const [isThemeChanged, setIsThemeChanged] = useState<boolean>(false);
   const [themePatch, setThemePatch] = useState<ThemePatch>({});
   const debounce = useDebounce();
@@ -210,6 +211,12 @@ const ConfigSidebar: React.FC<ConfigSidebarProps> = ({
       }, 500);
   }, [isThemeChanged, themePatch]);
 
+  const handleResetToDefault = () => {
+    setThemeJson(json);
+    setThemePatch({});
+    resetToDefault();
+  };
+
   const renderInput = (property: any) => {
     switch (property.type) {
       case "color":
@@ -312,7 +319,7 @@ const ConfigSidebar: React.FC<ConfigSidebarProps> = ({
         </div>
 
         {/* Component Name */}
-        <div className="p-3 border-bottom bg-light d-flex justify-content-between">
+        <div className="px-3 py-2 border-bottom bg-light d-flex justify-content-between">
           <p className="mb-0">{selectedComponents?.name as string}</p>
         </div>
 
@@ -387,7 +394,10 @@ const ConfigSidebar: React.FC<ConfigSidebarProps> = ({
       <div className="sidebar-footer">
         <div className="d-grid gap-2">
           <button className="btn btn-primary">Save Changes</button>
-          <button className="btn btn-outline-secondary">
+          <button
+            className="btn btn-outline-secondary"
+            onClick={handleResetToDefault}
+          >
             Reset to Default
           </button>
         </div>
