@@ -8,6 +8,8 @@ import ComponentSidebar from "./components/ComponentSidebar";
 import CssBuilderPage from "./components/CssBuilderPage";
 import { useAppDispatch, useAppSelector } from "./redux/store";
 import {
+  resetSelectedVariant,
+  resetSelectedVersion,
   setSelectedVariant,
   setSelectedVersion,
 } from "./redux/slices/componentSlice";
@@ -45,6 +47,11 @@ function App() {
     componentData.versions,
     componentData.variants,
   ]);
+
+  useEffect(() => {
+    dispatch(resetSelectedVersion());
+    dispatch(resetSelectedVariant());
+  }, [selectedComponents?.["component-key"]]);
 
   return (
     <div style={{ display: "flex", justifyContent: "space-between" }}>
