@@ -14,7 +14,7 @@ const CssBuilder = () => {
   const dispatch = useAppDispatch();
   const { selectedVersion, selectedVariant, selectedComponents } =
     useAppSelector((state) => state.components);
-  const { themeJson, updateThemeJson } = useThemeContext();
+  const { themeJson } = useThemeContext();
 
   const componentData = useComponentProperties(
     themeJson,
@@ -47,10 +47,7 @@ const CssBuilder = () => {
     <div style={{ display: "flex", height: "100%", minHeight: "100vh" }}>
       <ComponentSidebar />
       <CssBuilderPage />
-      <ConfigSidebar
-        componentData={componentData}
-        setThemeJson={updateThemeJson}
-      />
+      <ConfigSidebar componentData={componentData} />
     </div>
   );
 };

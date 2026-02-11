@@ -1,8 +1,17 @@
-import { createContext, useContext, useState, ReactNode, useEffect } from "react";
+import {
+  createContext,
+  useContext,
+  useState,
+  ReactNode,
+  useEffect,
+} from "react";
 import { ThemeTokens, useCssConversion } from "../utils/hooks/useCssConversion";
 import { json as defaultTheme } from "../utils/json/cssJson";
 import type { Theme } from "../api/types";
-import { validateThemeStructure, logThemeStructure } from "../utils/validateTheme";
+import {
+  validateThemeStructure,
+  logThemeStructure,
+} from "../utils/validateTheme";
 
 interface ThemeContextType {
   currentTheme: Theme | null;
@@ -25,20 +34,22 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
       const themeData = currentTheme["theme-json"];
 
       // Log for debugging
-      console.log('Loading theme:', currentTheme["theme-name"]);
-      logThemeStructure(themeData, 'Theme JSON');
+      console.log("Loading theme:", currentTheme.name);
+      logThemeStructure(themeData, "Theme JSON");
 
       // Validate theme data is an object
-      if (themeData && typeof themeData === 'object') {
+      if (themeData && typeof themeData === "object") {
         const isValid = validateThemeStructure(themeData);
         if (isValid) {
           setThemeJson(themeData);
         } else {
-          console.error('Theme validation failed, falling back to default theme');
+          console.error(
+            "Theme validation failed, falling back to default theme",
+          );
           setThemeJson(defaultTheme);
         }
       } else {
-        console.warn('Invalid theme-json structure:', themeData);
+        console.warn("Invalid theme-json structure:", themeData);
         setThemeJson(defaultTheme);
       }
     }
@@ -46,11 +57,15 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
 
   // Convert and inject CSS whenever themeJson changes
   useEffect(() => {
-    if (themeJson && typeof themeJson === 'object' && Object.keys(themeJson).length > 0) {
+    if (
+      themeJson &&
+      typeof themeJson === "object" &&
+      Object.keys(themeJson).length > 0
+    ) {
       try {
         convertAndInject(themeJson, "azv-global-theme");
       } catch (error) {
-        console.error('Failed to convert and inject theme CSS:', error);
+        console.error("Failed to convert and inject theme CSS:", error);
       }
     }
   }, [themeJson, convertAndInject]);

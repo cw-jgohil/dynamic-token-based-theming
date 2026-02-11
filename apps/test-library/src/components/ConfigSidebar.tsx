@@ -21,7 +21,6 @@ import { useThemeContext } from "../context/ThemeContext";
 import { useUpdateTheme } from "../api/themes";
 
 type ConfigSidebarProps = {
-  setThemeJson: React.Dispatch<React.SetStateAction<ThemeTokens>>;
   componentData: ComponentPropertiesResult;
 };
 
@@ -72,18 +71,15 @@ function composeValue(number: string, unit: StyleUnit | null) {
   return `${number || ""}${unit || ""}`;
 }
 
-const ConfigSidebar: React.FC<ConfigSidebarProps> = ({
-  setThemeJson,
-  componentData,
-}) => {
+const ConfigSidebar: React.FC<ConfigSidebarProps> = ({ componentData }) => {
   const dispatch = useAppDispatch();
   const { selectedVersion, selectedVariant, selectedComponents } =
     useAppSelector((state) => state.components);
   const { convertAndInject, resetToDefault } = useCssConversion();
   const [isThemeChanged, setIsThemeChanged] = useState<boolean>(false);
   const [themePatch, setThemePatch] = useState<ThemePatch>({});
-  const debounce = useDebounce();
-  const { currentTheme, themeJson } = useThemeContext();
+  //   const debounce = useDebounce();
+  const { currentTheme, themeJson, updateThemeJson } = useThemeContext();
   const updateThemeMutation = useUpdateTheme();
 
   function writePatch(
@@ -134,22 +130,22 @@ const ConfigSidebar: React.FC<ConfigSidebarProps> = ({
   const handlePropertyChange = (propertyName: string, value: string) => {
     !isThemeChanged && setIsThemeChanged(true);
 
-    setThemeJson((prev) => {
-      const next = structuredClone(prev);
+    const convertedJSON = () => {
+      const next = structuredClone(themeJson);
       const component = next[selectedComponents?.["component-key"] as string];
-      if (!component) return prev;
+      if (!component) return themeJson;
 
       let updatedToken: TokenValue | undefined;
 
       // ---------- VERSION ----------
       if ("versions" in component && selectedVersion) {
         const version = component.versions[selectedVersion];
-        if (!version) return prev;
+        if (!version) return themeJson;
 
         // Version + Variant
         if (version.variants && selectedVariant) {
           const variant = version.variants[selectedVariant];
-          if (!variant?.tokens[propertyName]) return prev;
+          if (!variant?.tokens[propertyName]) return themeJson;
 
           variant.tokens[propertyName].value = value;
           updatedToken = structuredClone(variant.tokens[propertyName]);
@@ -187,40 +183,41 @@ const ConfigSidebar: React.FC<ConfigSidebarProps> = ({
       }
 
       // ---------- PATCH UPDATE ----------
-      if (updatedToken) {
-        setThemePatch((prevPatch) => {
-          const nextPatch = structuredClone(prevPatch);
+      //   if (updatedToken) {
+      //     setThemePatch((prevPatch) => {
+      //       const nextPatch = structuredClone(prevPatch);
 
-          writePatch(
-            nextPatch,
-            {
-              component: selectedComponents?.["component-key"] as string,
-              version: selectedVersion,
-              variant: selectedVariant,
-              property: propertyName,
-            },
-            updatedToken,
-          );
+      //       writePatch(
+      //         nextPatch,
+      //         {
+      //           component: selectedComponents?.["component-key"] as string,
+      //           version: selectedVersion,
+      //           variant: selectedVariant,
+      //           property: propertyName,
+      //         },
+      //         updatedToken,
+      //       );
 
-          return nextPatch;
-        });
-      }
+      //       return nextPatch;
+      //     });
+      //   }
 
       return next;
-    });
+    };
+
+    updateThemeJson(convertedJSON());
   };
 
-  useEffect(() => {
-    if (isThemeChanged)
-      debounce(() => {
-        const css = convertAndInject(themePatch);
-        console.log("css", css);
-      }, 500);
-  }, [isThemeChanged, themePatch]);
+  //   useEffect(() => {
+  //     if (isThemeChanged)
+  //       debounce(() => {
+  //         convertAndInject(themePatch);
+  //       }, 500);
+  //   }, [isThemeChanged, themePatch]);
 
   const handleResetToDefault = () => {
     if (currentTheme && currentTheme["theme-json"]) {
-      setThemeJson(currentTheme["theme-json"]);
+      updateThemeJson(currentTheme["theme-json"]);
       setThemePatch({});
       resetToDefault();
       setIsThemeChanged(false);
@@ -346,7 +343,9 @@ const ConfigSidebar: React.FC<ConfigSidebarProps> = ({
 
         {/* Component Name */}
         <div className="px-3 py-2 border-bottom bg-light d-flex justify-content-between">
-          <p className="mb-0">{selectedComponents?.name as string}</p>
+          <p className="mb-0">
+            {selectedComponents?.["component-name"] as string}
+          </p>
         </div>
 
         {/* Version Selection */}

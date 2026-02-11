@@ -26,7 +26,7 @@ const ComponentSidebar = () => {
                   key={component.id}
                   onClick={() => dispatch(setSelectedComponents(component))}
                 >
-                  {component.name}
+                  {component["component-name"]}
                 </li>
               );
             })}

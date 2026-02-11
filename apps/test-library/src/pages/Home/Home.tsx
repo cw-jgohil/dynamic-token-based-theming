@@ -1,7 +1,10 @@
 import { useEffect } from "react";
 import { useComponents } from "../../api/components";
 import { useThemes } from "../../api/themes";
-import { ComponentKey, componentRegistry } from "../../utils/json/componentsMapping";
+import {
+  ComponentKey,
+  componentRegistry,
+} from "../../utils/json/componentsMapping";
 import { useThemeContext } from "../../context/ThemeContext";
 
 const Home = () => {
@@ -19,7 +22,7 @@ const Home = () => {
   // Extract all variants for a component
   const getComponentVariants = (componentKey: string) => {
     const component = themeJson[componentKey];
-    if (!component || typeof component !== 'object') return [];
+    if (!component || typeof component !== "object") return [];
 
     const variants = new Set<string>();
 
@@ -27,15 +30,24 @@ const Home = () => {
     if ("versions" in component && component.versions) {
       Object.values(component.versions).forEach((version) => {
         if (version && version.variants) {
-          Object.keys(version.variants).forEach((variant) => variants.add(variant));
+          Object.keys(version.variants).forEach((variant) =>
+            variants.add(variant),
+          );
         }
       });
     }
 
     // Handle components without versions but with variants
-    const componentVariants = component.variants || component.varients;
-    if (componentVariants && typeof componentVariants === 'object') {
-      Object.keys(componentVariants).forEach((variant) => variants.add(variant));
+    const componentVariants =
+      "variants" in component
+        ? component.variants
+        : "varients" in component
+          ? component.varients
+          : undefined;
+    if (componentVariants && typeof componentVariants === "object") {
+      Object.keys(componentVariants).forEach((variant) =>
+        variants.add(variant),
+      );
     }
 
     return Array.from(variants);
@@ -44,7 +56,7 @@ const Home = () => {
   // Get the first version for a component (if it has versions)
   const getFirstVersion = (componentKey: string) => {
     const component = themeJson[componentKey];
-    if (!component || typeof component !== 'object') return undefined;
+    if (!component || typeof component !== "object") return undefined;
 
     if ("versions" in component && component.versions) {
       return Object.keys(component.versions)[0];
@@ -70,7 +82,9 @@ const Home = () => {
           <div className="d-flex justify-content-between align-items-center">
             <h2>Component Library</h2>
             <div className="d-flex align-items-center gap-3">
-              <label htmlFor="theme-select" className="form-label mb-0">Theme:</label>
+              <label htmlFor="theme-select" className="form-label mb-0">
+                Theme:
+              </label>
               <select
                 id="theme-select"
                 className="form-select"
@@ -82,7 +96,7 @@ const Home = () => {
                 {themesLoading && <option>Loading themes...</option>}
                 {themes?.map((theme) => (
                   <option key={theme.id} value={theme.id}>
-                    {theme["theme-name"]}
+                    {theme.name}
                   </option>
                 ))}
               </select>
@@ -93,7 +107,10 @@ const Home = () => {
 
       {/* Loading State */}
       {isLoading && (
-        <div className="d-flex justify-content-center align-items-center" style={{ minHeight: "400px" }}>
+        <div
+          className="d-flex justify-content-center align-items-center"
+          style={{ minHeight: "400px" }}
+        >
           <div className="spinner-border" role="status">
             <span className="visually-hidden">Loading...</span>
           </div>
@@ -106,29 +123,41 @@ const Home = () => {
           {components.map((component) => {
             const variants = getComponentVariants(component["component-key"]);
             const firstVersion = getFirstVersion(component["component-key"]);
-            const registryItem = componentRegistry[component["component-key"] as ComponentKey];
+            const registryItem =
+              componentRegistry[component["component-key"] as ComponentKey];
 
             return (
               <div key={component.id} className="col-12">
                 <div className="card">
                   <div className="card-body">
-                    <h5 className="card-title">{component.name}</h5>
+                    <h5 className="card-title">
+                      {component["component-name"]}
+                    </h5>
                     <p className="card-text text-muted small mb-3">
                       Component Key: <code>{component["component-key"]}</code>
-                      {firstVersion && <> | Version: <code>{firstVersion}</code></>}
+                      {firstVersion && (
+                        <>
+                          {" "}
+                          | Version: <code>{firstVersion}</code>
+                        </>
+                      )}
                     </p>
 
                     {/* Variants Preview */}
                     {registryItem && (
                       <>
-                        {component["component-key"] === "btn" && variants.length > 0 ? (
+                        {component["component-key"] === "btn" &&
+                        variants.length > 0 ? (
                           <div>
                             <h6 className="small fw-bold mb-3">
                               All Variants ({variants.length}):
                             </h6>
                             <div className="d-flex flex-wrap gap-3 mb-3">
                               {variants.map((variant) => (
-                                <div key={variant} className="d-flex flex-column align-items-start gap-2">
+                                <div
+                                  key={variant}
+                                  className="d-flex flex-column align-items-start gap-2"
+                                >
                                   <span className="badge bg-secondary text-capitalize">
                                     {variant}
                                   </span>
@@ -136,7 +165,9 @@ const Home = () => {
                                     variant={variant}
                                     version={firstVersion}
                                   >
-                                    {variant.charAt(0).toUpperCase() + variant.slice(1)} Button
+                                    {variant.charAt(0).toUpperCase() +
+                                      variant.slice(1)}{" "}
+                                    Button
                                   </registryItem.component>
                                 </div>
                               ))}
@@ -164,7 +195,9 @@ const Home = () => {
                           </div>
                         ) : (
                           <div className="mb-3">
-                            <span className="badge bg-light text-dark">No preview available</span>
+                            <span className="badge bg-light text-dark">
+                              No preview available
+                            </span>
                           </div>
                         )}
                       </>

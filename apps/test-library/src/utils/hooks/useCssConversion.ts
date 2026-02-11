@@ -173,15 +173,13 @@ type VersionConfig = {
 };
 
 type ComponentWithVersions = {
-  versions: Record<string, VersionConfig>; 
+  versions: Record<string, VersionConfig>;
 };
 
 type ComponentWithoutVersions = {
   tokens?: TokenMap;
   variants?: Record<string, VariantConfig>;
   varients?: Record<string, VariantConfig>; // backward/typo safe
-  
-
 };
 
 type ComponentConfig = ComponentWithVersions | ComponentWithoutVersions;
@@ -198,41 +196,56 @@ export const useCssConversion = () => {
     const rootVars: string[] = [];
 
     // Safety check for theme
-    if (!theme || typeof theme !== 'object') {
-      console.warn('Invalid theme object provided to generateCss');
-      return '';
+    if (!theme || typeof theme !== "object") {
+      console.warn("Invalid theme object provided to generateCss");
+      return "";
     }
 
-    console.log('Generating CSS for theme with components:', Object.keys(theme));
+    console.log(
+      "Generating CSS for theme with components:",
+      Object.keys(theme),
+    );
 
     for (const [componentName, component] of Object.entries(theme)) {
       // Skip if component is null or undefined
-      if (!component || typeof component !== 'object') {
+      if (!component || typeof component !== "object") {
         console.warn(`Skipping invalid component: ${componentName}`);
         continue;
       }
 
       /* ---------- COMPONENT WITH VERSIONS ---------- */
       if ("versions" in component && component.versions) {
-        for (const [versionName, version] of Object.entries(component.versions)) {
-          if (!version || typeof version !== 'object') {
-            console.warn(`Skipping invalid version: ${versionName} in ${componentName}`);
+        for (const [versionName, version] of Object.entries(
+          component.versions,
+        )) {
+          if (!version || typeof version !== "object") {
+            console.warn(
+              `Skipping invalid version: ${versionName} in ${componentName}`,
+            );
             continue;
           }
 
           // Tokens without variants (e.g., table)
-          if (version.tokens && typeof version.tokens === 'object') {
+          if (version.tokens && typeof version.tokens === "object") {
             for (const [prop, token] of Object.entries(version.tokens)) {
               if (token && token.value !== undefined) {
-                rootVars.push(`  --azv-${componentName}-${prop}: ${token.value};`);
+                rootVars.push(
+                  `  --azv-${componentName}-${prop}: ${token.value};`,
+                );
               }
             }
           }
 
           // Tokens with variants (e.g., btn)
-          if (version.variants && typeof version.variants === 'object') {
-            for (const [variantName, variant] of Object.entries(version.variants)) {
-              if (variant && variant.tokens && typeof variant.tokens === 'object') {
+          if (version.variants && typeof version.variants === "object") {
+            for (const [variantName, variant] of Object.entries(
+              version.variants,
+            )) {
+              if (
+                variant &&
+                variant.tokens &&
+                typeof variant.tokens === "object"
+              ) {
                 for (const [prop, token] of Object.entries(variant.tokens)) {
                   if (token && token.value !== undefined) {
                     // Generate CSS variable: --azv-btn-primary-color
@@ -250,7 +263,11 @@ export const useCssConversion = () => {
 
       /* ---------- COMPONENT WITHOUT VERSIONS ---------- */
       // Plain tokens → :root
-      if (component.tokens && typeof component.tokens === 'object') {
+      if (
+        "tokens" in component &&
+        component.tokens &&
+        typeof component.tokens === "object"
+      ) {
         for (const [prop, token] of Object.entries(component.tokens)) {
           if (token && token.value !== undefined) {
             rootVars.push(`  --azv-${componentName}-${prop}: ${token.value};`);
@@ -259,10 +276,15 @@ export const useCssConversion = () => {
       }
 
       // Variants → :root (e.g., listview, input)
-      const variants = component.variants || component.varients;
-      if (variants && typeof variants === 'object') {
+      const variants =
+        "variants" in component
+          ? component.variants
+          : "varients" in component
+            ? component.varients
+            : undefined;
+      if (variants && typeof variants === "object") {
         for (const [variantName, variant] of Object.entries(variants)) {
-          if (variant && variant.tokens && typeof variant.tokens === 'object') {
+          if (variant && variant.tokens && typeof variant.tokens === "object") {
             for (const [prop, token] of Object.entries(variant.tokens)) {
               if (token && token.value !== undefined) {
                 // Generate CSS variable: --azv-listview-default-bg
@@ -281,7 +303,7 @@ export const useCssConversion = () => {
       css = `:root {\n${rootVars.join("\n")}\n}`;
       console.log(`Generated ${rootVars.length} CSS variables`);
     } else {
-      console.warn('No CSS variables generated!');
+      console.warn("No CSS variables generated!");
     }
 
     return css.trim();

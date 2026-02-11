@@ -1,14 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-
-interface Component {
-  name: string;
-  "component-key": string;
-  id: string | number;
-}
+import { ComponentMeta } from "src/api";
 
 export interface ComponentState {
-  selectedComponents: Component | undefined;
+  selectedComponents: ComponentMeta | undefined;
   selectedVersion: string | undefined;
   selectedVariant: string | undefined;
 }
@@ -23,7 +18,7 @@ export const componentSlice = createSlice({
   name: "components",
   initialState,
   reducers: {
-    setSelectedComponents: (state, action: PayloadAction<Component>) => {
+    setSelectedComponents: (state, action: PayloadAction<ComponentMeta>) => {
       state.selectedComponents = action.payload;
     },
     resetSelectedComponents: (state) => {
