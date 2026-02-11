@@ -44,6 +44,10 @@ const CssBuilder = () => {
     componentData.variants,
   ]);
 
+  useEffect(() => {
+    setPreviewDisabled(false);
+  }, [selectedComponents?.["component-key"] as string]);
+
   return (
     <div style={{ display: "flex", height: "100%", minHeight: "100vh" }}>
       <ComponentSidebar />

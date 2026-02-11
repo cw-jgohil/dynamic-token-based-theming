@@ -40,18 +40,6 @@ const DataGrid = (props: DataGridProps) => {
 
   return (
     <div className="azv-datagrid">
-      {search.visible && (
-        <div className="azv-datagrid-search mb-2">
-          <Input
-            type="search"
-            placeholder={search.placeholder}
-            value={search.value}
-            onChange={(e) => search.onChange(e.target.value)}
-            aria-label="Search table"
-          />
-        </div>
-      )}
-
       <Table
         aria-label="Data table"
         aria-rowcount={rows.length}
@@ -144,16 +132,6 @@ const DataGrid = (props: DataGridProps) => {
           )}
         </TableBody>
       </Table>
-
-      {pagination.visible && (
-        <div className="azv-datagrid-pagination mt-2">
-          <Pagination
-            currentPage={pagination.currentPage}
-            totalPages={pagination.totalPages}
-            onPageChange={pagination.onPageChange}
-          />
-        </div>
-      )}
     </div>
   );
 };

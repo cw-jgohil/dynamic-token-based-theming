@@ -1,10 +1,15 @@
 // ConfigSidebar.tsx
 import React, { useEffect, useState } from "react";
 import "./ConfigSidebar.css";
-import { ComponentPropertiesResult } from "../utils/hooks/useComponentProperties";
+import {
+  ComponentPropertiesResult,
+  NestedPropertyGroup,
+} from "../utils/hooks/useComponentProperties";
 import {
   ThemeTokens,
   TokenValue,
+  NestedConfig,
+  VersionConfig,
   useCssConversion,
 } from "../utils/hooks/useCssConversion";
 import { useDebounce } from "../utils/hooks/useDebounce";
@@ -29,21 +34,8 @@ type ConfigSidebarProps = {
 type ThemePatch = {
   [componentKey: string]: {
     versions?: {
-      [versionKey: string]: {
-        variants?: {
-          [variantKey: string]: {
-            tokens: Record<string, TokenValue>;
-          };
-        };
-        tokens?: Record<string, TokenValue>;
-      };
+      [versionKey: string]: VersionConfig;
     };
-    variants?: {
-      [variantKey: string]: {
-        tokens: Record<string, TokenValue>;
-      };
-    };
-    tokens?: Record<string, TokenValue>;
   };
 };
 
@@ -130,7 +122,7 @@ const ConfigSidebar: React.FC<ConfigSidebarProps> = ({
   const { convertAndInject, resetToDefault } = useCssConversion();
   const [isThemeChanged, setIsThemeChanged] = useState<boolean>(false);
   const [themePatch, setThemePatch] = useState<ThemePatch>({});
-  //   const debounce = useDebounce();
+  const debounce = useDebounce();
   const { currentTheme, themeJson, updateThemeJson } = useThemeContext();
   const updateThemeMutation = useUpdateTheme();
 
@@ -141,10 +133,11 @@ const ConfigSidebar: React.FC<ConfigSidebarProps> = ({
       version?: string;
       variant?: string;
       property: string;
+      nestedPath?: string[];
     },
     token: TokenValue,
   ) {
-    const { component, version, variant, property } = path;
+    const { component, version, variant, property, nestedPath } = path;
 
     patch[component] ??= {};
 
@@ -160,6 +153,25 @@ const ConfigSidebar: React.FC<ConfigSidebarProps> = ({
         patch[component].versions![version].variants![variant].tokens[
           property
         ] = token;
+      } else if (nestedPath && nestedPath.length > 0) {
+        const versionNode = patch[component].versions![version];
+        versionNode.nested ??= {};
+
+        let current: NestedConfig | undefined;
+        nestedPath.forEach((segment) => {
+          if (!current) {
+            versionNode.nested![segment] ??= {};
+            current = versionNode.nested![segment];
+          } else {
+            current.nested ??= {};
+            current.nested![segment] ??= {};
+            current = current.nested![segment];
+          }
+        });
+
+        if (!current) return;
+        current.tokens ??= {};
+        current.tokens[property] = token;
       } else {
         patch[component].versions![version].tokens ??= {};
         patch[component].versions![version].tokens![property] = token;
@@ -167,19 +179,13 @@ const ConfigSidebar: React.FC<ConfigSidebarProps> = ({
 
       return;
     }
-
-    if (variant) {
-      patch[component].variants ??= {};
-      patch[component].variants![variant] ??= { tokens: {} };
-      patch[component].variants![variant].tokens[property] = token;
-      return;
-    }
-
-    patch[component].tokens ??= {};
-    patch[component].tokens![property] = token;
   }
 
-  const handlePropertyChange = (propertyName: string, value: string) => {
+  const handlePropertyChange = (
+    propertyName: string,
+    value: string,
+    nestedPath?: string[],
+  ) => {
     !isThemeChanged && setIsThemeChanged(true);
 
     const convertedJSON = () => {
@@ -203,6 +209,27 @@ const ConfigSidebar: React.FC<ConfigSidebarProps> = ({
           updatedToken = structuredClone(variant.tokens[propertyName]);
         }
 
+        // Nested path within version (no variants)
+        else if (nestedPath && nestedPath.length > 0 && version.nested) {
+          let current: any = version as {
+            nested?: Record<string, { tokens?: Record<string, TokenValue> }>;
+          };
+
+          for (const segment of nestedPath) {
+            if (!current.nested || !current.nested[segment]) {
+              return themeJson;
+            }
+            current = current.nested[segment];
+          }
+
+          if (!current.tokens || !current.tokens[propertyName]) {
+            return themeJson;
+          }
+
+          current.tokens[propertyName].value = value;
+          updatedToken = structuredClone(current.tokens[propertyName]);
+        }
+
         // Version only
         else if (version.tokens?.[propertyName]) {
           version.tokens[propertyName].value = value;
@@ -210,49 +237,26 @@ const ConfigSidebar: React.FC<ConfigSidebarProps> = ({
         }
       }
 
-      // ---------- COMPONENT ----------
-      else if ("tokens" in component && component.tokens?.[propertyName]) {
-        component.tokens[propertyName].value = value;
-        updatedToken = structuredClone(component.tokens[propertyName]);
-      }
-
-      // ---------- VARIANT-ONLY ----------
-      else {
-        const variants =
-          "variants" in component
-            ? component.variants
-            : "varients" in component
-              ? component.varients
-              : null;
-
-        if (variants && selectedVariant) {
-          const variant = variants[selectedVariant];
-          if (variant?.tokens[propertyName]) {
-            variant.tokens[propertyName].value = value;
-            updatedToken = structuredClone(variant.tokens[propertyName]);
-          }
-        }
-      }
-
       // ---------- PATCH UPDATE ----------
-      //   if (updatedToken) {
-      //     setThemePatch((prevPatch) => {
-      //       const nextPatch = structuredClone(prevPatch);
+      if (updatedToken) {
+        setThemePatch((prevPatch) => {
+          const nextPatch = structuredClone(prevPatch);
 
-      //       writePatch(
-      //         nextPatch,
-      //         {
-      //           component: selectedComponents?.["component-key"] as string,
-      //           version: selectedVersion,
-      //           variant: selectedVariant,
-      //           property: propertyName,
-      //         },
-      //         updatedToken,
-      //       );
+          writePatch(
+            nextPatch,
+            {
+              component: selectedComponents?.["component-key"] as string,
+              version: selectedVersion,
+              variant: selectedVariant,
+              property: propertyName,
+              nestedPath,
+            },
+            updatedToken,
+          );
 
-      //       return nextPatch;
-      //     });
-      //   }
+          return nextPatch;
+        });
+      }
 
       return next;
     };
@@ -260,12 +264,21 @@ const ConfigSidebar: React.FC<ConfigSidebarProps> = ({
     updateThemeJson(convertedJSON());
   };
 
-  //   useEffect(() => {
-  //     if (isThemeChanged)
-  //       debounce(() => {
-  //         convertAndInject(themePatch);
-  //       }, 500);
-  //   }, [isThemeChanged, themePatch]);
+  useEffect(() => {
+    if (!isThemeChanged) return;
+
+    debounce(() => {
+      if (
+        !themePatch ||
+        typeof themePatch !== "object" ||
+        Object.keys(themePatch).length === 0
+      ) {
+        return;
+      }
+
+      convertAndInject(themePatch as ThemeTokens, "azv-theme");
+    }, 100);
+  }, [isThemeChanged, themePatch, debounce, convertAndInject]);
 
   const handleResetToDefault = () => {
     if (currentTheme && currentTheme["theme-json"]) {
@@ -298,6 +311,87 @@ const ConfigSidebar: React.FC<ConfigSidebarProps> = ({
     }
   };
 
+  const [expandedGroups, setExpandedGroups] = useState<Record<string, boolean>>(
+    {},
+  );
+
+  const toggleGroup = (key: string) => {
+    setExpandedGroups((prev) => ({
+      ...prev,
+      [key]: !(prev[key] ?? true),
+    }));
+  };
+
+  const renderNestedGroups = (
+    groups: NestedPropertyGroup[],
+    parentKey: string,
+  ) => {
+    if (!groups.length) return null;
+
+    return (
+      <div className="nested-properties">
+        {groups.map((group) => {
+          const groupKey = parentKey ? `${parentKey}.${group.key}` : group.key;
+          const isExpanded = expandedGroups[groupKey] ?? true;
+
+          return (
+            <div key={groupKey} className="nested-group">
+              <button
+                type="button"
+                className="btn btn-sm btn-light w-100 d-flex justify-content-between align-items-center"
+                onClick={() => toggleGroup(groupKey)}
+              >
+                <span className="text-start">
+                  {group.key.replace(/-/g, " ")}
+                </span>
+                <span className="badge bg-secondary ms-2">
+                  {group.properties.length}
+                </span>
+              </button>
+
+              <div
+                className={`nested-group-body${
+                  isExpanded
+                    ? " nested-group-body--open"
+                    : " nested-group-body--collapsed"
+                }`}
+              >
+                {isExpanded && (
+                  <>
+                    {group.properties.map((property) => {
+                      const isCombinedPadding = property.name === "padding";
+                      return (
+                        <div
+                          key={`${groupKey}.${property.name}`}
+                          className="property-item"
+                        >
+                          {!isCombinedPadding && (
+                            <label className="form-label mb-1">
+                              <span className="property-name">
+                                {property.name.replace(/-/g, " ")}
+                              </span>
+                              <span className="badge bg-light text-dark ms-2">
+                                {property.type}
+                              </span>
+                            </label>
+                          )}
+                          {renderInput(property)}
+                        </div>
+                      );
+                    })}
+
+                    {group.children.length > 0 &&
+                      renderNestedGroups(group.children, groupKey)}
+                  </>
+                )}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    );
+  };
+
   const renderInput = (property: any) => {
     switch (property.type) {
       case "color":
@@ -308,7 +402,11 @@ const ConfigSidebar: React.FC<ConfigSidebarProps> = ({
               className="form-control form-control-color"
               value={property.value}
               onChange={(e) =>
-                handlePropertyChange(property.name, e.target.value)
+                handlePropertyChange(
+                  property.name,
+                  e.target.value,
+                  property.path,
+                )
               }
               title={property.name}
             />
@@ -317,7 +415,11 @@ const ConfigSidebar: React.FC<ConfigSidebarProps> = ({
               className="form-control"
               value={property.value}
               onChange={(e) => {
-                handlePropertyChange(property.name, e.target.value);
+                handlePropertyChange(
+                  property.name,
+                  e.target.value,
+                  property.path,
+                );
               }}
               placeholder="#000000"
             />
@@ -331,7 +433,7 @@ const ConfigSidebar: React.FC<ConfigSidebarProps> = ({
             className="form-select"
             value={property.value}
             onChange={(e) =>
-              handlePropertyChange(property.name, e.target.value)
+              handlePropertyChange(property.name, e.target.value, property.path)
             }
           >
             {oprions.map((option) => (
@@ -351,20 +453,13 @@ const ConfigSidebar: React.FC<ConfigSidebarProps> = ({
           const vParsed = parseNumericValue(vertical);
           const hParsed = parseNumericValue(horizontal);
 
-          const vUnit: StyleUnit | null =
-            (vParsed.unit as StyleUnit) || "rem";
+          const vUnit: StyleUnit | null = (vParsed.unit as StyleUnit) || "rem";
           const hUnit: StyleUnit | null =
             (hParsed.unit as StyleUnit) || vUnit || "rem";
 
           const update = (next: { v?: string; h?: string }) => {
-            const nextV = composeValue(
-              next.v ?? vParsed.number,
-              vUnit,
-            );
-            const nextH = composeValue(
-              next.h ?? hParsed.number,
-              hUnit,
-            );
+            const nextV = composeValue(next.v ?? vParsed.number, vUnit);
+            const nextH = composeValue(next.h ?? hParsed.number, hUnit);
             handlePropertyChange(
               property.name,
               composePaddingValue(nextV, nextH),
@@ -374,7 +469,9 @@ const ConfigSidebar: React.FC<ConfigSidebarProps> = ({
           return (
             <div className="d-flex flex-column gap-2">
               <div className="flex-fill">
-                <label className="form-label mb-1 property-name">Padding Y</label>
+                <label className="form-label mb-1 property-name">
+                  Padding Y
+                </label>
                 <div className="input-group">
                   <input
                     type="text"
@@ -388,7 +485,9 @@ const ConfigSidebar: React.FC<ConfigSidebarProps> = ({
                 </div>
               </div>
               <div className="flex-fill">
-                <label className="form-label mb-1 property-name">Padding X</label>
+                <label className="form-label mb-1 property-name">
+                  Padding X
+                </label>
                 <div className="input-group">
                   <input
                     type="text"
@@ -429,6 +528,7 @@ const ConfigSidebar: React.FC<ConfigSidebarProps> = ({
                         style,
                         color,
                       ),
+                      property.path,
                     )
                   }
                   placeholder="0"
@@ -448,6 +548,7 @@ const ConfigSidebar: React.FC<ConfigSidebarProps> = ({
                       e.target.value,
                       color,
                     ),
+                    property.path,
                   )
                 }
               >
@@ -469,6 +570,7 @@ const ConfigSidebar: React.FC<ConfigSidebarProps> = ({
                       style,
                       e.target.value,
                     ),
+                    property.path,
                   )
                 }
                 title="Border color"
@@ -491,6 +593,7 @@ const ConfigSidebar: React.FC<ConfigSidebarProps> = ({
                   handlePropertyChange(
                     property.name,
                     composeValue(e.target.value, unit),
+                    property.path,
                   )
                 }
                 placeholder="0"
@@ -508,7 +611,7 @@ const ConfigSidebar: React.FC<ConfigSidebarProps> = ({
             value={property.value}
             onKeyDown={(e) => allowOnlyNumberAndDot(e, number)}
             onChange={(e) =>
-              handlePropertyChange(property.name, e.target.value)
+              handlePropertyChange(property.name, e.target.value, property.path)
             }
             placeholder="Enter value"
           />
@@ -622,6 +725,15 @@ const ConfigSidebar: React.FC<ConfigSidebarProps> = ({
             </div>
           )}
         </div>
+
+        {componentData.nestedGroups.length > 0 && (
+          <div className="config-section">
+            {/* <div className="d-flex align-items-center justify-content-between mb-3">
+              <h6 className="mb-0 fw-bold">Nested Components</h6>
+            </div> */}
+            {renderNestedGroups(componentData.nestedGroups, "")}
+          </div>
+        )}
       </div>
 
       <div className="sidebar-footer">

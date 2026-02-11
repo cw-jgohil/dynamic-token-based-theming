@@ -1,155 +1,3 @@
-// import { useEffect, useRef } from "react";
-
-// export type TokenValue = {
-//     value: string;
-//     type: "color" | "input" | "select";
-//     allow: boolean;
-// };
-
-// export type TokenMap = {
-//     [propertyName: string]: TokenValue;
-// };
-
-// export type VariantConfig = {
-//     tokens: TokenMap;
-// };
-
-// export type VersionConfig = {
-//     tokens?: TokenMap;
-//     variants?: Record<string, VariantConfig>;
-// };
-
-// export type ComponentWithVersions = {
-//     versions: Record<string, VersionConfig>;
-// };
-
-// export type ComponentWithoutVersions = {
-//     tokens?: TokenMap;
-//     variants?: Record<string, VariantConfig>;
-//     varients?: Record<string, VariantConfig>; // typo-safe
-// };
-
-// export type ComponentConfig =
-//     | ComponentWithVersions
-//     | ComponentWithoutVersions;
-
-// export type ThemeTokens = {
-//     [componentName: string]: ComponentConfig;
-// };
-
-// function generateCss(theme: ThemeTokens): string {
-//     const rootVars: string[] = [];
-//     const classBlocks: string[] = [];
-
-//     for (const [componentName, component] of Object.entries(theme)) {
-//         // ✅ Component WITH versions
-//         if ("versions" in component) {
-//             for (const [versionName, version] of Object.entries(component.versions)) {
-//                 const lines: string[] = [];
-
-//                 if (version.tokens) {
-//                     for (const [prop, token] of Object.entries(version.tokens)) {
-//                         lines.push(
-//                             `  --azv-${componentName}-${prop}: ${token.value};`
-//                         );
-//                     }
-//                 }
-
-//                 if (version.variants) {
-//                     for (const [variantName, variant] of Object.entries(version.variants)) {
-//                         for (const [prop, token] of Object.entries(variant.tokens)) {
-//                             lines.push(
-//                                 `  --azv-${componentName}-${prop}-${variantName}: ${token.value};`
-//                             );
-//                         }
-//                     }
-//                 }
-
-//                 if (lines.length) {
-//                     classBlocks.push(
-//                         `.azv-${componentName}-${versionName} {\n${lines.join("\n")}\n}`
-//                     );
-//                 }
-//             }
-//             continue;
-//         }
-
-//         // ✅ Component WITHOUT versions → :root
-//         if (component.tokens) {
-//             for (const [prop, token] of Object.entries(component.tokens)) {
-//                 rootVars.push(
-//                     `  --azv-${componentName}-${prop}: ${token.value};`
-//                 );
-//             }
-//         }
-
-//         const variants = component.variants || component.varients;
-//         if (variants) {
-//             for (const [variantName, variant] of Object.entries(variants)) {
-//                 for (const [prop, token] of Object.entries(variant.tokens)) {
-//                     rootVars.push(
-//                         `  --azv-${componentName}-${prop}-${variantName}: ${token.value};`
-//                     );
-//                 }
-//             }
-//         }
-//     }
-
-//     let css = "";
-
-//     if (rootVars.length) {
-//         css += `:root {\n${rootVars.join("\n")}\n}\n\n`;
-//     }
-
-//     css += classBlocks.join("\n\n");
-
-//     return css.trim();
-// }
-
-// export function useCssConversion(
-//     themeTokens: ThemeTokens,
-//     options?: {
-//         styleId?: string;
-//         enabled?: boolean;
-//     }
-// ) {
-//     const styleRef = useRef<HTMLStyleElement | null>(null);
-//     const styleId = options?.styleId ?? "azv-theme-style";
-//     const enabled = options?.enabled ?? true;
-
-//     useEffect(() => {
-//         if (!enabled) return;
-
-//         const css = generateCss(themeTokens);
-
-//         let styleEl = document.getElementById(styleId) as HTMLStyleElement | null;
-
-//         if (!styleEl) {
-//             styleEl = document.createElement("style");
-//             styleEl.id = styleId;
-//             document.head.appendChild(styleEl);
-//         }
-
-//         if (styleEl.textContent !== css) {
-//             styleEl.textContent = css;
-//         }
-
-//         styleRef.current = styleEl;
-//     }, [themeTokens, enabled, styleId]);
-
-//     return {
-//         regenerate: () => {
-//             if (!styleRef.current) return;
-//             styleRef.current.textContent = generateCss(themeTokens);
-//         },
-//         remove: () => {
-//             styleRef.current?.remove();
-//             styleRef.current = null;
-//         }
-//     };
-// }
-
-// useCssConversion.ts
 import { useState, useCallback } from "react";
 
 type TokenValue = {
@@ -166,26 +14,25 @@ type VariantConfig = {
   tokens: TokenMap;
 };
 
+type NestedConfig = {
+  tokens?: TokenMap;
+  nested?: Record<string, NestedConfig>;
+};
+
 type VersionConfig = {
   tokens?: TokenMap;
   variants?: Record<string, VariantConfig>;
   varients?: Record<string, VariantConfig>; // backward/typo safe
+  nested?: Record<string, NestedConfig>;
 };
 
 type ComponentWithVersions = {
+  activeVersion: string;
   versions: Record<string, VersionConfig>;
 };
 
-type ComponentWithoutVersions = {
-  tokens?: TokenMap;
-  variants?: Record<string, VariantConfig>;
-  varients?: Record<string, VariantConfig>; // backward/typo safe
-};
-
-type ComponentConfig = ComponentWithVersions | ComponentWithoutVersions;
-
 type ThemeTokens = {
-  [componentName: string]: ComponentConfig;
+  [componentName: string]: ComponentWithVersions;
 };
 
 export const useCssConversion = () => {
@@ -194,6 +41,43 @@ export const useCssConversion = () => {
 
   const generateCss = useCallback((theme: ThemeTokens): string => {
     const rootVars: string[] = [];
+
+    const pushToken = (
+      componentName: string,
+      pathParts: string[],
+      prop: string,
+      token: TokenValue,
+    ) => {
+      if (!token || token.value === undefined) return;
+
+      const path = pathParts.filter(Boolean).join("-");
+      const variableName = path
+        ? `--azv-${componentName}-${path}-${prop}`
+        : `--azv-${componentName}-${prop}`;
+
+      rootVars.push(`  ${variableName}: ${token.value};`);
+    };
+
+    const walkNested = (
+      componentName: string,
+      nested?: Record<string, NestedConfig>,
+    ) => {
+      if (!nested || typeof nested !== "object") return;
+
+      for (const [nestedKey, nestedConfig] of Object.entries(nested)) {
+        if (!nestedConfig || typeof nestedConfig !== "object") continue;
+
+        if (nestedConfig.tokens && typeof nestedConfig.tokens === "object") {
+          for (const [prop, token] of Object.entries(nestedConfig.tokens)) {
+            pushToken(componentName, [], prop, token);
+          }
+        }
+
+        if (nestedConfig.nested) {
+          walkNested(componentName, nestedConfig.nested);
+        }
+      }
+    };
 
     // Safety check for theme
     if (!theme || typeof theme !== "object") {
@@ -228,11 +112,7 @@ export const useCssConversion = () => {
           // Tokens without variants (e.g., table)
           if (version.tokens && typeof version.tokens === "object") {
             for (const [prop, token] of Object.entries(version.tokens)) {
-              if (token && token.value !== undefined) {
-                rootVars.push(
-                  `  --azv-${componentName}-${prop}: ${token.value};`,
-                );
-              }
+              pushToken(componentName, [], prop, token);
             }
           }
 
@@ -247,15 +127,16 @@ export const useCssConversion = () => {
                 typeof variant.tokens === "object"
               ) {
                 for (const [prop, token] of Object.entries(variant.tokens)) {
-                  if (token && token.value !== undefined) {
-                    // Generate CSS variable: --azv-btn-primary-color
-                    rootVars.push(
-                      `  --azv-${componentName}-${variantName}-${prop}: ${token.value};`,
-                    );
-                  }
+                  // Generate CSS variable: --azv-btn-primary-color
+                  pushToken(componentName, [variantName], prop, token);
                 }
               }
             }
+          }
+
+          // Nested component tokens (e.g., listview header/searchbar/table)
+          if (version.nested && typeof version.nested === "object") {
+            walkNested(componentName, version.nested);
           }
         }
         continue;
@@ -269,31 +150,7 @@ export const useCssConversion = () => {
         typeof component.tokens === "object"
       ) {
         for (const [prop, token] of Object.entries(component.tokens)) {
-          if (token && token.value !== undefined) {
-            rootVars.push(`  --azv-${componentName}-${prop}: ${token.value};`);
-          }
-        }
-      }
-
-      // Variants → :root (e.g., listview, input)
-      const variants =
-        "variants" in component
-          ? component.variants
-          : "varients" in component
-            ? component.varients
-            : undefined;
-      if (variants && typeof variants === "object") {
-        for (const [variantName, variant] of Object.entries(variants)) {
-          if (variant && variant.tokens && typeof variant.tokens === "object") {
-            for (const [prop, token] of Object.entries(variant.tokens)) {
-              if (token && token.value !== undefined) {
-                // Generate CSS variable: --azv-listview-default-bg
-                rootVars.push(
-                  `  --azv-${componentName}-${variantName}-${prop}: ${token.value};`,
-                );
-              }
-            }
-          }
+          pushToken(componentName, [], prop, token);
         }
       }
     }
@@ -301,7 +158,7 @@ export const useCssConversion = () => {
     let css = "";
     if (rootVars.length) {
       css = `:root {\n${rootVars.join("\n")}\n}`;
-      console.log(`Generated ${rootVars.length} CSS variables`);
+      console.log(`Generated ${rootVars.length} CSS variables`, css);
     } else {
       console.warn("No CSS variables generated!");
     }
@@ -378,7 +235,6 @@ export type {
   VariantConfig,
   VersionConfig,
   ComponentWithVersions,
-  ComponentWithoutVersions,
-  ComponentConfig,
+  NestedConfig,
   ThemeTokens,
 };

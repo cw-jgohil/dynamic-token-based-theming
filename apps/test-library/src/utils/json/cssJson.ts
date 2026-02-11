@@ -2,10 +2,10 @@ import { ThemeTokens } from "../hooks/useCssConversion";
 
 export const json: ThemeTokens = {
   table: {
+    activeVersion: "version1",
     versions: {
       version1: {
         tokens: {
-          // Typography
           "font-size": {
             value: "0.875rem",
             type: "input",
@@ -22,14 +22,12 @@ export const json: ThemeTokens = {
             allow: true,
           },
 
-          // Wrapper/Container
           radius: {
             value: "0.375rem",
             type: "input",
             allow: true,
           },
 
-          // Table Header (head)
           "head-bg": {
             value: "#a9aaa8",
             type: "color",
@@ -51,7 +49,6 @@ export const json: ThemeTokens = {
             allow: true,
           },
 
-          // Table Header Cell (th)
           "cell-padding-x": {
             value: "0.75rem",
             type: "input",
@@ -63,7 +60,6 @@ export const json: ThemeTokens = {
             allow: true,
           },
 
-          // Table Body (body)
           "body-bg": {
             value: "#ffffff",
             type: "color",
@@ -75,7 +71,6 @@ export const json: ThemeTokens = {
             allow: true,
           },
 
-          // Empty State
           "empty-color": {
             value: "#6c757d",
             type: "color",
@@ -86,6 +81,7 @@ export const json: ThemeTokens = {
     },
   },
   btn: {
+    activeVersion: "version1",
     versions: {
       version1: {
         variants: {
@@ -503,10 +499,10 @@ export const json: ThemeTokens = {
     },
   },
   listview: {
+    activeVersion: "version1",
     versions: {
       version1: {
         tokens: {
-          /* Wrapper & table wrap (_listview.scss) */
           radius: {
             value: "0.375rem",
             type: "input",
@@ -527,7 +523,6 @@ export const json: ThemeTokens = {
             type: "input",
             allow: true,
           },
-          /* Head / thead */
           "head-bg": {
             value: "#f8f9fa",
             type: "color",
@@ -548,7 +543,6 @@ export const json: ThemeTokens = {
             type: "select",
             allow: true,
           },
-          /* Cell padding */
           "cell-padding-x": {
             value: "0.75rem",
             type: "input",
@@ -559,7 +553,6 @@ export const json: ThemeTokens = {
             type: "input",
             allow: true,
           },
-          /* Body / tbody */
           "body-bg": {
             value: "#ffffff",
             type: "color",
@@ -570,7 +563,6 @@ export const json: ThemeTokens = {
             type: "color",
             allow: true,
           },
-          /* Row hover */
           "item-hover-bg": {
             value: "#f8f9fa",
             type: "color",
@@ -581,7 +573,6 @@ export const json: ThemeTokens = {
             type: "color",
             allow: true,
           },
-          /* Empty state */
           "empty-color": {
             value: "#6c757d",
             type: "color",
@@ -592,7 +583,6 @@ export const json: ThemeTokens = {
             type: "input",
             allow: true,
           },
-          /* Search (themeable from listview) */
           "search-bg": {
             value: "#ffffff",
             type: "color",
@@ -618,7 +608,6 @@ export const json: ThemeTokens = {
             type: "color",
             allow: true,
           },
-          /* Pagination (themeable from listview) */
           "pagination-color": {
             value: "#144d8b",
             type: "color",
@@ -644,6 +633,7 @@ export const json: ThemeTokens = {
     },
   },
   input: {
+    activeVersion: "version1",
     versions: {
       version1: {
         tokens: {
@@ -653,15 +643,27 @@ export const json: ThemeTokens = {
           color: { value: "#212529", type: "color", allow: true },
           bg: { value: "#ffffff", type: "color", allow: true },
           "border-width": { value: "1px", type: "input", allow: true },
-          "border-color": { value: "rgba(0, 0, 0, 0.125)", type: "color", allow: true },
+          "border-color": {
+            value: "rgba(0, 0, 0, 0.125)",
+            type: "color",
+            allow: true,
+          },
           radius: { value: "0.375rem", type: "input", allow: true },
           "placeholder-color": { value: "#6c757d", type: "color", allow: true },
           "focus-color": { value: "#212529", type: "color", allow: true },
           "focus-bg": { value: "#ffffff", type: "color", allow: true },
-          "focus-border-color": { value: "#144d8b", type: "color", allow: true },
+          "focus-border-color": {
+            value: "#144d8b",
+            type: "color",
+            allow: true,
+          },
           "disabled-color": { value: "#6c757d", type: "color", allow: true },
           "disabled-bg": { value: "#e9ecef", type: "color", allow: true },
-          "disabled-border-color": { value: "rgba(0, 0, 0, 0.125)", type: "color", allow: true },
+          "disabled-border-color": {
+            value: "rgba(0, 0, 0, 0.125)",
+            type: "color",
+            allow: true,
+          },
           "error-color": { value: "#dc3545", type: "color", allow: true },
           "icon-size": { value: "1rem", type: "input", allow: true },
           "icon-color": { value: "#144d8b", type: "color", allow: true },
@@ -671,6 +673,7 @@ export const json: ThemeTokens = {
     },
   },
   pagination: {
+    activeVersion: "version1",
     versions: {
       version1: {
         tokens: {
@@ -680,24 +683,41 @@ export const json: ThemeTokens = {
           color: { value: "#144d8b", type: "color", allow: true },
           bg: { value: "#ffffff", type: "color", allow: true },
           "border-width": { value: "1px", type: "input", allow: true },
-          "border-color": { value: "rgba(0, 0, 0, 0.125)", type: "color", allow: true },
+          "border-color": {
+            value: "rgba(0, 0, 0, 0.125)",
+            type: "color",
+            allow: true,
+          },
           "border-radius": { value: "0.375rem", type: "input", allow: true },
           "hover-color": { value: "#0d305c", type: "color", allow: true },
           "hover-bg": { value: "#e9ecef", type: "color", allow: true },
-          "hover-border-color": { value: "rgba(0, 0, 0, 0.125)", type: "color", allow: true },
+          "hover-border-color": {
+            value: "rgba(0, 0, 0, 0.125)",
+            type: "color",
+            allow: true,
+          },
           "focus-color": { value: "#0d305c", type: "color", allow: true },
           "focus-bg": { value: "#e9ecef", type: "color", allow: true },
           "active-color": { value: "#ffffff", type: "color", allow: true },
           "active-bg": { value: "#144d8b", type: "color", allow: true },
-          "active-border-color": { value: "#144d8b", type: "color", allow: true },
+          "active-border-color": {
+            value: "#144d8b",
+            type: "color",
+            allow: true,
+          },
           "disabled-color": { value: "#6c757d", type: "color", allow: true },
           "disabled-bg": { value: "#ffffff", type: "color", allow: true },
-          "disabled-border-color": { value: "rgba(0, 0, 0, 0.125)", type: "color", allow: true },
+          "disabled-border-color": {
+            value: "rgba(0, 0, 0, 0.125)",
+            type: "color",
+            allow: true,
+          },
         },
       },
     },
   },
   badge: {
+    activeVersion: "version1",
     versions: {
       version1: {
         variants: {
@@ -794,42 +814,52 @@ export const json: ThemeTokens = {
     },
   },
   checkbox: {
-    tokens: {
-      width: { value: "1.125rem", type: "input", allow: true },
-      height: { value: "1.125rem", type: "input", allow: true },
-      bg: { value: "#ffffff", type: "color", allow: true },
-      border: {
-        value: "1px solid #144d8b",
-        type: "input",
-        allow: true,
+    activeVersion: "version1",
+    versions: {
+      version1: {
+        tokens: {
+          width: { value: "1.125rem", type: "input", allow: true },
+          height: { value: "1.125rem", type: "input", allow: true },
+          bg: { value: "#ffffff", type: "color", allow: true },
+          border: {
+            value: "1px solid #144d8b",
+            type: "input",
+            allow: true,
+          },
+          "checked-bg": { value: "#144d8b", type: "color", allow: true },
+          "checked-border-color": {
+            value: "#144d8b",
+            type: "color",
+            allow: true,
+          },
+          "focus-border-color": {
+            value: "#144d8b",
+            type: "color",
+            allow: true,
+          },
+          "label-color": { value: "#212529", type: "color", allow: true },
+        },
       },
-      "checked-bg": { value: "#144d8b", type: "color", allow: true },
-      "checked-border-color": {
-        value: "#144d8b",
-        type: "color",
-        allow: true,
-      },
-      "focus-border-color": {
-        value: "#144d8b",
-        type: "color",
-        allow: true,
-      },
-      "label-color": { value: "#212529", type: "color", allow: true },
     },
   },
   select: {
-    tokens: {
-      padding: { value: "0.5rem 1rem", type: "input", allow: true },
-      "font-size": { value: "1rem", type: "input", allow: true },
-      color: { value: "#212529", type: "color", allow: true },
-      bg: { value: "#ffffff", type: "color", allow: true },
-      border: {
-        value: "1px solid rgba(0, 0, 0, 0.125)",
-        type: "input",
-        allow: true,
+    activeVersion: "version1",
+    versions: {
+      version1: {
+        tokens: {
+          padding: { value: "0.5rem 1rem", type: "input", allow: true },
+          "font-size": { value: "1rem", type: "input", allow: true },
+          color: { value: "#212529", type: "color", allow: true },
+          bg: { value: "#ffffff", type: "color", allow: true },
+          border: {
+            value: "1px solid rgba(0, 0, 0, 0.125)",
+            type: "input",
+            allow: true,
+          },
+          radius: { value: "0.375rem", type: "input", allow: true },
+          "error-color": { value: "#dc3545", type: "color", allow: true },
+        },
       },
-      radius: { value: "0.375rem", type: "input", allow: true },
-      "error-color": { value: "#dc3545", type: "color", allow: true },
     },
   },
 };

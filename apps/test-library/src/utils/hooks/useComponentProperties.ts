@@ -109,13 +109,18 @@
 
 // useComponentProperties.ts
 import { useMemo } from "react";
-import type { ThemeTokens, TokenValue } from "./useCssConversion";
+import type {
+  ThemeTokens,
+  TokenValue,
+  NestedConfig,
+} from "./useCssConversion";
 
 interface PropertyInfo {
   name: string;
   type: "color" | "input" | "select";
   value: string;
   allow: boolean;
+  path?: string[];
 }
 
 interface ComponentPropertiesResult {
@@ -126,6 +131,13 @@ interface ComponentPropertiesResult {
   hasVariants: boolean;
   activeVersion?: string;
   activeVariant?: string;
+  nestedGroups: NestedPropertyGroup[];
+}
+
+interface NestedPropertyGroup {
+  key: string;
+  properties: PropertyInfo[];
+  children: NestedPropertyGroup[];
 }
 
 const pickFirstKey = (obj?: Record<string, any>) =>
@@ -147,29 +159,71 @@ export const useComponentProperties = (
         variants: [],
         hasVersions: false,
         hasVariants: false,
+        nestedGroups: [],
       };
     }
 
     const properties: PropertyInfo[] = [];
     const versions = new Set<string>();
     const variants = new Set<string>();
+    const nestedGroups: NestedPropertyGroup[] = [];
 
-    const toProperty = (name: string, token: TokenValue): PropertyInfo => ({
+    const toProperty = (
+      name: string,
+      token: TokenValue,
+      path?: string[],
+    ): PropertyInfo => ({
       name,
       type: token.type,
       value: token.value,
       allow: token.allow,
+      path,
     });
 
+    const collectNestedGroups = (
+      source: Record<string, NestedConfig> | undefined,
+      pathPrefix: string[],
+    ): NestedPropertyGroup[] => {
+      if (!source || typeof source !== "object") return [];
+
+      const groups: NestedPropertyGroup[] = [];
+
+      for (const [key, config] of Object.entries(source)) {
+        if (!config || typeof config !== "object") continue;
+
+        const groupProperties: PropertyInfo[] = [];
+        const currentPath = [...pathPrefix, key];
+
+        if (config.tokens && typeof config.tokens === "object") {
+          for (const [name, token] of Object.entries(config.tokens)) {
+            groupProperties.push(toProperty(name, token, currentPath));
+          }
+        }
+
+        const children = collectNestedGroups(config.nested, currentPath);
+
+        groups.push({
+          key,
+          properties: groupProperties,
+          children,
+        });
+      }
+
+      return groups;
+    };
+
     /* ================= COMPONENT WITH VERSIONS ================= */
-    if ("versions" in component) {
+    if ("versions" in component && component.versions) {
       const versionKeys = Object.keys(component.versions);
       versionKeys.forEach((v) => versions.add(v));
 
       const activeVersion =
         selectedVersion && component.versions[selectedVersion]
           ? selectedVersion
-          : pickFirstKey(component.versions);
+          : component.activeVersion &&
+              component.versions[component.activeVersion]
+            ? component.activeVersion
+            : pickFirstKey(component.versions);
 
       const version = activeVersion
         ? component.versions[activeVersion]
@@ -182,6 +236,7 @@ export const useComponentProperties = (
           variants: [],
           hasVersions: versions.size > 0,
           hasVariants: false,
+          nestedGroups: [],
         };
       }
 
@@ -205,6 +260,10 @@ export const useComponentProperties = (
           });
         }
 
+        if (version.nested) {
+          nestedGroups.push(...collectNestedGroups(version.nested, []));
+        }
+
         return {
           properties,
           versions: Array.from(versions),
@@ -213,6 +272,7 @@ export const useComponentProperties = (
           hasVariants: variants.size > 0,
           activeVersion,
           activeVariant,
+        nestedGroups,
         };
       }
 
@@ -223,6 +283,10 @@ export const useComponentProperties = (
         });
       }
 
+      if (version.nested) {
+        nestedGroups.push(...collectNestedGroups(version.nested, []));
+      }
+
       return {
         properties,
         versions: Array.from(versions),
@@ -230,57 +294,19 @@ export const useComponentProperties = (
         hasVersions: true,
         hasVariants: false,
         activeVersion,
+        nestedGroups,
       };
-    }
-
-    /* ================= COMPONENT WITHOUT VERSIONS ================= */
-
-    const componentVariants = component.variants || component.varients;
-
-    if (componentVariants) {
-      const variantKeys = Object.keys(componentVariants);
-      variantKeys.forEach((v) => variants.add(v));
-
-      const activeVariant =
-        selectedVariant && componentVariants[selectedVariant]
-          ? selectedVariant
-          : pickFirstKey(componentVariants);
-
-      const variant = activeVariant
-        ? componentVariants[activeVariant]
-        : undefined;
-
-      if (variant) {
-        Object.entries(variant.tokens).forEach(([name, token]) => {
-          properties.push(toProperty(name, token));
-        });
-      }
-
-      return {
-        properties,
-        versions: [],
-        variants: Array.from(variants),
-        hasVersions: false,
-        hasVariants: true,
-        activeVariant,
-      };
-    }
-
-    /* ----- Plain component tokens ----- */
-    if (component.tokens) {
-      Object.entries(component.tokens).forEach(([name, token]) => {
-        properties.push(toProperty(name, token));
-      });
     }
 
     return {
       properties,
-      versions: [],
-      variants: [],
-      hasVersions: false,
-      hasVariants: false,
+      versions: Array.from(versions),
+      variants: Array.from(variants),
+      hasVersions: versions.size > 0,
+      hasVariants: variants.size > 0,
+      nestedGroups,
     };
   }, [theme, componentName, selectedVersion, selectedVariant]);
 };
 
-export type { PropertyInfo, ComponentPropertiesResult };
+export type { PropertyInfo, ComponentPropertiesResult, NestedPropertyGroup };
