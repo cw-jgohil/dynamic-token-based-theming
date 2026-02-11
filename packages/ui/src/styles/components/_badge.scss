@@ -27,6 +27,7 @@
 
   --bs-badge-color: var(--azv-badge-primary-color, var(--azv-white));
   --bs-badge-bg: var(--azv-badge-primary-bg, var(--azv-primary));
+  background-color: var(--bs-badge-bg);
 }
 
 /* ---------- SECONDARY ---------- */
@@ -54,6 +55,7 @@
 
   --bs-badge-color: var(--azv-badge-secondary-color, var(--azv-white));
   --bs-badge-bg: var(--azv-badge-secondary-bg, var(--azv-secondary));
+  background-color: var(--bs-badge-bg);
 }
 
 /* ---------- SUCCESS ---------- */
@@ -81,6 +83,7 @@
 
   --bs-badge-color: var(--azv-badge-success-color, var(--azv-white));
   --bs-badge-bg: var(--azv-badge-success-bg, var(--azv-success));
+  background-color: var(--bs-badge-bg);
 }
 
 /* ---------- DANGER ---------- */
@@ -108,6 +111,7 @@
 
   --bs-badge-color: var(--azv-badge-danger-color, var(--azv-white));
   --bs-badge-bg: var(--azv-badge-danger-bg, var(--azv-danger));
+  background-color: var(--bs-badge-bg);
 }
 
 /* ---------- WARNING ---------- */
@@ -135,6 +139,7 @@
 
   --bs-badge-color: var(--azv-badge-warning-color, var(--azv-dark));
   --bs-badge-bg: var(--azv-badge-warning-bg, var(--azv-warning));
+  background-color: var(--bs-badge-bg);
 }
 
 /* ---------- INFO ---------- */
@@ -162,6 +167,7 @@
 
   --bs-badge-color: var(--azv-badge-info-color, var(--azv-white));
   --bs-badge-bg: var(--azv-badge-info-bg, var(--azv-info));
+  background-color: var(--bs-badge-bg);
 }
 
 /* ---------- LIGHT ---------- */
@@ -189,6 +195,7 @@
 
   --bs-badge-color: var(--azv-badge-light-color, var(--azv-dark));
   --bs-badge-bg: var(--azv-badge-light-bg, var(--azv-light));
+  background-color: var(--bs-badge-bg);
 }
 
 /* ---------- DARK ---------- */
@@ -216,5 +223,5 @@
 
   --bs-badge-color: var(--azv-badge-dark-color, var(--azv-white));
   --bs-badge-bg: var(--azv-badge-dark-bg, var(--azv-dark));
+  background-color: var(--bs-badge-bg);
 }
-

@@ -68,11 +68,132 @@
 
   --azv-table-cell-padding-y: 0.5rem;
   --azv-table-cell-padding-x: 0.75rem;
+  --azv-table-body-bg: var(--azv-white);
+  --azv-table-body-color: var(--azv-black);
 
   --azv-table-radius: 0.375rem;
   --azv-table-empty-color: #6c757d;
   --azv-primary-shadow: 0 0 0 0.25rem rgba(20, 77, 139, 0.25);
-  --azv-input-padding: 0.5rem;
   --azv-shadow-md: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
   --azv-border-color: rgba(0, 0, 0, 0.125);
+
+  /* ---------- INPUT ---------- */
+  --azv-input-padding-x: var(--azv-padding-x);
+  --azv-input-padding-y: var(--azv-padding-y);
+  --azv-input-font-size: var(--azv-font-size-base);
+  --azv-input-color: var(--azv-dark);
+  --azv-input-bg: var(--azv-white);
+  --azv-input-border-width: var(--azv-border-width);
+  --azv-input-border-color: var(--azv-border-color);
+  --azv-input-radius: var(--azv-radius-md);
+  --azv-input-placeholder-color: var(--azv-secondary);
+  --azv-input-focus-color: var(--azv-dark);
+  --azv-input-focus-bg: var(--azv-white);
+  --azv-input-focus-border-color: var(--azv-primary);
+  --azv-input-focus-box-shadow: 0 0 0 0.2rem rgba(20, 77, 139, 0.25);
+  --azv-input-disabled-color: var(--azv-secondary);
+  --azv-input-disabled-bg: var(--azv-light);
+  --azv-input-disabled-border-color: var(--azv-border-color);
+  --azv-input-error-color: var(--azv-danger);
+  --azv-input-icon-size: var(--azv-font-size-base);
+  --azv-input-icon-color: var(--azv-primary);
+  --azv-input-icon-gap: 0.5rem;
+
+  /* ---------- PAGINATION ---------- */
+  --azv-pagination-padding-x: 0.5rem;
+  --azv-pagination-padding-y: 0.375rem;
+  --azv-pagination-font-size: var(--azv-font-size-base);
+  --azv-pagination-color: var(--azv-primary);
+  --azv-pagination-bg: var(--azv-white);
+  --azv-pagination-border-width: 1px;
+  --azv-pagination-border-color: var(--azv-border-color);
+  --azv-pagination-border-radius: var(--azv-radius-md);
+  --azv-pagination-hover-color: var(--azv-primary-dark);
+  --azv-pagination-hover-bg: var(--azv-light);
+  --azv-pagination-hover-border-color: var(--azv-border-color);
+  --azv-pagination-focus-color: var(--azv-primary-dark);
+  --azv-pagination-focus-bg: var(--azv-light);
+  --azv-pagination-focus-box-shadow: 0 0 0 0.2rem rgba(20, 77, 139, 0.25);
+  --azv-pagination-active-color: var(--azv-white);
+  --azv-pagination-active-bg: var(--azv-primary);
+  --azv-pagination-active-border-color: var(--azv-primary);
+  --azv-pagination-disabled-color: var(--azv-secondary);
+  --azv-pagination-disabled-bg: var(--azv-white);
+  --azv-pagination-disabled-border-color: var(--azv-border-color);
+
+  /* ---------- BADGE (Bootstrap .badge + --bs-badge-* overrides) ---------- */
+  --azv-padding-y-xs: 0.25rem;
+
+  /* ---------- CHECKBOX (Bootstrap .form-check-input + AZV tokens) ---------- */
+  --azv-checkbox-width: 1.125rem;
+  --azv-checkbox-height: 1.125rem;
+  --azv-checkbox-bg: var(--azv-white);
+  --azv-checkbox-border-width: var(--azv-border-width);
+  --azv-checkbox-border-color: var(--azv-primary);
+  --azv-checkbox-checked-bg: var(--azv-primary);
+  --azv-checkbox-checked-border-color: var(--azv-primary);
+  --azv-checkbox-focus-border-color: var(--azv-primary);
+  --azv-checkbox-focus-box-shadow: 0 0 0 0.2rem rgba(20, 77, 139, 0.25);
+  --azv-checkbox-label-color: var(--azv-dark);
+
+  /* ---------- SELECT (Bootstrap .form-select + AZV tokens) ---------- */
+  --azv-select-padding: 0.5rem 1rem;
+  --azv-select-font-size: var(--azv-font-size-base);
+  --azv-select-color: var(--azv-dark);
+  --azv-select-bg: var(--azv-white);
+  --azv-select-border: 1px solid var(--azv-border-color);
+  --azv-select-radius: var(--azv-radius-md);
+  --azv-select-error-color: var(--azv-danger);
+
+  /* ---------- LISTVIEW (table view) ---------- */
+  --azv-listview-bg: var(--azv-white);
+  --azv-listview-border-width: var(--azv-border-width);
+  --azv-listview-border-color: var(--azv-border-color);
+  --azv-listview-radius: var(--azv-radius-md);
+  --azv-listview-font-size: var(--azv-font-size-base);
+  /* Header (title above table) */
+  --azv-listview-header-bg: var(--azv-light);
+  --azv-listview-header-color: var(--azv-dark);
+  --azv-listview-header-font-size: var(--azv-font-size-base);
+  --azv-listview-header-font-weight: var(--azv-font-weight);
+  --azv-listview-header-padding-x: var(--azv-padding-x);
+  --azv-listview-header-padding-y: var(--azv-padding-y);
+  /* Table head (thead) */
+  --azv-listview-head-bg: var(--azv-light);
+  --azv-listview-head-color: var(--azv-dark);
+  --azv-listview-head-text-align: left;
+  --azv-listview-head-font-weight: var(--azv-font-weight);
+  /* Cell padding */
+  --azv-listview-cell-padding-x: var(--azv-padding-x);
+  --azv-listview-cell-padding-y: var(--azv-padding-y);
+  /* Body (tbody) */
+  --azv-listview-body-bg: var(--azv-white);
+  --azv-listview-body-color: var(--azv-dark);
+  --azv-listview-item-bg: var(--azv-white);
+  --azv-listview-item-color: var(--azv-dark);
+  --azv-listview-item-padding-x: var(--azv-padding-x);
+  --azv-listview-item-padding-y: var(--azv-padding-y);
+  --azv-listview-item-border-color: var(--azv-border-color);
+  --azv-listview-item-hover-bg: var(--azv-light);
+  --azv-listview-item-hover-color: var(--azv-dark);
+  --azv-listview-item-heading-font-size: var(--azv-font-size-base);
+  --azv-listview-item-heading-font-weight: 600;
+  --azv-listview-item-text-color: var(--azv-dark);
+  /* Footer (tfoot) */
+  --azv-listview-foot-bg: var(--azv-light);
+  --azv-listview-foot-color: var(--azv-dark);
+  /* Empty state */
+  --azv-listview-empty-color: var(--azv-secondary);
+  --azv-listview-empty-font-size: var(--azv-font-size-base);
+  /* Search (inside listview) */
+  --azv-listview-search-bg: var(--azv-white);
+  --azv-listview-search-color: var(--azv-dark);
+  --azv-listview-search-border-color: var(--azv-border-color);
+  --azv-listview-search-font-size: var(--azv-font-size-base);
+  --azv-listview-search-placeholder-color: var(--azv-secondary);
+  /* Pagination (inside listview) */
+  --azv-listview-pagination-color: var(--azv-primary);
+  --azv-listview-pagination-active-bg: var(--azv-primary);
+  --azv-listview-pagination-active-border-color: var(--azv-primary);
+  --azv-listview-pagination-active-color: var(--azv-white);
 }

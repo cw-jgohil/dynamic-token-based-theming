@@ -1,0 +1,181 @@
+/* ==========================================================
+   AZV LISTVIEW — Table view (thead + tbody themeable via tokens)
+   Override --azv-listview-head-* and --azv-listview-body-* to theme.
+   ========================================================== */
+
+.azv-listview-wrapper {
+  overflow: auto;
+  width: 100%;
+  max-height: 100%;
+  border-radius: var(--azv-listview-radius);
+  outline: none;
+
+  &:focus,
+  &:focus-visible {
+    outline: none;
+    box-shadow: none;
+  }
+}
+
+/* ---------- Toolbar (search) — themeable via --azv-listview-search-* ---------- */
+.azv-listview-toolbar {
+  margin-bottom: 0.75rem;
+}
+
+.azv-listview-search-wrap {
+  max-width: 320px;
+
+  .form-control.azv-form-control,
+  .form-control {
+    background-color: var(--azv-listview-search-bg);
+    color: var(--azv-listview-search-color);
+    border-color: var(--azv-listview-search-border-color);
+    font-size: var(--azv-listview-search-font-size);
+
+    &::placeholder {
+      color: var(--azv-listview-search-placeholder-color);
+    }
+  }
+}
+
+/* ---------- Pagination wrap — themeable via --azv-listview-pagination-* ---------- */
+.azv-listview-pagination-wrap {
+  margin-top: 0.75rem;
+  display: flex;
+  justify-content: flex-end;
+
+  .pagination {
+    --bs-pagination-color: var(--azv-listview-pagination-color);
+    --bs-pagination-active-bg: var(--azv-listview-pagination-active-bg);
+    --bs-pagination-active-border-color: var(--azv-listview-pagination-active-border-color);
+    --bs-pagination-active-color: var(--azv-listview-pagination-active-color);
+  }
+}
+
+.azv-listview-table-wrap {
+  border: var(--azv-listview-border-width) solid
+    var(--azv-listview-border-color);
+  border-radius: var(--azv-listview-radius);
+  overflow: hidden;
+}
+
+/* ---------- Table base ---------- */
+.table.azv-listview {
+  width: 100%;
+  min-width: max-content;
+  table-layout: auto;
+  border-collapse: collapse;
+  margin-bottom: 0;
+  font-size: var(--azv-listview-font-size);
+
+  &:focus,
+  &:focus-visible {
+    outline: none;
+  }
+}
+
+/* ---------- THEAD (themeable) ---------- */
+.azv-listview-thead {
+  border-bottom: var(--azv-listview-border-width) solid
+    var(--azv-listview-border-color);
+
+  .azv-listview-th {
+    padding: var(--azv-listview-cell-padding-y) var(--azv-listview-cell-padding-x);
+    text-align: var(--azv-listview-head-text-align, left);
+    vertical-align: middle;
+    font-weight: var(--azv-listview-head-font-weight);
+    font-size: var(--azv-listview-font-size);
+    /* Themeable head: use tokens so theme overrides apply */
+    background-color: var(--azv-listview-head-bg);
+    color: var(--azv-listview-head-color);
+    border-bottom: var(--azv-listview-border-width) solid
+      var(--azv-listview-border-color);
+  }
+}
+
+/* ---------- TBODY (themeable) ---------- */
+.azv-listview-tbody {
+  /* Themeable body: set on tbody so rows/cells inherit; theme overrides apply */
+  background-color: var(--azv-listview-body-bg);
+  color: var(--azv-listview-body-color);
+
+  .azv-listview-row {
+    font-size: var(--azv-listview-font-size);
+    background-color: var(--azv-listview-body-bg);
+    color: var(--azv-listview-body-color);
+  }
+
+  .azv-listview-td {
+    padding: var(--azv-listview-cell-padding-y) var(--azv-listview-cell-padding-x);
+    vertical-align: middle;
+    border-bottom: var(--azv-listview-border-width) solid
+      var(--azv-listview-border-color);
+    /* Themeable cell: inherit from row/body tokens */
+    background-color: var(--azv-listview-body-bg);
+    color: var(--azv-listview-body-color);
+  }
+
+  /* No border on last data row */
+  .azv-listview-row:last-child .azv-listview-td {
+    border-bottom: none;
+  }
+}
+
+.azv-listview-row-action {
+  cursor: pointer;
+}
+
+.azv-listview-row-action:hover .azv-listview-td {
+  background-color: var(--azv-listview-item-hover-bg);
+  color: var(--azv-listview-item-hover-color);
+}
+
+/* Active row theming removed - uncomment when re-enabling active logic
+.table.azv-listview .table-active .azv-listview-td {
+  background-color: var(--azv-listview-item-active-bg);
+  color: var(--azv-listview-item-active-color);
+}
+*/
+
+/* ---------- Empty state ---------- */
+.azv-listview-empty {
+  padding: 1.5rem;
+  text-align: center;
+  font-style: italic;
+  color: var(--azv-listview-empty-color);
+  font-size: var(--azv-listview-empty-font-size);
+  background-color: var(--azv-listview-body-bg);
+}
+
+/* ---------- Legacy list-group subcomponents (composition mode) ---------- */
+.list-group.azv-listview-body {
+  --bs-list-group-color: var(--azv-listview-item-color, var(--azv-dark));
+  --bs-list-group-bg: var(--azv-listview-bg, var(--azv-white));
+  --bs-list-group-border-color: var(--azv-listview-border-color);
+  --bs-list-group-border-width: var(--azv-listview-border-width);
+  --bs-list-group-border-radius: var(--azv-listview-radius);
+  --bs-list-group-item-padding-x: var(--azv-listview-item-padding-x);
+  --bs-list-group-item-padding-y: var(--azv-listview-item-padding-y);
+  --bs-list-group-active-color: var(--azv-listview-item-active-color, var(--azv-white));
+  --bs-list-group-active-bg: var(--azv-listview-item-active-bg, var(--azv-primary));
+  --bs-list-group-active-border-color: var(--azv-listview-item-active-bg, var(--azv-primary));
+}
+
+.list-group-item.azv-listview-item {
+  font-size: var(--azv-listview-font-size);
+}
+
+.azv-listview-item-heading {
+  font-size: var(--azv-listview-item-heading-font-size);
+  font-weight: var(--azv-listview-item-heading-font-weight);
+  color: inherit;
+}
+
+.azv-listview-item-text {
+  color: var(--azv-listview-item-text-color);
+  margin-bottom: 0;
+}
+
+.azv-listview-empty-wrapper {
+  list-style: none;
+}

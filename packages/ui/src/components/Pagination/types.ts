@@ -13,5 +13,7 @@ export interface PaginationProps {
   className?: string;
   /** Whether to show "First" and "Last" controls. */
   showFirstLast?: boolean;
+  /** Optional version for theming (e.g. azv-pagination-version1). */
+  version?: string;
 }
 

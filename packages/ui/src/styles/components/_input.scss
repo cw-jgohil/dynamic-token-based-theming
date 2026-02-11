@@ -1,6 +1,9 @@
-.azv-input-search {
-  max-width: 400px;
-}
+/* ==========================================================
+   AZV INPUT — Bootstrap .form-control + AZV tokens
+   Bootstrap does not expose CSS variables for form-control (only Sass vars
+   and --bs-form-valid-* / --bs-form-invalid-* for validation). We theme via
+   --azv-input-* on .azv-input so inputs are themeable without recompiling.
+   ========================================================== */
 
 .azv-input-group {
   display: flex;
@@ -26,21 +29,42 @@
   }
 }
 
-.azv-form-control {
-  padding: var(--azv-input-padding);
+/* Themeable via --azv-input-* (Bootstrap .form-control base + our overrides) */
+.azv-input .form-control.azv-form-control,
+.azv-input .form-control {
+  padding: var(--azv-input-padding-y) var(--azv-input-padding-x);
   font-size: var(--azv-input-font-size, var(--azv-font-size-base));
-  color: var(--azv-input-color, var(--azv-primary-dark));
+  color: var(--azv-input-color, var(--azv-dark));
   background-color: var(--azv-input-bg, var(--azv-white));
-  border: var(
-    --azv-input-border,
-    var(--azv-border-width) solid var(--azv-primary)
-  );
+  border: var(--azv-input-border-width, 1px) solid
+    var(--azv-input-border-color, var(--azv-border-color));
+  border-radius: var(--azv-input-radius, var(--azv-radius-md));
+
+  &::placeholder {
+    color: var(--azv-input-placeholder-color, var(--azv-secondary));
+    opacity: 1;
+  }
+
+  &:focus {
+    color: var(--azv-input-focus-color, var(--azv-input-color));
+    background-color: var(--azv-input-focus-bg, var(--azv-input-bg));
+    border-color: var(--azv-input-focus-border-color, var(--azv-primary));
+    outline: 0;
+    box-shadow: var(--azv-input-focus-box-shadow, 0 0 0 0.2rem rgba(20, 77, 139, 0.25));
+  }
+
+  &:disabled {
+    color: var(--azv-input-disabled-color, var(--azv-secondary));
+    background-color: var(--azv-input-disabled-bg, var(--azv-light));
+    border-color: var(--azv-input-disabled-border-color);
+  }
 }
 
 .azv-form-control-with-start-icon {
-  padding-left: 36px;
+  padding-left: 2.25rem;
 }
 
-.azv-input-error {
+.azv-input-error,
+.invalid-feedback.azv-input-error {
   color: var(--azv-input-error-color, var(--azv-danger));
 }

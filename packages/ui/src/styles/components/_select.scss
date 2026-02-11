@@ -3,26 +3,15 @@
 }
 
 .azv-form-select {
-  padding: var(--azv-select-padding, var(--azv-input-padding));
-  font-size: var(
-    --azv-select-font-size,
-    var(--azv-input-font-size, var(--azv-font-size-base))
-  );
-  color: var(
-    --azv-select-color,
-    var(--azv-input-color, var(--azv-primary-dark))
-  );
-  background-color: var(
-    --azv-select-bg,
-    var(--azv-input-bg, var(--azv-white))
-  );
+  padding: var(--azv-select-padding, 0.5rem 1rem);
+  font-size: var(--azv-select-font-size, var(--azv-font-size-base));
+  color: var(--azv-select-color, var(--azv-dark));
+  background-color: var(--azv-select-bg, var(--azv-white));
   border: var(
     --azv-select-border,
-    var(
-      --azv-input-border,
-      var(--azv-border-width) solid var(--azv-primary)
-    )
+    var(--azv-border-width) solid var(--azv-border-color)
   );
+  border-radius: var(--azv-select-radius, var(--azv-radius-md));
 }
 
 .form-select-sm {

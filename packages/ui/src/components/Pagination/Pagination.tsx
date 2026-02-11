@@ -8,6 +8,7 @@ export const Pagination = ({
   size = "md",
   className = "",
   showFirstLast = false,
+  version,
 }: PaginationProps) => {
   const { pages, sizeClass, handlePageClick, isFirstPage, isLastPage } =
     usePagination({
@@ -19,8 +20,12 @@ export const Pagination = ({
       showFirstLast,
     });
 
+  const versionClass = version ? `azv-pagination-${version}` : "";
   return (
-    <nav className={`azv-pagination ${className}`} aria-label="Pagination navigation">
+    <nav
+      className={`azv-pagination ${versionClass} ${className}`.trim()}
+      aria-label="Pagination navigation"
+    >
       <ul className={`pagination mb-0 justify-content-end ${sizeClass}`}>
         <li className={`page-item ${isFirstPage ? "disabled" : ""}`}>
           <button

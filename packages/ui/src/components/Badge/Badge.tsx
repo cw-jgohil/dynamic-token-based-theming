@@ -11,7 +11,6 @@ const Badge = ({
 
   const classes = [
     "badge azv-badge",
-    `bg-${variant}`,
     `azv-badge-${variant}`,
     versionClass,
     className,

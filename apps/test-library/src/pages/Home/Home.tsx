@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useComponents } from "../../api/components";
 import { useThemes } from "../../api/themes";
 import {
@@ -6,11 +6,18 @@ import {
   componentRegistry,
 } from "../../utils/json/componentsMapping";
 import { useThemeContext } from "../../context/ThemeContext";
+import {
+  LISTVIEW_COLUMNS,
+  LISTVIEW_ROWS,
+  type ListViewDemoRow,
+} from "../../constants/listview";
 
 const Home = () => {
   const { data: components, isLoading: componentsLoading } = useComponents();
   const { data: themes, isLoading: themesLoading } = useThemes();
   const { currentTheme, themeJson, setCurrentTheme } = useThemeContext();
+  const [listViewActiveIndex, setListViewActiveIndex] = useState<number>(0);
+  const [paginationPage, setPaginationPage] = useState<number>(1);
 
   // Set first theme as default when themes are loaded
   useEffect(() => {
@@ -191,6 +198,104 @@ const Home = () => {
                                 pageSize={5}
                                 enableCheckbox={true}
                               />
+                            </div>
+                          </div>
+                        ) : component["component-key"] === "listview" ? (
+                          <div>
+                            <h6 className="small fw-bold mb-3">Preview:</h6>
+                            <div className="mt-3" style={{ maxWidth: "480px" }}>
+                              <registryItem.component
+                                version={firstVersion}
+                                rows={LISTVIEW_ROWS}
+                                columns={LISTVIEW_COLUMNS}
+                                showHeader={true}
+                                enableSearch={true}
+                                searchPlaceholder="Search team..."
+                                enablePagination={true}
+                                pageSize={2}
+                                paginationSize="sm"
+                                keyExtractor={(row: ListViewDemoRow) => row.id}
+                                onRowClick={(
+                                  _row: ListViewDemoRow,
+                                  index: number,
+                                ) => setListViewActiveIndex(index)}
+                                activeIndex={listViewActiveIndex}
+                                emptyMessage="No items to display."
+                                aria-label="Team list"
+                              />
+                            </div>
+                          </div>
+                        ) : component["component-key"] === "input" ? (
+                          <div>
+                            <h6 className="small fw-bold mb-3">Preview:</h6>
+                            <div className="mt-3" style={{ maxWidth: "320px" }}>
+                              <registryItem.component
+                                version={firstVersion}
+                                placeholder="Type here..."
+                                aria-label="Demo input"
+                              />
+                            </div>
+                          </div>
+                        ) : component["component-key"] === "pagination" ? (
+                          <div>
+                            <h6 className="small fw-bold mb-3">Preview:</h6>
+                            <div className="mt-3">
+                              <registryItem.component
+                                version={firstVersion}
+                                currentPage={paginationPage}
+                                totalPages={5}
+                                onPageChange={setPaginationPage}
+                                showFirstLast
+                              />
+                            </div>
+                          </div>
+                        ) : component["component-key"] === "badge" ? (
+                          <div>
+                            <h6 className="small fw-bold mb-3">
+                              All Variants ({variants.length || 8}):
+                            </h6>
+                            <div className="d-flex flex-wrap gap-2">
+                              {(variants.length ? variants : [
+                                "primary",
+                                "secondary",
+                                "success",
+                                "danger",
+                                "warning",
+                                "info",
+                                "light",
+                                "dark",
+                              ]).map((variant) => (
+                                <registryItem.component
+                                  key={variant}
+                                  variant={variant}
+                                  version={firstVersion}
+                                >
+                                  {variant}
+                                </registryItem.component>
+                              ))}
+                            </div>
+                          </div>
+                        ) : component["component-key"] === "checkbox" ? (
+                          <div>
+                            <h6 className="small fw-bold mb-3">Preview:</h6>
+                            <registryItem.component
+                              label="Checkbox label"
+                              defaultChecked
+                            />
+                          </div>
+                        ) : component["component-key"] === "select" ? (
+                          <div>
+                            <h6 className="small fw-bold mb-3">Preview:</h6>
+                            <div className="mt-3" style={{ maxWidth: "320px" }}>
+                              <registryItem.component
+                                version={firstVersion}
+                                defaultValue="option1"
+                                aria-label="Demo select"
+                              >
+                                <option value="option1">Option 1</option>
+                                <option value="option2">Option 2</option>
+                                <option value="option3">Option 3</option>
+                              </registryItem.component>
                             </div>
                           </div>
                         ) : (

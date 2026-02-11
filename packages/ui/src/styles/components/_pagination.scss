@@ -1,6 +1,27 @@
-.pagination {
-    --bs-pagination-color: var(--azv-pagination-color, var(--azv-primary));
-    --bs-pagination-active-bg: var(--azv-pagination-active-bg, var(--azv-primary));
-    --bs-pagination-active-border-color: var(--azv-pagination-active-border-color, var(--azv-primary));
-}
+/* ==========================================================
+   AZV PAGINATION — Bootstrap .pagination + --bs-pagination-* overrides
+   Override --azv-pagination-* to theme.
+   ========================================================== */
 
+.azv-pagination .pagination {
+  --bs-pagination-padding-x: var(--azv-pagination-padding-x);
+  --bs-pagination-padding-y: var(--azv-pagination-padding-y);
+  --bs-pagination-font-size: var(--azv-pagination-font-size);
+  --bs-pagination-color: var(--azv-pagination-color);
+  --bs-pagination-bg: var(--azv-pagination-bg);
+  --bs-pagination-border-width: var(--azv-pagination-border-width);
+  --bs-pagination-border-color: var(--azv-pagination-border-color);
+  --bs-pagination-border-radius: var(--azv-pagination-border-radius);
+  --bs-pagination-hover-color: var(--azv-pagination-hover-color);
+  --bs-pagination-hover-bg: var(--azv-pagination-hover-bg);
+  --bs-pagination-hover-border-color: var(--azv-pagination-hover-border-color);
+  --bs-pagination-focus-color: var(--azv-pagination-focus-color);
+  --bs-pagination-focus-bg: var(--azv-pagination-focus-bg);
+  --bs-pagination-focus-box-shadow: var(--azv-pagination-focus-box-shadow);
+  --bs-pagination-active-color: var(--azv-pagination-active-color);
+  --bs-pagination-active-bg: var(--azv-pagination-active-bg);
+  --bs-pagination-active-border-color: var(--azv-pagination-active-border-color);
+  --bs-pagination-disabled-color: var(--azv-pagination-disabled-color);
+  --bs-pagination-disabled-bg: var(--azv-pagination-disabled-bg);
+  --bs-pagination-disabled-border-color: var(--azv-pagination-disabled-border-color);
+}

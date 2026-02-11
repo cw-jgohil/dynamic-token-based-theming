@@ -1,7 +1,24 @@
 import type { ComponentType } from "react";
-import { Button, DataGrid } from "@repo/ui";
+import {
+  Badge,
+  Button,
+  Checkbox,
+  DataGrid,
+  Input,
+  ListView,
+  Pagination,
+  Select,
+} from "@repo/ui";
 
-export type ComponentKey = "btn" | "table";
+export type ComponentKey =
+  | "btn"
+  | "table"
+  | "listview"
+  | "input"
+  | "pagination"
+  | "badge"
+  | "checkbox"
+  | "select";
 
 type ComponentRegistryItem = {
   component: ComponentType<any>;
@@ -16,5 +33,29 @@ export const componentRegistry: Record<ComponentKey, ComponentRegistryItem> = {
   table: {
     component: DataGrid,
     label: "Table",
+  },
+  listview: {
+    component: ListView,
+    label: "ListView",
+  },
+  input: {
+    component: Input,
+    label: "Input",
+  },
+  pagination: {
+    component: Pagination,
+    label: "Pagination",
+  },
+  badge: {
+    component: Badge,
+    label: "Badge",
+  },
+  checkbox: {
+    component: Checkbox,
+    label: "Checkbox",
+  },
+  select: {
+    component: Select,
+    label: "Select",
   },
 };

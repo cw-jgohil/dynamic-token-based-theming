@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import ConfigSidebar from "../../components/ConfigSidebar";
 import { useComponentProperties } from "../../utils/hooks/useComponentProperties";
 import ComponentSidebar from "../../components/ComponentSidebar";
@@ -15,6 +15,7 @@ const CssBuilder = () => {
   const { selectedVersion, selectedVariant, selectedComponents } =
     useAppSelector((state) => state.components);
   const { themeJson } = useThemeContext();
+  const [previewDisabled, setPreviewDisabled] = useState(false);
 
   const componentData = useComponentProperties(
     themeJson,
@@ -46,8 +47,12 @@ const CssBuilder = () => {
   return (
     <div style={{ display: "flex", height: "100%", minHeight: "100vh" }}>
       <ComponentSidebar />
-      <CssBuilderPage />
-      <ConfigSidebar componentData={componentData} />
+      <CssBuilderPage previewDisabled={previewDisabled} />
+      <ConfigSidebar
+        componentData={componentData}
+        previewDisabled={previewDisabled}
+        setPreviewDisabled={setPreviewDisabled}
+      />
     </div>
   );
 };
