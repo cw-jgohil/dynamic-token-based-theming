@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
 import { useComponents } from "../../api/components";
-import { useThemes } from "../../api/themes";
+import { useThemes, useCreateTheme, useDeleteTheme } from "../../api/themes";
 import {
   ComponentKey,
   componentRegistry,
 } from "../../utils/json/componentsMapping";
 import { useThemeContext } from "../../context/ThemeContext";
+import { useCssConversion } from "../../utils/hooks/useCssConversion";
 import {
   LISTVIEW_COLUMNS,
   LISTVIEW_ROWS,
@@ -15,9 +16,16 @@ import {
 const Home = () => {
   const { data: components, isLoading: componentsLoading } = useComponents();
   const { data: themes, isLoading: themesLoading } = useThemes();
-  const { currentTheme, themeJson, setCurrentTheme } = useThemeContext();
+  const { currentTheme, themeJson, themeUpdatedChanges, setCurrentTheme } =
+    useThemeContext();
+  const { generateCss, injectCss } = useCssConversion();
   const [listViewActiveIndex, setListViewActiveIndex] = useState<number>(0);
   const [paginationPage, setPaginationPage] = useState<number>(1);
+  const createTheme = useCreateTheme();
+  const deleteTheme = useDeleteTheme();
+  const [isCreateOpen, setIsCreateOpen] = useState(false);
+  const [newThemeName, setNewThemeName] = useState("");
+  const [newThemeDescription, setNewThemeDescription] = useState("");
 
   // Set first theme as default when themes are loaded
   useEffect(() => {
@@ -25,6 +33,68 @@ const Home = () => {
       setCurrentTheme(themes[0]);
     }
   }, [themes, currentTheme, setCurrentTheme]);
+
+  const handleCreateTheme = async (event: React.FormEvent) => {
+    event.preventDefault();
+    const name = newThemeName.trim();
+    const description = newThemeDescription.trim();
+
+    if (!name || !description) {
+      return;
+    }
+
+    try {
+      await createTheme.mutateAsync({ name, description });
+      setNewThemeName("");
+      setNewThemeDescription("");
+      setIsCreateOpen(false);
+    } catch (error) {
+      console.error("Failed to create theme:", error);
+      alert("Failed to create theme. Please try again.");
+    }
+  };
+
+  const handleDeleteTheme = async () => {
+    if (!currentTheme || currentTheme.id === "1") {
+      return;
+    }
+
+    const confirmDelete = window.confirm(
+      `Are you sure you want to delete theme "${currentTheme.name}"?`,
+    );
+    if (!confirmDelete) return;
+
+    try {
+      await deleteTheme.mutateAsync(currentTheme.id);
+      // Clear selection so the next themes fetch can reset to the default theme
+      setCurrentTheme(null);
+    } catch (error) {
+      console.error("Failed to delete theme:", error);
+      alert("Failed to delete theme. Please try again.");
+    }
+  };
+
+  // Inject only updatedChanges into azv-theme (no azv-theme-base)
+  useEffect(() => {
+    const patch = themeUpdatedChanges?.components ?? {};
+    const global = themeUpdatedChanges?.global;
+    const hasPatch =
+      patch && typeof patch === "object" && Object.keys(patch).length > 0;
+    const hasGlobal =
+      global && typeof global === "object" && Object.keys(global).length > 0;
+    if (!hasPatch && !hasGlobal) {
+      const el = document.getElementById("azv-theme");
+      if (el) el.remove();
+      return;
+    }
+
+    const css = generateCss(
+      hasPatch ? patch : {},
+      hasGlobal ? global : undefined,
+    );
+    if (!css.trim()) return;
+    injectCss(css, "azv-theme");
+  }, [themeUpdatedChanges, generateCss, injectCss]);
 
   // Extract all variants for a component
   const getComponentVariants = (componentKey: string) => {
@@ -107,10 +177,83 @@ const Home = () => {
                   </option>
                 ))}
               </select>
+              <button
+                type="button"
+                className="btn btn-outline-primary btn-sm"
+                onClick={() => setIsCreateOpen(true)}
+                disabled={themesLoading || createTheme.isPending}
+              >
+                {createTheme.isPending ? "Creating..." : "Create"}
+              </button>
+              {currentTheme && currentTheme.id !== "1" && (
+                <button
+                  type="button"
+                  className="btn btn-outline-danger btn-sm"
+                  onClick={handleDeleteTheme}
+                  disabled={themesLoading || deleteTheme.isPending}
+                >
+                  {deleteTheme.isPending ? "Deleting..." : "Delete"}
+                </button>
+              )}
             </div>
           </div>
         </div>
       </div>
+
+      {isCreateOpen && (
+        <div className="row mb-4">
+          <div className="col-12">
+            <div className="card">
+              <div className="card-body">
+                <h5 className="card-title mb-3">Create New Theme</h5>
+                <form className="row g-3" onSubmit={handleCreateTheme}>
+                  <div className="col-md-4">
+                    <label className="form-label">Name</label>
+                    <input
+                      className="form-control"
+                      value={newThemeName}
+                      onChange={(e) => setNewThemeName(e.target.value)}
+                      disabled={createTheme.isPending}
+                      required
+                    />
+                  </div>
+                  <div className="col-md-6">
+                    <label className="form-label">Description</label>
+                    <input
+                      className="form-control"
+                      value={newThemeDescription}
+                      onChange={(e) => setNewThemeDescription(e.target.value)}
+                      disabled={createTheme.isPending}
+                      required
+                    />
+                  </div>
+                  <div className="col-md-2 d-flex align-items-end gap-2">
+                    <button
+                      type="submit"
+                      className="btn btn-primary w-100"
+                      disabled={createTheme.isPending}
+                    >
+                      {createTheme.isPending ? "Creating..." : "Save"}
+                    </button>
+                    <button
+                      type="button"
+                      className="btn btn-outline-secondary w-100"
+                      onClick={() => {
+                        setIsCreateOpen(false);
+                        setNewThemeName("");
+                        setNewThemeDescription("");
+                      }}
+                      disabled={createTheme.isPending}
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Loading State */}
       {isLoading && (
@@ -255,16 +398,19 @@ const Home = () => {
                               All Variants ({variants.length || 8}):
                             </h6>
                             <div className="d-flex flex-wrap gap-2">
-                              {(variants.length ? variants : [
-                                "primary",
-                                "secondary",
-                                "success",
-                                "danger",
-                                "warning",
-                                "info",
-                                "light",
-                                "dark",
-                              ]).map((variant) => (
+                              {(variants.length
+                                ? variants
+                                : [
+                                    "primary",
+                                    "secondary",
+                                    "success",
+                                    "danger",
+                                    "warning",
+                                    "info",
+                                    "light",
+                                    "dark",
+                                  ]
+                              ).map((variant) => (
                                 <registryItem.component
                                   key={variant}
                                   variant={variant}

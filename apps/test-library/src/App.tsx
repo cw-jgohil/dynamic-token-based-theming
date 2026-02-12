@@ -12,7 +12,15 @@ function App() {
       <BrowserRouter>
         <div style={{ display: "flex", height: "100vh", overflow: "hidden" }}>
           <Sidebar menuItems={MENU_ITEMS} />
-          <div style={{ flex: 1, overflow: "auto" }}>
+          <div
+            style={{
+              flex: 1,
+              minHeight: 0,
+              overflow: "auto",
+              display: "flex",
+              flexDirection: "column",
+            }}
+          >
             <AppRoutes />
           </div>
         </div>

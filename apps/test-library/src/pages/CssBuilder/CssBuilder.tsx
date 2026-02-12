@@ -49,7 +49,14 @@ const CssBuilder = () => {
   }, [selectedComponents?.["component-key"] as string]);
 
   return (
-    <div style={{ display: "flex", height: "100%", minHeight: "100vh" }}>
+    <div
+      style={{
+        display: "flex",
+        height: "100%",
+        minHeight: 0,
+        overflow: "hidden",
+      }}
+    >
       <ComponentSidebar />
       <CssBuilderPage previewDisabled={previewDisabled} />
       <ConfigSidebar

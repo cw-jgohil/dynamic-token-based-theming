@@ -4,11 +4,13 @@
   position: relative;
   width: 350px;
   min-width: 350px;
-  height: 100vh;
+  height: 100%;
+  max-height: 100%;
   background: #ffffff;
   border-left: 1px solid #dee2e6;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
   box-shadow: -2px 0 10px rgba(0, 0, 0, 0.05);
 }
 
@@ -32,6 +34,7 @@
 
 .config-sidebar .sidebar-scroll {
   flex: 1;
+  min-height: 0; /* allow flex child to shrink so overflow works */
   overflow-y: auto;
   overflow-x: hidden;
 }
@@ -90,7 +93,7 @@
 }
 
 .config-sidebar .nested-group-body--open {
-  max-height: 1000px; /* large enough for typical content */
+  max-height: 5000px;
   opacity: 1;
   transform: translateY(0);
 }
@@ -102,7 +105,7 @@
 }
 
 .config-sidebar .nested-group-body .property-item {
-  padding: 0.5rem 0.75rem 0.75rem;
+  padding: 0.5rem 0.75rem;
 }
 
 .config-sidebar .sidebar-footer {
@@ -113,7 +116,7 @@
 }
 
 .config-sidebar .config-section {
-  padding: 0.5rem 1.5rem;
+  padding: 0.5rem;
   border-bottom: 1px solid #e9ecef;
 }
 
@@ -124,7 +127,6 @@
 .config-sidebar .properties-list {
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
 }
 
 .config-sidebar .property-item {

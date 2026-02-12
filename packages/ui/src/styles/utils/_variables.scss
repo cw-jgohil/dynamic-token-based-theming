@@ -32,6 +32,10 @@
 
   --azv-letter-spacing-base: normal;
 
+  --azv-primary-shadow: 0 0 0 0.25rem #144d8b40;
+  --azv-shadow-md: 0 0.5rem 1rem #00000026;
+  --azv-border-color: #00000020;
+
   /* ---------- Typography ---------- */
   --azv-font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
   --azv-font-size-base: 1rem;
@@ -64,7 +68,7 @@
   --azv-table-head-text-align: left;
 
   --azv-table-border-width: 1px;
-  --azv-table-border-color: rgba(255, 0, 0);
+  --azv-table-border-color: #ff0000;
 
   --azv-table-cell-padding-y: 0.5rem;
   --azv-table-cell-padding-x: 0.75rem;
@@ -73,9 +77,6 @@
 
   --azv-table-radius: 0.375rem;
   --azv-table-empty-color: #6c757d;
-  --azv-primary-shadow: 0 0 0 0.25rem rgba(20, 77, 139, 0.25);
-  --azv-shadow-md: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
-  --azv-border-color: rgba(0, 0, 0, 0.125);
 
   /* ---------- INPUT ---------- */
   --azv-input-padding-x: var(--azv-padding-x);
@@ -90,7 +91,7 @@
   --azv-input-focus-color: var(--azv-dark);
   --azv-input-focus-bg: var(--azv-white);
   --azv-input-focus-border-color: var(--azv-primary);
-  --azv-input-focus-box-shadow: 0 0 0 0.2rem rgba(20, 77, 139, 0.25);
+  --azv-input-focus-box-shadow: 0 0 0 0.2rem #144d8b40;
   --azv-input-disabled-color: var(--azv-secondary);
   --azv-input-disabled-bg: var(--azv-light);
   --azv-input-disabled-border-color: var(--azv-border-color);
@@ -113,7 +114,7 @@
   --azv-pagination-hover-border-color: var(--azv-border-color);
   --azv-pagination-focus-color: var(--azv-primary-dark);
   --azv-pagination-focus-bg: var(--azv-light);
-  --azv-pagination-focus-box-shadow: 0 0 0 0.2rem rgba(20, 77, 139, 0.25);
+  --azv-pagination-focus-box-shadow: 0 0 0 0.2rem #144d8b40;
   --azv-pagination-active-color: var(--azv-white);
   --azv-pagination-active-bg: var(--azv-primary);
   --azv-pagination-active-border-color: var(--azv-primary);
@@ -133,7 +134,7 @@
   --azv-checkbox-checked-bg: var(--azv-primary);
   --azv-checkbox-checked-border-color: var(--azv-primary);
   --azv-checkbox-focus-border-color: var(--azv-primary);
-  --azv-checkbox-focus-box-shadow: 0 0 0 0.2rem rgba(20, 77, 139, 0.25);
+  --azv-checkbox-focus-box-shadow: 0 0 0 0.2rem #144d8b40;
   --azv-checkbox-label-color: var(--azv-dark);
 
   /* ---------- SELECT (Bootstrap .form-select + AZV tokens) ---------- */

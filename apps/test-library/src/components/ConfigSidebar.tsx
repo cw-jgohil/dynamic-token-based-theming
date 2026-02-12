@@ -1,4 +1,3 @@
-// ConfigSidebar.tsx
 import React, { useEffect, useState } from "react";
 import "./ConfigSidebar.css";
 import {
@@ -119,11 +118,24 @@ const ConfigSidebar: React.FC<ConfigSidebarProps> = ({
   const dispatch = useAppDispatch();
   const { selectedVersion, selectedVariant, selectedComponents } =
     useAppSelector((state) => state.components);
-  const { convertAndInject, resetToDefault } = useCssConversion();
+  const { generateCss, injectCss, resetToDefault } = useCssConversion();
   const [isThemeChanged, setIsThemeChanged] = useState<boolean>(false);
   const [themePatch, setThemePatch] = useState<ThemePatch>({});
+  const editedGlobalKeysRef = React.useRef<Set<string>>(new Set());
   const debounce = useDebounce();
-  const { currentTheme, themeJson, updateThemeJson } = useThemeContext();
+  const {
+    currentTheme,
+    themeJson,
+    globalTokens,
+    themeUpdatedChanges,
+    getMergedForInject,
+    updateThemeJson,
+    updateGlobalToken,
+    getThemeJsonForSave,
+    getUpdatedChangesForSave,
+    commitSave,
+    resetToCurrentTheme,
+  } = useThemeContext();
   const updateThemeMutation = useUpdateTheme();
 
   function writePatch(
@@ -264,26 +276,70 @@ const ConfigSidebar: React.FC<ConfigSidebarProps> = ({
     updateThemeJson(convertedJSON());
   };
 
+  // When no user edits: inject only updatedChanges into azv-theme (CSS Builder on enter)
+  useEffect(() => {
+    if (isThemeChanged) return;
+    const patch = themeUpdatedChanges?.components ?? {};
+    const global = themeUpdatedChanges?.global;
+    const hasPatch =
+      patch && typeof patch === "object" && Object.keys(patch).length > 0;
+    const hasGlobal =
+      global && typeof global === "object" && Object.keys(global).length > 0;
+    if (!hasPatch && !hasGlobal) {
+      const el = document.getElementById("azv-theme");
+      if (el) el.remove();
+      editedGlobalKeysRef.current.clear();
+      return;
+    }
+
+    const css = generateCss(
+      hasPatch ? patch : {},
+      hasGlobal ? global : undefined,
+    );
+    if (!css.trim()) return;
+    injectCss(css, "azv-theme");
+    editedGlobalKeysRef.current.clear();
+  }, [themeUpdatedChanges, isThemeChanged, generateCss, injectCss]);
+
+  // When user edits: update azv-theme with merged content (updatedChanges + changed vars; others stay)
   useEffect(() => {
     if (!isThemeChanged) return;
 
     debounce(() => {
-      if (
-        !themePatch ||
-        typeof themePatch !== "object" ||
-        Object.keys(themePatch).length === 0
-      ) {
-        return;
-      }
+      const editedGlobalKeys = Array.from(editedGlobalKeysRef.current);
+      const merged = getMergedForInject(themePatch, editedGlobalKeys);
+      const hasPatch =
+        merged.components &&
+        typeof merged.components === "object" &&
+        Object.keys(merged.components).length > 0;
+      const hasGlobal =
+        merged.global &&
+        typeof merged.global === "object" &&
+        Object.keys(merged.global).length > 0;
+      if (!hasPatch && !hasGlobal) return;
 
-      convertAndInject(themePatch as ThemeTokens, "azv-theme");
+      const css = generateCss(
+        hasPatch ? merged.components! : {},
+        hasGlobal ? merged.global : undefined,
+      );
+      injectCss(css, "azv-theme");
     }, 100);
-  }, [isThemeChanged, themePatch, debounce, convertAndInject]);
+  }, [
+    isThemeChanged,
+    themePatch,
+    globalTokens,
+    themeUpdatedChanges,
+    getMergedForInject,
+    debounce,
+    generateCss,
+    injectCss,
+  ]);
 
   const handleResetToDefault = () => {
-    if (currentTheme && currentTheme["theme-json"]) {
-      updateThemeJson(currentTheme["theme-json"]);
+    if (currentTheme) {
+      resetToCurrentTheme();
       setThemePatch({});
+      editedGlobalKeysRef.current.clear();
       resetToDefault();
       setIsThemeChanged(false);
     }
@@ -296,13 +352,25 @@ const ConfigSidebar: React.FC<ConfigSidebarProps> = ({
     }
 
     try {
+      const editedGlobalKeys = Array.from(editedGlobalKeysRef.current);
+      const data = currentTheme["theme-json"]
+        ? {
+            "theme-json": getThemeJsonForSave(themePatch, editedGlobalKeys),
+          }
+        : {
+            updatedChanges: getUpdatedChangesForSave(
+              themePatch,
+              editedGlobalKeys,
+            ),
+          };
+
       await updateThemeMutation.mutateAsync({
         id: currentTheme.id,
-        data: {
-          "theme-json": themeJson,
-        },
+        data,
       });
       alert("Theme saved successfully!");
+      commitSave(themePatch, editedGlobalKeys);
+      editedGlobalKeysRef.current.clear();
       setIsThemeChanged(false);
       setThemePatch({});
     } catch (error) {
@@ -314,6 +382,17 @@ const ConfigSidebar: React.FC<ConfigSidebarProps> = ({
   const [expandedGroups, setExpandedGroups] = useState<Record<string, boolean>>(
     {},
   );
+
+  const sectionGlobalKey = "section.global";
+  const sectionComponentKey = "section.component";
+  const isGlobalExpanded = expandedGroups[sectionGlobalKey] ?? true;
+  const isComponentExpanded = expandedGroups[sectionComponentKey] ?? true;
+
+  const handleGlobalPropertyChange = (propertyName: string, value: string) => {
+    editedGlobalKeysRef.current.add(propertyName);
+    setIsThemeChanged(true);
+    updateGlobalToken(propertyName, { value });
+  };
 
   const toggleGroup = (key: string) => {
     setExpandedGroups((prev) => ({
@@ -620,6 +699,73 @@ const ConfigSidebar: React.FC<ConfigSidebarProps> = ({
     }
   };
 
+  type GlobalProperty = { name: string; type: string; value: string };
+  const renderGlobalInput = (prop: GlobalProperty) => {
+    const type = prop.type === "font" ? "input" : prop.type;
+    switch (type) {
+      case "color":
+        return (
+          <div className="input-group">
+            <input
+              type="color"
+              className="form-control form-control-color"
+              value={prop.value}
+              onChange={(e) =>
+                handleGlobalPropertyChange(prop.name, e.target.value)
+              }
+              title={prop.name}
+            />
+            <input
+              type="text"
+              className="form-control"
+              value={prop.value}
+              onChange={(e) =>
+                handleGlobalPropertyChange(prop.name, e.target.value)
+              }
+              placeholder="#000000"
+            />
+          </div>
+        );
+      case "select":
+        const options = getSelectOptions(prop.name);
+        return (
+          <select
+            className="form-select"
+            value={prop.value}
+            onChange={(e) =>
+              handleGlobalPropertyChange(prop.name, e.target.value)
+            }
+          >
+            {options.map((option) => (
+              <option key={option} value={option}>
+                {option.replaceAll("-", " ").charAt(0).toUpperCase() +
+                  option.slice(1)}
+              </option>
+            ))}
+          </select>
+        );
+      case "input":
+      default:
+        return (
+          <input
+            type="text"
+            className="form-control"
+            value={prop.value}
+            onChange={(e) =>
+              handleGlobalPropertyChange(prop.name, e.target.value)
+            }
+            placeholder={
+              prop.type === "font" ? "system-ui, sans-serif" : "Enter value"
+            }
+          />
+        );
+    }
+  };
+
+  const globalEntries = Object.entries(globalTokens ?? {}).filter(
+    ([_, token]) => token?.allow !== false,
+  );
+
   return (
     <div className="config-sidebar">
       <div className="sidebar-top">
@@ -692,48 +838,135 @@ const ConfigSidebar: React.FC<ConfigSidebarProps> = ({
       </div>
 
       <div className="sidebar-scroll">
+        {/* Collapsible: Global styles */}
         <div className="config-section">
-          <div className="d-flex align-items-center justify-content-between mb-3">
-            <h6 className="mb-0 fw-bold">Properties</h6>
-            <span className="badge bg-secondary">
-              {componentData.properties.length}
-            </span>
-          </div>
-
-          {componentData.properties.length === 0 ? (
-            <div className="alert alert-info">No properties available</div>
-          ) : (
-            <div className="properties-list">
-              {componentData.properties.map((property) => {
-                const isCombinedPadding = property.name === "padding";
-                return (
-                  <div key={property.name} className="property-item">
-                    {!isCombinedPadding && (
-                      <label className="form-label mb-1">
-                        <span className="property-name">
-                          {property.name.replace(/-/g, " ")}
-                        </span>
-                        <span className="badge bg-light text-dark ms-2">
-                          {property.type}
-                        </span>
-                      </label>
-                    )}
-                    {renderInput(property)}
-                  </div>
-                );
-              })}
+          <div className="nested-group">
+            <button
+              type="button"
+              className="btn btn-sm btn-light w-100 d-flex justify-content-between align-items-center"
+              onClick={() => toggleGroup(sectionGlobalKey)}
+            >
+              <span className="text-start">Global styles</span>
+              <span className="badge bg-secondary ms-2">
+                {globalEntries.length}
+              </span>
+            </button>
+            <div
+              className={`nested-group-body ${
+                isGlobalExpanded
+                  ? "nested-group-body--open"
+                  : "nested-group-body--collapsed"
+              }`}
+            >
+              {isGlobalExpanded && (
+                <div className="properties-list">
+                  {globalEntries.length === 0 ? (
+                    <div className="alert alert-info small py-2">
+                      No global tokens
+                    </div>
+                  ) : (
+                    globalEntries.map(([name, token]) => (
+                      <div key={name} className="property-item">
+                        <label className="form-label mb-1">
+                          <span className="property-name">
+                            {name.replace(/-/g, " ")}
+                          </span>
+                          <span className="badge bg-light text-dark ms-2">
+                            {token.type}
+                          </span>
+                        </label>
+                        {renderGlobalInput({
+                          name,
+                          type: token.type,
+                          value: token.value,
+                        })}
+                      </div>
+                    ))
+                  )}
+                </div>
+              )}
             </div>
-          )}
+          </div>
         </div>
 
-        {componentData.nestedGroups.length > 0 && (
-          <div className="config-section">
-            {/* <div className="d-flex align-items-center justify-content-between mb-3">
-              <h6 className="mb-0 fw-bold">Nested Components</h6>
-            </div> */}
-            {renderNestedGroups(componentData.nestedGroups, "")}
+        {/* Collapsible: Component styles */}
+        <div className="config-section">
+          <div className="nested-group">
+            <button
+              type="button"
+              className="btn btn-sm btn-light w-100 d-flex justify-content-between align-items-center"
+              onClick={() => toggleGroup(sectionComponentKey)}
+            >
+              <span className="text-start">Component styles</span>
+              <span className="badge bg-secondary ms-2">
+                {componentData.properties.length +
+                  componentData.nestedGroups.reduce(
+                    (acc, g) =>
+                      acc +
+                      g.properties.length +
+                      g.children.reduce(
+                        (cAcc, c) => cAcc + c.properties.length,
+                        0,
+                      ),
+                    0,
+                  )}
+              </span>
+            </button>
+            <div
+              className={`nested-group-body ${
+                isComponentExpanded
+                  ? "nested-group-body--open"
+                  : "nested-group-body--collapsed"
+              }`}
+            >
+              {isComponentExpanded && (
+                <>
+                  <div className="config-section border-0 pt-2">
+                    <div className="d-flex align-items-center justify-content-between mb-3">
+                      <h6 className="mb-0 fw-bold">Properties</h6>
+                      <span className="badge bg-secondary">
+                        {componentData.properties.length}
+                      </span>
+                    </div>
+
+                    {componentData.properties.length === 0 ? (
+                      <div className="alert alert-info">
+                        No properties available
+                      </div>
+                    ) : (
+                      <div className="properties-list">
+                        {componentData.properties.map((property) => {
+                          const isCombinedPadding = property.name === "padding";
+                          return (
+                            <div key={property.name} className="property-item">
+                              {!isCombinedPadding && (
+                                <label className="form-label mb-1">
+                                  <span className="property-name">
+                                    {property.name.replace(/-/g, " ")}
+                                  </span>
+                                  <span className="badge bg-light text-dark ms-2">
+                                    {property.type}
+                                  </span>
+                                </label>
+                              )}
+                              {renderInput(property)}
+                            </div>
+                          );
+                        })}
+                      </div>
+                    )}
+                  </div>
+
+                  {componentData.nestedGroups.length > 0 && (
+                    <div className="config-section border-0">
+                      {renderNestedGroups(componentData.nestedGroups, "")}
+                    </div>
+                  )}
+                </>
+              )}
+            </div>
           </div>
-        )}
+        </div>
       </div>
 
       <div className="sidebar-footer">
